@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Meine Fußball-Karriere</title>
+    <style>
+        body {
+            background-color: #0d1117; /* GitHub Dark Theme */
+            color: #c9d1d9;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: auto; }
+        h1 { text-align: center; color: #58a6ff; border-bottom: 1px solid #30363d; padding-bottom: 20px; }
+        
+        /* Die Timeline */
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            width: 2px;
+            height: 100%;
+            background: #30363d;
+        }
+        .entry {
+            position: relative;
+            margin-bottom: 50px;
+            width: 50%;
+            padding: 0 30px;
+            box-sizing: border-box;
+        }
+        .entry:nth-child(odd) { left: 0; text-align: right; }
+        .entry:nth-child(even) { left: 50%; text-align: left; }
+        
+        .dot {
+            position: absolute;
+            top: 10px;
+            width: 16px;
+            height: 16px;
+            background: #238636;
+            border-radius: 50%;
+            z-index: 1;
+        }
+        .entry:nth-child(odd) .dot { right: -8px; }
+        .entry:nth-child(even) .dot { left: -8px; }
+
+        .content {
+            background: #161b22;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #30363d;
+            transition: transform 0.3s ease;
+        }
+        .content:hover { transform: scale(1.03); border-color: #58a6ff; }
+        .year { color: #58a6ff; font-weight: bold; font-size: 1.2rem; }
+        .club { font-size: 1.4rem; margin: 5px 0; color: #ffffff; }
+        .placeholder-img {
+            width: 100%;
+            height: 150px;
+            background: #30363d;
+            border-radius: 8px;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #8b949e;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Meine Stationen auf dem Platz</h1>
+    
+    <div class="timeline">
+        <div class="entry">
+            <div class="dot"></div>
+            <div class="content">
+                <div class="year">2024 - Heute</div>
+                <div class="club">Dein aktueller Verein</div>
+                <p>Position: Mittelfeld / Sturm</p>
+                <div class="placeholder-img">Hier Bild hochladen...</div>
+            </div>
+        </div>
+
+        <div class="entry">
+            <div class="dot"></div>
+            <div class="content">
+                <div class="year">2022 - 2024</div>
+                <div class="club">Vorheriger Verein</div>
+                <p>Erfolge: Aufstieg, Torschützenkönig</p>
+                <div class="placeholder-img">Hier Bild hochladen...</div>
+            </div>
+        </div>
+
+        </div>
+</div>
+
+</body>
+</html>
