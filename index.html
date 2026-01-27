@@ -2,20 +2,242 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <title>Meine Fußball-Karriere</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raphael Maaßen — Fußball-Karriere</title>
     <style>
+        /* ============================================
+           FARBEN — Hier kannst du alles anpassen!
+           1. FC Köln:    #ED1C24 (Rot), #FFFFFF (Weiß)
+           FC Barcelona:  #004D98 (Blau), #A50044 (Granat), #EDBB00 (Gold)
+           ============================================ */
+        :root {
+            --koeln-rot: #ED1C24;
+            --koeln-weiss: #FFFFFF;
+            --barca-blau: #004D98;
+            --barca-granat: #A50044;
+            --barca-gold: #EDBB00;
+            --bg-dark: #0d1117;
+            --bg-card: #161b22;
+            --border: #30363d;
+            --text: #c9d1d9;
+            --text-light: #8b949e;
+            --text-white: #ffffff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
         body {
-            background-color: #0d1117; /* GitHub Dark Theme */
-            color: #c9d1d9;
+            background-color: var(--bg-dark);
+            color: var(--text);
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
             line-height: 1.6;
-            margin: 0;
-            padding: 40px 20px;
         }
-        .container { max-width: 800px; margin: auto; }
-        h1 { text-align: center; color: #58a6ff; border-bottom: 1px solid #30363d; padding-bottom: 20px; }
-        
-        /* Die Timeline */
+
+        /* ============================================
+           NAVIGATION
+           ============================================ */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(13, 17, 23, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid;
+            border-image: linear-gradient(90deg, var(--koeln-rot), var(--barca-granat), var(--barca-blau)) 1;
+            padding: 0 20px;
+        }
+        .navbar-inner {
+            max-width: 1200px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 60px;
+        }
+        .navbar .logo {
+            font-size: 1.3rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--koeln-rot), var(--barca-blau));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .navbar nav a {
+            color: var(--text);
+            text-decoration: none;
+            margin-left: 25px;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+            position: relative;
+        }
+        .navbar nav a:hover { color: var(--koeln-rot); }
+        .navbar nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--koeln-rot), var(--barca-blau));
+            transition: width 0.3s;
+        }
+        .navbar nav a:hover::after { width: 100%; }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* ============================================
+           HERO SECTION — Geteilter Köln/Barça Look
+           ============================================ */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 100px 20px 60px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(237,28,36,0.15) 0%, transparent 70%);
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0; right: 0;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(225deg, rgba(0,77,152,0.15) 0%, transparent 70%);
+        }
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+        }
+        .hero-badges {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+        .hero-badge {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            border: 3px solid;
+            animation: pulse 2s ease-in-out infinite alternate;
+        }
+        .hero-badge.koeln {
+            background: rgba(237,28,36,0.2);
+            border-color: var(--koeln-rot);
+            color: var(--koeln-rot);
+        }
+        .hero-badge.barca {
+            background: rgba(0,77,152,0.2);
+            border-color: var(--barca-blau);
+            color: var(--barca-blau);
+            animation-delay: 1s;
+        }
+        @keyframes pulse {
+            from { transform: scale(1); box-shadow: 0 0 0 0 rgba(237,28,36,0.3); }
+            to { transform: scale(1.05); box-shadow: 0 0 20px 5px rgba(237,28,36,0.1); }
+        }
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, var(--koeln-rot), var(--text-white), var(--barca-blau));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero .subtitle {
+            font-size: 1.3rem;
+            color: var(--text-light);
+            margin-bottom: 8px;
+        }
+        .hero .tagline {
+            font-size: 1rem;
+            color: var(--barca-gold);
+            font-style: italic;
+            margin-bottom: 30px;
+        }
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+        .hero-stat {
+            text-align: center;
+        }
+        .hero-stat .number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(180deg, var(--koeln-rot), var(--barca-granat));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero-stat .label {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* ============================================
+           SECTIONS — Allgemein
+           ============================================ */
+        .section {
+            padding: 80px 20px;
+            max-width: 1200px;
+            margin: auto;
+        }
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--text-white);
+        }
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-light);
+            margin-bottom: 50px;
+            font-size: 1.05rem;
+        }
+        .divider {
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--koeln-rot), var(--barca-blau));
+            margin: 15px auto 20px;
+            border-radius: 2px;
+        }
+
+        /* ============================================
+           TIMELINE — Vereinshistorie
+           ============================================ */
         .timeline {
             position: relative;
             padding: 20px 0;
@@ -24,84 +246,1238 @@
             content: '';
             position: absolute;
             left: 50%;
-            width: 2px;
+            transform: translateX(-50%);
+            width: 3px;
             height: 100%;
-            background: #30363d;
+            background: linear-gradient(180deg, var(--koeln-rot), var(--barca-granat), var(--barca-blau));
+            border-radius: 3px;
         }
-        .entry {
+        .timeline-entry {
             position: relative;
-            margin-bottom: 50px;
+            margin-bottom: 40px;
             width: 50%;
-            padding: 0 30px;
-            box-sizing: border-box;
+            padding: 0 40px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.6s forwards;
         }
-        .entry:nth-child(odd) { left: 0; text-align: right; }
-        .entry:nth-child(even) { left: 50%; text-align: left; }
-        
-        .dot {
-            position: absolute;
-            top: 10px;
-            width: 16px;
-            height: 16px;
-            background: #238636;
-            border-radius: 50%;
-            z-index: 1;
-        }
-        .entry:nth-child(odd) .dot { right: -8px; }
-        .entry:nth-child(even) .dot { left: -8px; }
+        .timeline-entry:nth-child(odd) { left: 0; text-align: right; }
+        .timeline-entry:nth-child(even) { left: 50%; text-align: left; }
 
-        .content {
-            background: #161b22;
+        /* Stagger animation */
+        .timeline-entry:nth-child(1) { animation-delay: 0.1s; }
+        .timeline-entry:nth-child(2) { animation-delay: 0.2s; }
+        .timeline-entry:nth-child(3) { animation-delay: 0.3s; }
+        .timeline-entry:nth-child(4) { animation-delay: 0.4s; }
+        .timeline-entry:nth-child(5) { animation-delay: 0.5s; }
+        .timeline-entry:nth-child(6) { animation-delay: 0.6s; }
+        .timeline-entry:nth-child(7) { animation-delay: 0.7s; }
+        .timeline-entry:nth-child(8) { animation-delay: 0.8s; }
+        .timeline-entry:nth-child(9) { animation-delay: 0.9s; }
+        .timeline-entry:nth-child(10) { animation-delay: 1.0s; }
+        .timeline-entry:nth-child(11) { animation-delay: 1.1s; }
+        .timeline-entry:nth-child(12) { animation-delay: 1.2s; }
+        .timeline-entry:nth-child(13) { animation-delay: 1.3s; }
+        .timeline-entry:nth-child(14) { animation-delay: 1.4s; }
+        .timeline-entry:nth-child(15) { animation-delay: 1.5s; }
+        .timeline-entry:nth-child(16) { animation-delay: 1.6s; }
+        .timeline-entry:nth-child(17) { animation-delay: 1.7s; }
+        .timeline-entry:nth-child(18) { animation-delay: 1.8s; }
+
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .timeline-dot {
+            position: absolute;
+            top: 15px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            z-index: 2;
+            border: 3px solid var(--bg-dark);
+        }
+        .timeline-dot.rolle-spieler { background: var(--barca-blau); }
+        .timeline-dot.rolle-spielertrainer { background: var(--koeln-rot); }
+        .timeline-dot.rolle-trainer { background: var(--barca-gold); }
+
+        .timeline-entry:nth-child(odd) .timeline-dot { right: -9px; }
+        .timeline-entry:nth-child(even) .timeline-dot { left: -9px; }
+
+        .timeline-card {
+            background: var(--bg-card);
             padding: 20px;
             border-radius: 12px;
-            border: 1px solid #30363d;
-            transition: transform 0.3s ease;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+            position: relative;
         }
-        .content:hover { transform: scale(1.03); border-color: #58a6ff; }
-        .year { color: #58a6ff; font-weight: bold; font-size: 1.2rem; }
-        .club { font-size: 1.4rem; margin: 5px 0; color: #ffffff; }
-        .placeholder-img {
+        .timeline-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+        .timeline-card.highlight {
+            border-color: var(--barca-gold);
+            box-shadow: 0 0 15px rgba(237,187,0,0.15);
+        }
+        .timeline-year {
+            font-weight: 700;
+            font-size: 0.95rem;
+            margin-bottom: 5px;
+        }
+        .timeline-year.spieler { color: var(--barca-blau); }
+        .timeline-year.spielertrainer { color: var(--koeln-rot); }
+        .timeline-year.trainer { color: var(--barca-gold); }
+
+        .timeline-club {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-white);
+            margin-bottom: 4px;
+        }
+        .timeline-rolle {
+            font-size: 0.85rem;
+            padding: 2px 10px;
+            border-radius: 12px;
+            display: inline-block;
+            margin-bottom: 6px;
+        }
+        .timeline-rolle.spieler {
+            background: rgba(0,77,152,0.2);
+            color: var(--barca-blau);
+        }
+        .timeline-rolle.spielertrainer {
+            background: rgba(237,28,36,0.2);
+            color: var(--koeln-rot);
+        }
+        .timeline-rolle.trainer {
+            background: rgba(237,187,0,0.2);
+            color: var(--barca-gold);
+        }
+        .timeline-erfolg {
+            font-size: 0.9rem;
+            color: var(--barca-gold);
+            font-weight: 600;
+            margin-top: 5px;
+        }
+        .timeline-img-slot {
             width: 100%;
-            height: 150px;
-            background: #30363d;
+            min-height: 100px;
+            background: rgba(48,54,61,0.5);
             border-radius: 8px;
             margin-top: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #8b949e;
+            color: var(--text-light);
+            font-size: 0.85rem;
+            cursor: pointer;
+            border: 2px dashed var(--border);
+            transition: border-color 0.3s;
+            overflow: hidden;
+            position: relative;
+        }
+        .timeline-img-slot:hover { border-color: var(--barca-gold); }
+        .timeline-img-slot img {
+            width: 100%;
+            height: auto;
+            border-radius: 6px;
+            display: block;
+        }
+
+        /* Legende */
+        .timeline-legend {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        /* ============================================
+           STORY SECTION — Sportpresse Ball
+           ============================================ */
+        .story-section {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 50px 40px;
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .story-section::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--koeln-rot), var(--barca-gold), var(--barca-blau));
+        }
+        .story-section h3 {
+            color: var(--barca-gold);
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+        .story-section .story-subtitle {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            margin-bottom: 25px;
+        }
+        .story-section p {
+            color: var(--text);
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+        .player-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 20px 0;
+        }
+        .player-tag {
+            background: rgba(237,187,0,0.1);
+            border: 1px solid rgba(237,187,0,0.3);
+            color: var(--barca-gold);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        /* ============================================
+           GALERIE — Bilder Upload/Download
+           ============================================ */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .gallery-item {
+            background: var(--bg-card);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            transition: all 0.3s;
+            position: relative;
+        }
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border-color: var(--barca-blau);
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            display: block;
+            cursor: pointer;
+        }
+        .gallery-item .caption {
+            padding: 12px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .gallery-item .caption span {
+            font-size: 0.9rem;
+            color: var(--text);
+        }
+        .gallery-item .btn-download {
+            background: rgba(0,77,152,0.2);
+            color: var(--barca-blau);
+            border: 1px solid var(--barca-blau);
+            padding: 5px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+        }
+        .gallery-item .btn-download:hover {
+            background: var(--barca-blau);
+            color: white;
+        }
+
+        /* Upload Zone */
+        .upload-zone {
+            border: 2px dashed var(--border);
+            border-radius: 16px;
+            padding: 50px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: rgba(22,27,34,0.5);
+            margin-top: 20px;
+        }
+        .upload-zone:hover, .upload-zone.drag-over {
+            border-color: var(--barca-gold);
+            background: rgba(237,187,0,0.05);
+        }
+        .upload-zone .upload-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+        .upload-zone .upload-text {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+        .upload-zone .upload-hint {
+            color: var(--text-light);
+            font-size: 0.85rem;
+            margin-top: 8px;
+            opacity: 0.7;
+        }
+
+        /* ============================================
+           FAN-SECTION — Köln & Barça
+           ============================================ */
+        .fan-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        .fan-card {
+            border-radius: 16px;
+            padding: 35px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+        .fan-card:hover { transform: translateY(-5px); }
+
+        .fan-card.koeln {
+            background: linear-gradient(135deg, rgba(237,28,36,0.15) 0%, var(--bg-card) 60%);
+            border: 1px solid rgba(237,28,36,0.3);
+        }
+        .fan-card.barca {
+            background: linear-gradient(135deg, rgba(0,77,152,0.15) 0%, rgba(165,0,68,0.1) 50%, var(--bg-card) 100%);
+            border: 1px solid rgba(0,77,152,0.3);
+        }
+        .fan-card .card-badge {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+        .fan-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+        .fan-card.koeln h3 { color: var(--koeln-rot); }
+        .fan-card.barca h3 { color: var(--barca-blau); }
+        .fan-card .motto {
             font-style: italic;
+            color: var(--text-light);
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+        }
+        .fan-card ul {
+            list-style: none;
+            padding: 0;
+        }
+        .fan-card ul li {
+            padding: 6px 0;
+            color: var(--text);
+            font-size: 0.95rem;
+            border-bottom: 1px solid rgba(48,54,61,0.5);
+        }
+        .fan-card ul li:last-child { border-bottom: none; }
+        .fan-card ul li strong {
+            color: var(--text-light);
+            font-size: 0.85rem;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        /* ============================================
+           STECKBRIEF — FIFA-Style Card
+           ============================================ */
+        .profile-card {
+            max-width: 400px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, var(--koeln-rot) 0%, var(--barca-granat) 50%, var(--barca-blau) 100%);
+            border-radius: 20px;
+            padding: 3px;
+        }
+        .profile-card-inner {
+            background: var(--bg-card);
+            border-radius: 18px;
+            padding: 35px;
+            text-align: center;
+        }
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--koeln-rot), var(--barca-blau));
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: white;
+            font-weight: 800;
+            overflow: hidden;
+            cursor: pointer;
+            position: relative;
+        }
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .profile-card-inner h3 {
+            font-size: 1.6rem;
+            color: var(--text-white);
+            margin-bottom: 5px;
+        }
+        .profile-card-inner .profile-age {
+            color: var(--barca-gold);
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+        .profile-stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            text-align: left;
+        }
+        .profile-stat {
+            background: rgba(48,54,61,0.3);
+            padding: 10px 14px;
+            border-radius: 10px;
+        }
+        .profile-stat .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .profile-stat .stat-value {
+            font-size: 1rem;
+            color: var(--text-white);
+            font-weight: 600;
+        }
+
+        /* ============================================
+           LIGHTBOX
+           ============================================ */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.92);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .lightbox.active { display: flex; }
+        .lightbox img {
+            max-width: 90%;
+            max-height: 85vh;
+            border-radius: 12px;
+            box-shadow: 0 0 40px rgba(0,0,0,0.5);
+        }
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+        .lightbox-close:hover { opacity: 1; }
+        .lightbox-download {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            background: var(--barca-blau);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: background 0.3s;
+        }
+        .lightbox-download:hover { background: var(--barca-granat); }
+
+        /* ============================================
+           FOOTER
+           ============================================ */
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 2px solid;
+            border-image: linear-gradient(90deg, var(--koeln-rot), var(--barca-granat), var(--barca-blau)) 1;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-top: 40px;
+        }
+
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+        @media (max-width: 768px) {
+            .menu-toggle { display: block; }
+            .navbar nav {
+                display: none;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                width: 100%;
+                background: rgba(13,17,23,0.98);
+                padding: 20px;
+                border-bottom: 1px solid var(--border);
+            }
+            .navbar nav.open { display: flex; flex-direction: column; gap: 15px; }
+            .navbar nav a { margin-left: 0; font-size: 1.1rem; }
+
+            .timeline::before { left: 20px; }
+            .timeline-entry {
+                width: 100%;
+                left: 0 !important;
+                text-align: left !important;
+                padding-left: 50px;
+                padding-right: 10px;
+            }
+            .timeline-dot {
+                left: 11px !important;
+                right: auto !important;
+            }
+
+            .fan-cards { grid-template-columns: 1fr; }
+            .hero-stats { gap: 20px; }
+            .hero-badge { width: 60px; height: 60px; font-size: 1.5rem; }
+            .story-section { padding: 30px 20px; }
+            .gallery-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 480px) {
+            .gallery-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>Meine Stationen auf dem Platz</h1>
-    
+<!-- ============================================
+     NAVIGATION
+     ============================================ -->
+<header class="navbar">
+    <div class="navbar-inner">
+        <div class="logo">RM — Fussball</div>
+        <button class="menu-toggle" onclick="document.querySelector('.navbar nav').classList.toggle('open')">&#9776;</button>
+        <nav>
+            <a href="#steckbrief">Steckbrief</a>
+            <a href="#karriere">Karriere</a>
+            <a href="#story">Highlights</a>
+            <a href="#galerie">Galerie</a>
+            <a href="#vereine">Meine Vereine</a>
+        </nav>
+    </div>
+</header>
+
+<!-- ============================================
+     HERO — Geteilter Köln / Barça Look
+     ============================================ -->
+<section class="hero" id="top">
+    <div class="hero-content">
+        <div class="hero-badges">
+            <div class="hero-badge koeln">FC</div>
+            <div class="hero-badge barca">FCB</div>
+        </div>
+        <h1>Raphael Maaßen</h1>
+        <p class="subtitle">Spieler &bull; Spielertrainer &bull; Jugendtrainer</p>
+        <p class="tagline">&bdquo;Fußball ist nicht nur ein Spiel — es ist mein Leben.&ldquo;</p>
+        <div class="hero-stats">
+            <div class="hero-stat">
+                <div class="number">46+</div>
+                <div class="label">Jahre Fußball</div>
+            </div>
+            <div class="hero-stat">
+                <div class="number">18</div>
+                <div class="label">Vereine</div>
+            </div>
+            <div class="hero-stat">
+                <div class="number">3</div>
+                <div class="label">Aufstiege</div>
+            </div>
+            <div class="hero-stat">
+                <div class="number">1</div>
+                <div class="label">Meisterschaft</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================
+     STECKBRIEF — FIFA-Style
+     ============================================ -->
+<section class="section" id="steckbrief">
+    <h2 class="section-title">Steckbrief</h2>
+    <div class="divider"></div>
+    <p class="section-subtitle">Der Spieler hinter den Zahlen</p>
+
+    <div class="profile-card">
+        <div class="profile-card-inner">
+            <!-- Klick auf Avatar um Profilbild zu ändern -->
+            <div class="profile-avatar" onclick="document.getElementById('avatarUpload').click()" title="Klicken um Profilbild hochzuladen">
+                RM
+            </div>
+            <input type="file" id="avatarUpload" accept="image/*" style="display:none" onchange="handleAvatarUpload(event)">
+            <h3>Raphael Maaßen</h3>
+            <p class="profile-age">57 Jahre Jung</p>
+            <div class="profile-stats-grid">
+                <!-- Hier kannst du deine Daten anpassen -->
+                <div class="profile-stat">
+                    <div class="stat-label">Position</div>
+                    <div class="stat-value">Mittelfeld</div>
+                </div>
+                <div class="profile-stat">
+                    <div class="stat-label">Aktiv seit</div>
+                    <div class="stat-value">1978</div>
+                </div>
+                <div class="profile-stat">
+                    <div class="stat-label">Aktuell</div>
+                    <div class="stat-value">Blomberger SV</div>
+                </div>
+                <div class="profile-stat">
+                    <div class="stat-label">Rollen</div>
+                    <div class="stat-value">Spieler & Trainer</div>
+                </div>
+                <div class="profile-stat">
+                    <div class="stat-label">Highlight</div>
+                    <div class="stat-value">Oberliga</div>
+                </div>
+                <div class="profile-stat">
+                    <div class="stat-label">Fan von</div>
+                    <div class="stat-value">Köln & Barça</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================
+     KARRIERE TIMELINE — Alle 18 Stationen
+     ============================================ -->
+<section class="section" id="karriere">
+    <h2 class="section-title">Meine Karriere</h2>
+    <div class="divider"></div>
+    <p class="section-subtitle">Von der Jugend bis zum Jugendtrainer — jede Station erzählt eine Geschichte</p>
+
+    <div class="timeline-legend">
+        <div class="legend-item">
+            <div class="legend-dot" style="background: var(--barca-blau);"></div>
+            Spieler
+        </div>
+        <div class="legend-item">
+            <div class="legend-dot" style="background: var(--koeln-rot);"></div>
+            Spielertrainer
+        </div>
+        <div class="legend-item">
+            <div class="legend-dot" style="background: var(--barca-gold);"></div>
+            Jugendtrainer
+        </div>
+    </div>
+
     <div class="timeline">
-        <div class="entry">
-            <div class="dot"></div>
-            <div class="content">
-                <div class="year">2024 - Heute</div>
-                <div class="club">Dein aktueller Verein</div>
-                <p>Position: Mittelfeld / Sturm</p>
-                <div class="placeholder-img">Hier Bild hochladen...</div>
+
+        <!-- Station 1: Blomberger SV -->
+        <div class="timeline-entry">
+            <div class="timeline-dot rolle-trainer"></div>
+            <div class="timeline-card">
+                <div class="timeline-year trainer">Seit 2018 — Heute</div>
+                <div class="timeline-club">Blomberger SV</div>
+                <span class="timeline-rolle trainer">Jugend-Trainer & Spieler</span>
+                <div class="timeline-img-slot" onclick="triggerTimelineUpload(this)">
+                    Bild hinzufügen +
+                    <input type="file" accept="image/*" style="display:none" onchange="handleTimelineImg(event, this.parentElement)">
+                </div>
             </div>
         </div>
 
-        <div class="entry">
-            <div class="dot"></div>
-            <div class="content">
-                <div class="year">2022 - 2024</div>
-                <div class="club">Vorheriger Verein</div>
-                <p>Erfolge: Aufstieg, Torschützenkönig</p>
-                <div class="placeholder-img">Hier Bild hochladen...</div>
+        <!-- Station 2: TSC Steinheim -->
+        <div class="timeline-entry">
+            <div class="timeline-dot rolle-spieler"></div>
+            <div class="timeline-card highlight">
+                <div class="timeline-year spieler">2017 — 2018</div>
+                <div class="timeline-club">TSC Steinheim</div>
+                <span class="timeline-rolle spieler">Spieler</span>
+                <div class="timeline-erfolg">&#9733; Aufstieg in die Bezirksliga</div>
+                <div class="timeline-img-slot" onclick="triggerTimelineUpload(this)">
+                    Bild hinzufügen +
+                    <input type="file" accept="image/*" style="display:none" onchange="handleTimelineImg(event, this.parentElement)">
+                </div>
             </div>
         </div>
 
+        <!-- Station 3: TuS Wöbbel -->
+        <div class="timeline-entry">
+            <div class="timeline-dot rolle-spielertrainer"></div>
+            <div class="timeline-card">
+                <div class="timeline-year spielertrainer">2015 — 2016</div>
+                <div class="timeline-club">TuS Wöbbel von 1907</div>
+                <span class="timeline-rolle spielertrainer">Spielertrainer</span>
+                <div class="timeline-img-slot" onclick="triggerTimelineUpload(this)">
+                    Bild hinzufügen +
+                    <input type="file" accept="image/*" style="display:none" onchange="handleTimelineImg(event, this.parentElement)">
+                </div>
+            </div>
         </div>
+
+        <!-- Station 4: SV Kollerbeck -->
+        <div class="timeline-entry">
+            <div class="timeline-dot rolle-spielertrainer"></div>
+            <div class="timeline-card">
+                <div class="timeline-year spielertrainer">2014</div>
+                <div class="timeline-club">SV Kollerbeck</div>
+                <span class="timeline-rolle spielertrainer">Spielertrainer</span>
+                <div class="timeline-img-slot" onclick="triggerTimelineUpload(this)">
+                    Bild hinzufügen +
+                    <input type="file" accept="image/*" style="display:none" onchange="handleTimelineImg(event, this.parentElement)">
+                </div>
+            </div>
+        </div>
+
+        <!-- Station 5: TSC Steinheim (Spielertrainer) -->
+        <div class="timeline-entry">
+            <div class="timeline-dot rolle-spielertrainer"></div>
+            <div class="timeline-card">
+                <div class="timeline-year spielertrainer">2013 — 2014</div>
+                <div class="timeline-club">TSC Steinheim</div>
+                <span class="timeline-rolle spielertrainer">Spielertrainer</span>
+                <div class="timeline-img-slot" onclick="triggerTimelineUpload(this)">
+                    Bild hinzufügen +
+                    <input type="file" accept="image/*" style="display:none" onchange="handleTimelineImg(event, this.parentElement)">
+                </div>
+            </div>
+        </div>
+
+        <!-- Station 6: TuS 08 Brakelsiek (lang) -->
+        <div class="timeline-entry">
+            <div class="timeline-dot rolle-spielertrainer"></div>
+            <div class="timeline-card">
+                <div class="timeline-year spielertrainer">2005 — 2012</div>
+                <div class="timeline-club">TuS 08 Brakelsiek</div>
+                <span class="timeline-rolle spielertrainer">Spielertrainer</span>
+                <p style="color: var(--text-light); font-size: 0.9rem; margin-top: 6px;">7 Jahre — Die längste Station</p>
+                <div class="timeline-img-slot" onclick="triggerTimelineUpload(this)">
+                    Bild hinzufügen +
+                    <input type="file" accept="image/*" style="display:none" onchange="handleTimelineImg(event, this.parentElement)">
+                </div>
+            </div>
+        </div>
+
+        <!-- Station 7: TSC Steinheim (Spielertrainer) -->
+        <div class="timeline-entry">
+            <div class="timeline-dot rolle-spielertrainer"></div>
+            <div class="timeline-card">
+                <div class="timeline-year spielertrainer">2004 — 2005</div>
+                <div class="timeline-club">TSC Steinheim</div>
+                <span class="timeline-rolle spielertrainer">Spielertrainer</span>
+                <div class="timeline-img-slot" onclick="triggerTimelineUpload(this)">
+                    Bild hinzufügen +
+                    <input type="file" accept="image/*" style="display:none" onchange="handleTimelineImg(event, this.parentElement)">
+                </div>
+            </div>
+        </div>
+
+        <!-- Station 8: SV Bredenborn -->
+        <div class="timeline-entry">
+            <div class="timeline-dot rolle-spieler"></div>
+            <div class="timeline-card">
+                <div class="timeline-year spieler">2003 — 2004</div>
+                <div class="timeline-club">SV Bredenborn</div>
+                <span class="timeline-rolle spieler">Spieler</span>
+                <div class="timeline-img-slot" onclick="triggerTimelineUpload(this)">
+                    Bild hinzufügen +
+                    <input type="file" accept="image/*" style="display:none" onchange="handleTimelineImg(event, this.parentElement)">
+                </div>
+            </div>
+        </div>
+
+        <!-- Station 9: TuS 08 Brakelsiek -->
+        <div class="timeline-entry">
+            <div class="timeline-dot rolle-spieler"></div>
+            <div class="timeline-card">
+                <div class="timeline-year spieler">2003</div>
+                <div class="timeline-club">TuS 08 Brakelsiek</div>
+                <span class="timeline-rolle spieler">Spieler</span>
+                <div class="timeline-img-slot" onclick="triggerTimelineUpload(this)">
+                    Bild hinzufügen +
+                    <input type="file" accept="image/*" style="display:none" onchange="handleTimelineImg(event, this.parentElement)">
+                </div>
+            </div>
+        </div>
+
+        <!-- Station 10: Post-TSV Detmold -->
+        <div class="timeline-entry">
+            <div class="timeline-dot rolle-spielertrainer"></div>
+            <div class="timeline-card">
+                <div class="timeline-year spielertrainer">2001 — 2003</div>
+                <div class="timeline-club">Post-TSV Detmold</div>
+                <span class="timeline-rolle spielertrainer">Spielertrainer</span>
+                <div class="timeline-img-slot" onclick="triggerTimelineUpload(this)">
+                    Bild hinzufügen +
+                    <input type="file" accept="image/*" style="display:none" onchange="handleTimelineImg(event, this.parentElement)">
+                </div>
+            </div>
+        </div>
+
+        <!-- Station 11: SV Bredenborn -->
+        <div class="timeline-entry">
+            <div class="timeline-dot rolle-spieler"></div>
+            <div class="timeline-card">
+                <div class="timeline-year spieler">2000 — 2001</div>
+                <div class="timeline-club">SV Bredenborn</div>
+                <span class="timeline-rolle spieler">Spieler</span>
+                <div class="timeline-img-slot" onclick="triggerTimelineUpload(this)">
+                    Bild hinzufügen +
+                    <input type="file" accept="image/*" style="display:none" onchange="handleTimelineImg(event, this.parentElement)">
+                </div>
+            </div>
+        </div>
+
+        <!-- Station 12: TSV Lothe -->
+        <div class="timeline-entry">
+            <div class="timeline-dot rolle-spieler"></div>
+            <div class="timeline-card">
+                <div class="timeline-year spieler">1999 — 2000</div>
+                <div class="timeline-club">TSV Lothe</div>
+                <span class="timeline-rolle spieler">Spieler</span>
+                <div class="timeline-img-slot" onclick="triggerTimelineUpload(this)">
+                    Bild hinzufügen +
+                    <input type="file" accept="image/*" style="display:none" onchange="handleTimelineImg(event, this.parentElement)">
+                </div>
+            </div>
+        </div>
+
+        <!-- Station 13: TUS Rot-Weiss Schieder (Spielertrainer) -->
+        <div class="timeline-entry">
+            <div class="timeline-dot rolle-spielertrainer"></div>
+            <div class="timeline-card highlight">
+                <div class="timeline-year spielertrainer">1997 — 1999</div>
+                <div class="timeline-club">TUS Rot-Weiss Schieder</div>
+                <span class="timeline-rolle spielertrainer">Spielertrainer</span>
+                <div class="timeline-erfolg">&#9733; Aufstieg in die Bezirksklasse</div>
+                <p style="color: var(--text-light); font-size: 0.9rem; margin-top: 6px;">Beginn der Spielertrainer-Karriere</p>
+                <div class="timeline-img-slot" onclick="triggerTimelineUpload(this)">
+                    Bild hinzufügen +
+                    <input type="file" accept="image/*" style="display:none" onchange="handleTimelineImg(event, this.parentElement)">
+                </div>
+            </div>
+        </div>
+
+        <!-- Station 14: SV Steinheim — HIGHLIGHT -->
+        <div class="timeline-entry">
+            <div class="timeline-dot rolle-spieler"></div>
+            <div class="timeline-card highlight">
+                <div class="timeline-year spieler">1992 — 1997</div>
+                <div class="timeline-club">SV Steinheim</div>
+                <span class="timeline-rolle spieler">Spieler</span>
+                <div class="timeline-erfolg">&#9733; Aufstieg in die Landesliga &amp; Landesliga-Meister!</div>
+                <div class="timeline-img-slot" onclick="triggerTimelineUpload(this)">
+                    Bild hinzufügen +
+                    <input type="file" accept="image/*" style="display:none" onchange="handleTimelineImg(event, this.parentElement)">
+                </div>
+            </div>
+        </div>
+
+        <!-- Station 15: SpVg Brakel — HIGHLIGHT -->
+        <div class="timeline-entry">
+            <div class="timeline-dot rolle-spieler"></div>
+            <div class="timeline-card highlight">
+                <div class="timeline-year spieler">1991 — 1992</div>
+                <div class="timeline-club">SpVg Brakel</div>
+                <span class="timeline-rolle spieler">Spieler</span>
+                <div class="timeline-erfolg">&#9733; Aufstieg in die Oberliga</div>
+                <div class="timeline-img-slot" onclick="triggerTimelineUpload(this)">
+                    Bild hinzufügen +
+                    <input type="file" accept="image/*" style="display:none" onchange="handleTimelineImg(event, this.parentElement)">
+                </div>
+            </div>
+        </div>
+
+        <!-- Station 16: SC Paderborn 07 — HIGHLIGHT -->
+        <div class="timeline-entry">
+            <div class="timeline-dot rolle-spieler"></div>
+            <div class="timeline-card highlight">
+                <div class="timeline-year spieler">1990 — 1991</div>
+                <div class="timeline-club">SC Paderborn 07</div>
+                <span class="timeline-rolle spieler">Spieler</span>
+                <div class="timeline-erfolg">&#9733; Oberliga</div>
+                <p style="color: var(--text-light); font-size: 0.9rem; margin-top: 6px;">Wechsel aus der Bezirksliga in die Oberliga</p>
+                <div class="timeline-img-slot" onclick="triggerTimelineUpload(this)">
+                    Bild hinzufügen +
+                    <input type="file" accept="image/*" style="display:none" onchange="handleTimelineImg(event, this.parentElement)">
+                </div>
+            </div>
+        </div>
+
+        <!-- Station 17: TUS Rot-Weiss Schieder (Jugend & Anfang) -->
+        <div class="timeline-entry">
+            <div class="timeline-dot rolle-spieler"></div>
+            <div class="timeline-card highlight">
+                <div class="timeline-year spieler">1978 — 1990</div>
+                <div class="timeline-club">TUS Rot-Weiss Schieder</div>
+                <span class="timeline-rolle spieler">Spieler</span>
+                <div class="timeline-erfolg">&#9733; Aufstieg in die Bezirksliga (1988)</div>
+                <p style="color: var(--text-light); font-size: 0.9rem; margin-top: 6px;">Heimatverein — Mit 17 Jahren erste Erfahrungen in der Kreisliga A unter Friedhelm Brenker</p>
+                <div class="timeline-img-slot" onclick="triggerTimelineUpload(this)">
+                    Bild hinzufügen +
+                    <input type="file" accept="image/*" style="display:none" onchange="handleTimelineImg(event, this.parentElement)">
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- ============================================
+     HIGHLIGHT — Sportpresse Ball 2009
+     ============================================ -->
+<section class="section" id="story">
+    <h2 class="section-title">Highlight</h2>
+    <div class="divider"></div>
+    <p class="section-subtitle">Die besonderen Momente abseits des Platzes</p>
+
+    <div class="story-section">
+        <h3>Deutscher Sportpresse Ball 2009</h3>
+        <p class="story-subtitle">Copa Business Cup in Frankfurt — Ein unvergessliches Wochenende</p>
+
+        <p>
+            Ein Highlight meiner Karriere war der Copa Business Cup in Frankfurt.
+            Anreise freitags Mittag, eingecheckt im Hilton Hotel und abends im Club war dann die Auslosung
+            der 12 Mannschaften, vertreten mit diversen ehemaligen Bundesliga-Spielern.
+        </p>
+
+        <p>
+            Eingeladen hat uns Jürgen Hooetzek, den wir aus den Traditionsspielen kennen.
+            Er hat Andreas oder mich immer wieder mal eingeladen.
+        </p>
+
+        <div class="player-tags">
+            <span class="player-tag">Stefan Schnoor</span>
+            <span class="player-tag">Marko Rehmer</span>
+            <span class="player-tag">Olaf Bodden</span>
+            <span class="player-tag">Martin Max</span>
+            <span class="player-tag">Miroslav Stevic</span>
+            <span class="player-tag">Daniel Borimirov</span>
+            <span class="player-tag">Holger Fach</span>
+            <span class="player-tag">Alexander Löbe</span>
+            <span class="player-tag">Dietmar Roth</span>
+            <span class="player-tag">Uwe Müller</span>
+            <span class="player-tag">Günter Schlipper</span>
+            <span class="player-tag">Carsten Marquardt</span>
+            <span class="player-tag">Volker Abramczik</span>
+            <span class="player-tag">Marcus Marin</span>
+            <span class="player-tag">Rainer Schütterle</span>
+            <span class="player-tag">Stefan Emmerling</span>
+            <span class="player-tag">Tony Woodcock</span>
+            <span class="player-tag">Jürgen Hooetzek</span>
+        </div>
+
+        <p>
+            Das war ein gelungenes Wochenende — wir haben viel Spaß gehabt und das Highlight war
+            der Ball am Samstagabend. Man hat einige Geschichten aus dem Profibereich erfahren.
+        </p>
+
+        <p>
+            Natürlich war das Treffen mit einem meiner Idole ein besonderes Highlight:
+            <strong style="color: var(--koeln-rot);">Tony Woodcock</strong> — ich als Köln-Fan habe mich
+            sehr gefreut, mich mit ihm über Fußball zu unterhalten.
+        </p>
+    </div>
+</section>
+
+<!-- ============================================
+     GALERIE — Upload & Download
+     ============================================ -->
+<section class="section" id="galerie">
+    <h2 class="section-title">Fotogalerie</h2>
+    <div class="divider"></div>
+    <p class="section-subtitle">Erinnerungen in Bildern — lade deine Fotos hoch oder lade sie herunter</p>
+
+    <div class="gallery-grid" id="galleryGrid">
+        <!-- Bilder werden per JavaScript hier eingefügt -->
+    </div>
+
+    <!-- Upload Zone -->
+    <div class="upload-zone" id="uploadZone"
+         onclick="document.getElementById('galleryUpload').click()">
+        <span class="upload-icon">&#128247;</span>
+        <span class="upload-text">Bilder hierher ziehen oder klicken zum Hochladen</span>
+        <span class="upload-hint">JPG, PNG, WEBP — Mehrere Dateien gleichzeitig möglich</span>
+        <input type="file" id="galleryUpload" accept="image/*" multiple style="display:none"
+               onchange="handleGalleryUpload(event)">
+    </div>
+</section>
+
+<!-- ============================================
+     FAN-SECTION — Köln & Barça
+     ============================================ -->
+<section class="section" id="vereine">
+    <h2 class="section-title">Meine Vereine im Herzen</h2>
+    <div class="divider"></div>
+    <p class="section-subtitle">Zwei Vereine, eine Leidenschaft</p>
+
+    <div class="fan-cards">
+        <!-- 1. FC Köln -->
+        <div class="fan-card koeln">
+            <span class="card-badge">&#9917;</span>
+            <h3>1. FC Köln</h3>
+            <p class="motto">&bdquo;Mer stonn zo dir, FC Kölle&ldquo;</p>
+            <ul>
+                <li>
+                    <strong>Gegründet</strong>
+                    1948
+                </li>
+                <li>
+                    <strong>Stadion</strong>
+                    RheinEnergieSTADION
+                </li>
+                <li>
+                    <strong>Farben</strong>
+                    Rot &amp; Weiß
+                </li>
+                <li>
+                    <strong>Mein Idol</strong>
+                    Tony Woodcock
+                </li>
+                <li>
+                    <strong>Persönliches Highlight</strong>
+                    Treffen mit Tony Woodcock beim Sportpresse Ball 2009
+                </li>
+            </ul>
+        </div>
+
+        <!-- FC Barcelona -->
+        <div class="fan-card barca">
+            <span class="card-badge">&#9917;</span>
+            <h3>FC Barcelona</h3>
+            <p class="motto">&bdquo;Més que un club&ldquo;</p>
+            <ul>
+                <li>
+                    <strong>Gegründet</strong>
+                    1899
+                </li>
+                <li>
+                    <strong>Stadion</strong>
+                    Spotify Camp Nou
+                </li>
+                <li>
+                    <strong>Farben</strong>
+                    Blaugrana (Blau &amp; Granat)
+                </li>
+                <li>
+                    <strong>Legende</strong>
+                    — Hier deinen Lieblingsspieler eintragen —
+                </li>
+                <li>
+                    <strong>Persönliches Highlight</strong>
+                    — Dein besonderes Barça-Erlebnis —
+                </li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================
+     FOOTER
+     ============================================ -->
+<footer class="footer">
+    <p>&copy; 2025 Raphael Maaßen — Alle Rechte vorbehalten</p>
+    <p style="margin-top: 5px; font-size: 0.8rem; opacity: 0.6;">Fußball-Portfolio</p>
+</footer>
+
+<!-- ============================================
+     LIGHTBOX
+     ============================================ -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+    <button class="lightbox-close" onclick="closeLightbox(event)">&times;</button>
+    <img id="lightboxImg" src="" alt="Vollbild">
+    <button class="lightbox-download" onclick="downloadLightboxImg()">&#11015; Herunterladen</button>
 </div>
+
+<!-- ============================================
+     JAVASCRIPT — Upload, Download, Galerie, Lightbox
+     ============================================ -->
+<script>
+    // ========================================
+    // GALERIE — Upload & Anzeige
+    // ========================================
+    const galleryGrid = document.getElementById('galleryGrid');
+    const uploadZone = document.getElementById('uploadZone');
+    let galleryImages = []; // Speichert alle Bilder als {name, dataUrl}
+
+    // Drag & Drop Support
+    uploadZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        uploadZone.classList.add('drag-over');
+    });
+    uploadZone.addEventListener('dragleave', () => {
+        uploadZone.classList.remove('drag-over');
+    });
+    uploadZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        uploadZone.classList.remove('drag-over');
+        handleFiles(e.dataTransfer.files);
+    });
+
+    function handleGalleryUpload(event) {
+        handleFiles(event.target.files);
+        event.target.value = ''; // Reset damit man gleiche Datei nochmal laden kann
+    }
+
+    function handleFiles(files) {
+        Array.from(files).forEach(file => {
+            if (!file.type.startsWith('image/')) return;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const imgData = { name: file.name, dataUrl: e.target.result };
+                galleryImages.push(imgData);
+                addGalleryItem(imgData);
+                saveGalleryToStorage();
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
+    function addGalleryItem(imgData) {
+        const div = document.createElement('div');
+        div.className = 'gallery-item';
+        div.innerHTML = `
+            <img src="${imgData.dataUrl}" alt="${imgData.name}" onclick="openLightbox('${imgData.dataUrl.replace(/'/g, "\\'")}', '${imgData.name.replace(/'/g, "\\'")}')">
+            <div class="caption">
+                <span>${imgData.name}</span>
+                <button class="btn-download" onclick="downloadImage('${imgData.dataUrl.replace(/'/g, "\\'")}', '${imgData.name.replace(/'/g, "\\'")}')">&#11015; Download</button>
+            </div>
+        `;
+        galleryGrid.appendChild(div);
+    }
+
+    // ========================================
+    // TIMELINE — Bild Upload pro Station
+    // ========================================
+    function triggerTimelineUpload(slot) {
+        const input = slot.querySelector('input[type="file"]');
+        if (input) input.click();
+    }
+
+    function handleTimelineImg(event, slot) {
+        const file = event.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            slot.innerHTML = `<img src="${e.target.result}" alt="${file.name}">`;
+            slot.style.cursor = 'pointer';
+            slot.onclick = () => openLightbox(e.target.result, file.name);
+        };
+        reader.readAsDataURL(file);
+    }
+
+    // ========================================
+    // PROFILBILD — Avatar Upload
+    // ========================================
+    function handleAvatarUpload(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const avatar = document.querySelector('.profile-avatar');
+            avatar.innerHTML = `<img src="${e.target.result}" alt="Profilbild">`;
+            localStorage.setItem('rm_avatar', e.target.result);
+        };
+        reader.readAsDataURL(file);
+    }
+
+    // ========================================
+    // LIGHTBOX — Vollbild Ansicht
+    // ========================================
+    let currentLightboxSrc = '';
+    let currentLightboxName = '';
+
+    function openLightbox(src, name) {
+        currentLightboxSrc = src;
+        currentLightboxName = name || 'bild.jpg';
+        document.getElementById('lightboxImg').src = src;
+        document.getElementById('lightbox').classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox(event) {
+        if (event.target === document.getElementById('lightbox') ||
+            event.target.classList.contains('lightbox-close')) {
+            document.getElementById('lightbox').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    }
+
+    // ESC-Taste zum Schließen
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            document.getElementById('lightbox').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    });
+
+    // ========================================
+    // DOWNLOAD — Bilder herunterladen
+    // ========================================
+    function downloadImage(dataUrl, filename) {
+        const a = document.createElement('a');
+        a.href = dataUrl;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    }
+
+    function downloadLightboxImg() {
+        downloadImage(currentLightboxSrc, currentLightboxName);
+    }
+
+    // ========================================
+    // LOCAL STORAGE — Galerie-Bilder speichern
+    // ========================================
+    function saveGalleryToStorage() {
+        try {
+            // Nur Namen speichern, DataURLs sind zu groß für localStorage
+            const names = galleryImages.map(i => i.name);
+            localStorage.setItem('rm_gallery_names', JSON.stringify(names));
+        } catch(e) {
+            // Storage voll — kein Problem
+        }
+    }
+
+    // Avatar aus Storage laden
+    (function loadAvatar() {
+        const saved = localStorage.getItem('rm_avatar');
+        if (saved) {
+            document.querySelector('.profile-avatar').innerHTML = `<img src="${saved}" alt="Profilbild">`;
+        }
+    })();
+</script>
 
 </body>
 </html>
