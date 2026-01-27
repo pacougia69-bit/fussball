@@ -723,6 +723,58 @@
         .lightbox-download:hover { background: var(--barca-granat); }
 
         /* ============================================
+           EDITIERBAR — Inline Bearbeitung
+           ============================================ */
+        [contenteditable="true"] {
+            outline: none;
+            transition: box-shadow 0.3s, background 0.3s;
+            border-radius: 4px;
+        }
+        [contenteditable="true"]:hover {
+            box-shadow: 0 0 0 2px rgba(237,187,0,0.25);
+        }
+        [contenteditable="true"]:focus {
+            box-shadow: 0 0 0 2px var(--barca-gold);
+            background: rgba(237,187,0,0.05);
+        }
+
+        /* Edit-Hinweis Badge */
+        .edit-hint {
+            display: inline-block;
+            font-size: 0.7rem;
+            color: var(--barca-gold);
+            background: rgba(237,187,0,0.1);
+            border: 1px solid rgba(237,187,0,0.3);
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-left: 8px;
+            vertical-align: middle;
+            opacity: 0.7;
+        }
+
+        /* Speicher-Toast */
+        .save-toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--bg-card);
+            color: var(--barca-gold);
+            border: 1px solid var(--barca-gold);
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            z-index: 10000;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s;
+            pointer-events: none;
+        }
+        .save-toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ============================================
            FOOTER
            ============================================ */
         .footer {
@@ -805,27 +857,28 @@
             <div class="hero-badge koeln">FC</div>
             <div class="hero-badge barca">FCB</div>
         </div>
-        <h1>Raphael Maaßen</h1>
-        <p class="subtitle">Spieler &bull; Spielertrainer &bull; Jugendtrainer</p>
-        <p class="tagline">&bdquo;Fußball ist nicht nur ein Spiel — es ist mein Leben.&ldquo;</p>
+        <h1 contenteditable="true" data-key="hero-name">Raphael Maaßen</h1>
+        <p class="subtitle" contenteditable="true" data-key="hero-subtitle">Spieler &bull; Spielertrainer &bull; Jugendtrainer</p>
+        <p class="tagline" contenteditable="true" data-key="hero-tagline">&bdquo;Fußball ist nicht nur ein Spiel — es ist mein Leben.&ldquo;</p>
         <div class="hero-stats">
             <div class="hero-stat">
-                <div class="number">46+</div>
-                <div class="label">Jahre Fußball</div>
+                <div class="number" contenteditable="true" data-key="hero-stat-1">46+</div>
+                <div class="label" contenteditable="true" data-key="hero-label-1">Jahre Fußball</div>
             </div>
             <div class="hero-stat">
-                <div class="number">18</div>
-                <div class="label">Vereine</div>
+                <div class="number" contenteditable="true" data-key="hero-stat-2">18</div>
+                <div class="label" contenteditable="true" data-key="hero-label-2">Vereine</div>
             </div>
             <div class="hero-stat">
-                <div class="number">3</div>
-                <div class="label">Aufstiege</div>
+                <div class="number" contenteditable="true" data-key="hero-stat-3">3</div>
+                <div class="label" contenteditable="true" data-key="hero-label-3">Aufstiege</div>
             </div>
             <div class="hero-stat">
-                <div class="number">1</div>
-                <div class="label">Meisterschaft</div>
+                <div class="number" contenteditable="true" data-key="hero-stat-4">1</div>
+                <div class="label" contenteditable="true" data-key="hero-label-4">Meisterschaft</div>
             </div>
         </div>
+        <p style="margin-top: 20px;"><span class="edit-hint">Klicke auf Texte oder Zahlen um sie zu bearbeiten — wird automatisch gespeichert</span></p>
     </div>
 </section>
 
@@ -1241,32 +1294,42 @@
     <div class="divider"></div>
     <p class="section-subtitle">Zwei Vereine, eine Leidenschaft</p>
 
+    <p style="text-align:center; margin-bottom: 30px;"><span class="edit-hint">Klicke auf jeden Text um ihn zu bearbeiten — wird automatisch gespeichert</span></p>
+
     <div class="fan-cards">
         <!-- 1. FC Köln -->
         <div class="fan-card koeln">
             <span class="card-badge">&#9917;</span>
             <h3>1. FC Köln</h3>
-            <p class="motto">&bdquo;Mer stonn zo dir, FC Kölle&ldquo;</p>
+            <p class="motto" contenteditable="true" data-key="koeln-motto">&bdquo;Mer stonn zo dir, FC Kölle&ldquo;</p>
             <ul>
                 <li>
                     <strong>Gegründet</strong>
-                    1948
+                    <span contenteditable="true" data-key="koeln-gegruendet">1948</span>
                 </li>
                 <li>
                     <strong>Stadion</strong>
-                    RheinEnergieSTADION
+                    <span contenteditable="true" data-key="koeln-stadion">RheinEnergieSTADION</span>
                 </li>
                 <li>
                     <strong>Farben</strong>
-                    Rot &amp; Weiß
+                    <span contenteditable="true" data-key="koeln-farben">Rot &amp; Weiß</span>
                 </li>
                 <li>
                     <strong>Mein Idol</strong>
-                    Tony Woodcock
+                    <span contenteditable="true" data-key="koeln-idol">Tony Woodcock</span>
+                </li>
+                <li>
+                    <strong>Lieblingsspieler</strong>
+                    <span contenteditable="true" data-key="koeln-lieblingsspieler">— Hier eintragen —</span>
                 </li>
                 <li>
                     <strong>Persönliches Highlight</strong>
-                    Treffen mit Tony Woodcock beim Sportpresse Ball 2009
+                    <span contenteditable="true" data-key="koeln-highlight">Treffen mit Tony Woodcock beim Sportpresse Ball 2009</span>
+                </li>
+                <li>
+                    <strong>Warum dieser Verein?</strong>
+                    <span contenteditable="true" data-key="koeln-warum">— Hier eintragen —</span>
                 </li>
             </ul>
         </div>
@@ -1275,27 +1338,35 @@
         <div class="fan-card barca">
             <span class="card-badge">&#9917;</span>
             <h3>FC Barcelona</h3>
-            <p class="motto">&bdquo;Més que un club&ldquo;</p>
+            <p class="motto" contenteditable="true" data-key="barca-motto">&bdquo;Més que un club&ldquo;</p>
             <ul>
                 <li>
                     <strong>Gegründet</strong>
-                    1899
+                    <span contenteditable="true" data-key="barca-gegruendet">1899</span>
                 </li>
                 <li>
                     <strong>Stadion</strong>
-                    Spotify Camp Nou
+                    <span contenteditable="true" data-key="barca-stadion">Spotify Camp Nou</span>
                 </li>
                 <li>
                     <strong>Farben</strong>
-                    Blaugrana (Blau &amp; Granat)
+                    <span contenteditable="true" data-key="barca-farben">Blaugrana (Blau &amp; Granat)</span>
                 </li>
                 <li>
                     <strong>Legende</strong>
-                    — Hier deinen Lieblingsspieler eintragen —
+                    <span contenteditable="true" data-key="barca-legende">— Hier deinen Lieblingsspieler eintragen —</span>
+                </li>
+                <li>
+                    <strong>Lieblingsspieler</strong>
+                    <span contenteditable="true" data-key="barca-lieblingsspieler">— Hier eintragen —</span>
                 </li>
                 <li>
                     <strong>Persönliches Highlight</strong>
-                    — Dein besonderes Barça-Erlebnis —
+                    <span contenteditable="true" data-key="barca-highlight">— Dein besonderes Barça-Erlebnis —</span>
+                </li>
+                <li>
+                    <strong>Warum dieser Verein?</strong>
+                    <span contenteditable="true" data-key="barca-warum">— Hier eintragen —</span>
                 </li>
             </ul>
         </div>
@@ -1477,6 +1548,69 @@
             document.querySelector('.profile-avatar').innerHTML = `<img src="${saved}" alt="Profilbild">`;
         }
     })();
+
+    // ========================================
+    // EDITIERBAR — Inline-Bearbeitung mit Auto-Save
+    // ========================================
+    const STORAGE_PREFIX = 'rm_edit_';
+
+    // Alle editierbaren Felder laden
+    function loadEditableFields() {
+        document.querySelectorAll('[contenteditable="true"][data-key]').forEach(el => {
+            const saved = localStorage.getItem(STORAGE_PREFIX + el.dataset.key);
+            if (saved !== null) {
+                el.innerHTML = saved;
+            }
+        });
+    }
+
+    // Speichern wenn Feld verlassen wird (blur)
+    function setupEditableFields() {
+        document.querySelectorAll('[contenteditable="true"][data-key]').forEach(el => {
+            el.addEventListener('blur', () => {
+                try {
+                    localStorage.setItem(STORAGE_PREFIX + el.dataset.key, el.innerHTML);
+                    showSaveToast();
+                } catch(e) {
+                    // Storage voll
+                }
+            });
+
+            // Enter bei einzeiligen Feldern = fertig (blur)
+            el.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    // Bei Stats und kurzen Feldern: Enter = speichern
+                    const tag = el.tagName.toLowerCase();
+                    const isShortField = el.classList.contains('number') ||
+                                         el.classList.contains('label') ||
+                                         tag === 'span';
+                    if (isShortField) {
+                        e.preventDefault();
+                        el.blur();
+                    }
+                }
+            });
+        });
+    }
+
+    // Toast-Benachrichtigung "Gespeichert"
+    function showSaveToast() {
+        let toast = document.getElementById('saveToast');
+        if (!toast) {
+            toast = document.createElement('div');
+            toast.id = 'saveToast';
+            toast.className = 'save-toast';
+            toast.textContent = '\u2713 Gespeichert';
+            document.body.appendChild(toast);
+        }
+        toast.classList.add('show');
+        clearTimeout(toast._timeout);
+        toast._timeout = setTimeout(() => toast.classList.remove('show'), 1500);
+    }
+
+    // Beim Laden: gespeicherte Werte einsetzen
+    loadEditableFields();
+    setupEditableFields();
 </script>
 
 </body>
