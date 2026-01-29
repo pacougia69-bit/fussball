@@ -6,9 +6,7 @@
     <title>Raphael Maaßen — Fußball-Karriere</title>
     <style>
         /* ============================================
-           FARBEN — Hier kannst du alles anpassen!
-           1. FC Köln:    #ED1C24 (Rot), #FFFFFF (Weiß)
-           FC Barcelona:  #004D98 (Blau), #A50044 (Granat), #EDBB00 (Gold)
+           FARBEN — 1. FC Köln & FC Barcelona
            ============================================ */
         :root {
             --koeln-rot: #ED1C24;
@@ -25,7 +23,6 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
         html { scroll-behavior: smooth; }
 
         body {
@@ -96,7 +93,7 @@
         }
 
         /* ============================================
-           HERO SECTION — Geteilter Köln/Barça Look
+           HERO SECTION
            ============================================ */
         .hero {
             min-height: 100vh;
@@ -127,7 +124,7 @@
         .hero-content {
             position: relative;
             z-index: 1;
-            max-width: 800px;
+            max-width: 900px;
         }
         .hero-badges {
             display: flex;
@@ -177,7 +174,7 @@
             margin-bottom: 8px;
         }
         .hero .tagline {
-            font-size: 1rem;
+            font-size: 1.1rem;
             color: var(--barca-gold);
             font-style: italic;
             margin-bottom: 30px;
@@ -185,11 +182,12 @@
         .hero-stats {
             display: flex;
             justify-content: center;
-            gap: 40px;
+            gap: 30px;
             flex-wrap: wrap;
         }
         .hero-stat {
             text-align: center;
+            min-width: 100px;
         }
         .hero-stat .number {
             font-size: 2.5rem;
@@ -236,7 +234,75 @@
         }
 
         /* ============================================
-           TIMELINE — Vereinshistorie
+           STECKBRIEF
+           ============================================ */
+        .profile-card {
+            max-width: 400px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, var(--koeln-rot) 0%, var(--barca-granat) 50%, var(--barca-blau) 100%);
+            border-radius: 20px;
+            padding: 3px;
+        }
+        .profile-card-inner {
+            background: var(--bg-card);
+            border-radius: 18px;
+            padding: 35px;
+            text-align: center;
+        }
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--koeln-rot), var(--barca-blau));
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: white;
+            font-weight: 800;
+            overflow: hidden;
+        }
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .profile-card-inner h3 {
+            font-size: 1.6rem;
+            color: var(--text-white);
+            margin-bottom: 5px;
+        }
+        .profile-card-inner .profile-age {
+            color: var(--barca-gold);
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+        .profile-stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            text-align: left;
+        }
+        .profile-stat {
+            background: rgba(48,54,61,0.3);
+            padding: 10px 14px;
+            border-radius: 10px;
+        }
+        .profile-stat .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .profile-stat .stat-value {
+            font-size: 1rem;
+            color: var(--text-white);
+            font-weight: 600;
+        }
+
+        /* ============================================
+           KARRIERE TIMELINE
            ============================================ */
         .timeline {
             position: relative;
@@ -264,25 +330,31 @@
         .timeline-entry:nth-child(odd) { left: 0; text-align: right; }
         .timeline-entry:nth-child(even) { left: 50%; text-align: left; }
 
-        /* Stagger animation */
         .timeline-entry:nth-child(1) { animation-delay: 0.1s; }
-        .timeline-entry:nth-child(2) { animation-delay: 0.2s; }
-        .timeline-entry:nth-child(3) { animation-delay: 0.3s; }
-        .timeline-entry:nth-child(4) { animation-delay: 0.4s; }
-        .timeline-entry:nth-child(5) { animation-delay: 0.5s; }
-        .timeline-entry:nth-child(6) { animation-delay: 0.6s; }
-        .timeline-entry:nth-child(7) { animation-delay: 0.7s; }
-        .timeline-entry:nth-child(8) { animation-delay: 0.8s; }
-        .timeline-entry:nth-child(9) { animation-delay: 0.9s; }
-        .timeline-entry:nth-child(10) { animation-delay: 1.0s; }
-        .timeline-entry:nth-child(11) { animation-delay: 1.1s; }
-        .timeline-entry:nth-child(12) { animation-delay: 1.2s; }
-        .timeline-entry:nth-child(13) { animation-delay: 1.3s; }
-        .timeline-entry:nth-child(14) { animation-delay: 1.4s; }
-        .timeline-entry:nth-child(15) { animation-delay: 1.5s; }
-        .timeline-entry:nth-child(16) { animation-delay: 1.6s; }
-        .timeline-entry:nth-child(17) { animation-delay: 1.7s; }
-        .timeline-entry:nth-child(18) { animation-delay: 1.8s; }
+        .timeline-entry:nth-child(2) { animation-delay: 0.15s; }
+        .timeline-entry:nth-child(3) { animation-delay: 0.2s; }
+        .timeline-entry:nth-child(4) { animation-delay: 0.25s; }
+        .timeline-entry:nth-child(5) { animation-delay: 0.3s; }
+        .timeline-entry:nth-child(6) { animation-delay: 0.35s; }
+        .timeline-entry:nth-child(7) { animation-delay: 0.4s; }
+        .timeline-entry:nth-child(8) { animation-delay: 0.45s; }
+        .timeline-entry:nth-child(9) { animation-delay: 0.5s; }
+        .timeline-entry:nth-child(10) { animation-delay: 0.55s; }
+        .timeline-entry:nth-child(11) { animation-delay: 0.6s; }
+        .timeline-entry:nth-child(12) { animation-delay: 0.65s; }
+        .timeline-entry:nth-child(13) { animation-delay: 0.7s; }
+        .timeline-entry:nth-child(14) { animation-delay: 0.75s; }
+        .timeline-entry:nth-child(15) { animation-delay: 0.8s; }
+        .timeline-entry:nth-child(16) { animation-delay: 0.85s; }
+        .timeline-entry:nth-child(17) { animation-delay: 0.9s; }
+        .timeline-entry:nth-child(18) { animation-delay: 0.95s; }
+        .timeline-entry:nth-child(19) { animation-delay: 1.0s; }
+        .timeline-entry:nth-child(20) { animation-delay: 1.05s; }
+        .timeline-entry:nth-child(21) { animation-delay: 1.1s; }
+        .timeline-entry:nth-child(22) { animation-delay: 1.15s; }
+        .timeline-entry:nth-child(23) { animation-delay: 1.2s; }
+        .timeline-entry:nth-child(24) { animation-delay: 1.25s; }
+        .timeline-entry:nth-child(25) { animation-delay: 1.3s; }
 
         @keyframes fadeInUp {
             to { opacity: 1; transform: translateY(0); }
@@ -300,6 +372,7 @@
         .timeline-dot.rolle-spieler { background: var(--barca-blau); }
         .timeline-dot.rolle-spielertrainer { background: var(--koeln-rot); }
         .timeline-dot.rolle-trainer { background: var(--barca-gold); }
+        .timeline-dot.rolle-extra { background: linear-gradient(135deg, var(--barca-gold), var(--koeln-rot)); }
 
         .timeline-entry:nth-child(odd) .timeline-dot { right: -9px; }
         .timeline-entry:nth-child(even) .timeline-dot { left: -9px; }
@@ -310,7 +383,7 @@
             border-radius: 12px;
             border: 1px solid var(--border);
             transition: all 0.3s ease;
-            position: relative;
+            text-align: left;
         }
         .timeline-card:hover {
             transform: translateY(-3px);
@@ -320,6 +393,10 @@
             border-color: var(--barca-gold);
             box-shadow: 0 0 15px rgba(237,187,0,0.15);
         }
+        .timeline-card.extra-moment {
+            border-color: var(--barca-gold);
+            background: linear-gradient(135deg, rgba(237,187,0,0.1), var(--bg-card));
+        }
         .timeline-year {
             font-weight: 700;
             font-size: 0.95rem;
@@ -328,6 +405,7 @@
         .timeline-year.spieler { color: var(--barca-blau); }
         .timeline-year.spielertrainer { color: var(--koeln-rot); }
         .timeline-year.trainer { color: var(--barca-gold); }
+        .timeline-year.extra { color: var(--barca-gold); }
 
         .timeline-club {
             font-size: 1.25rem;
@@ -340,7 +418,7 @@
             padding: 2px 10px;
             border-radius: 12px;
             display: inline-block;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
         }
         .timeline-rolle.spieler {
             background: rgba(0,77,152,0.2);
@@ -354,35 +432,48 @@
             background: rgba(237,187,0,0.2);
             color: var(--barca-gold);
         }
+        .timeline-rolle.extra {
+            background: rgba(237,187,0,0.2);
+            color: var(--barca-gold);
+        }
         .timeline-erfolg {
             font-size: 0.9rem;
             color: var(--barca-gold);
             font-weight: 600;
             margin-top: 5px;
         }
-        .timeline-img-slot {
-            width: 100%;
-            min-height: 100px;
-            background: rgba(48,54,61,0.5);
-            border-radius: 8px;
+        .timeline-beschreibung {
+            color: var(--text);
+            font-size: 0.95rem;
+            line-height: 1.7;
             margin-top: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-light);
-            font-size: 0.85rem;
-            cursor: pointer;
-            border: 2px dashed var(--border);
-            transition: border-color 0.3s;
-            overflow: hidden;
-            position: relative;
+            font-style: italic;
         }
-        .timeline-img-slot:hover { border-color: var(--barca-gold); }
-        .timeline-img-slot img {
+        .timeline-liga {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-top: 5px;
+        }
+
+        /* Timeline Bilder-Galerie */
+        .timeline-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 8px;
+            margin-top: 15px;
+        }
+        .timeline-gallery img {
             width: 100%;
-            height: auto;
+            height: 60px;
+            object-fit: cover;
             border-radius: 6px;
-            display: block;
+            cursor: pointer;
+            transition: transform 0.3s;
+            border: 2px solid transparent;
+        }
+        .timeline-gallery img:hover {
+            transform: scale(1.05);
+            border-color: var(--barca-gold);
         }
 
         /* Legende */
@@ -407,7 +498,76 @@
         }
 
         /* ============================================
-           STORY SECTION — Sportpresse Ball
+           EXTRA-MOMENTE SECTION
+           ============================================ */
+        .extra-section {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 50px 40px;
+            border: 1px solid var(--barca-gold);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 40px;
+        }
+        .extra-section::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--koeln-rot), var(--barca-gold), var(--barca-blau));
+        }
+        .extra-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        .extra-card {
+            background: rgba(237,187,0,0.05);
+            border: 1px solid rgba(237,187,0,0.3);
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.3s;
+        }
+        .extra-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(237,187,0,0.1);
+        }
+        .extra-card h4 {
+            color: var(--barca-gold);
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+        .extra-card .extra-year {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+        .extra-card p {
+            color: var(--text);
+            line-height: 1.7;
+        }
+        .extra-card .extra-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .extra-card .extra-gallery img {
+            width: 100%;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .extra-card .extra-gallery img:hover {
+            transform: scale(1.05);
+        }
+
+        /* ============================================
+           HIGHLIGHT — Sportpresse Ball
            ============================================ */
         .story-section {
             background: var(--bg-card);
@@ -458,8 +618,30 @@
         }
 
         /* ============================================
-           GALERIE — Bilder Upload/Download
+           GALERIE
            ============================================ */
+        .gallery-filter {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+        .filter-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        .filter-btn:hover, .filter-btn.active {
+            border-color: var(--barca-gold);
+            color: var(--barca-gold);
+        }
+
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -488,58 +670,37 @@
         }
         .gallery-item .caption {
             padding: 12px 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
         }
-        .gallery-item .caption span {
-            font-size: 0.9rem;
-            color: var(--text);
+        .gallery-item .caption .title {
+            font-size: 0.95rem;
+            color: var(--text-white);
+            font-weight: 600;
         }
-        .gallery-item .btn-download {
-            background: rgba(0,77,152,0.2);
-            color: var(--barca-blau);
-            border: 1px solid var(--barca-blau);
-            padding: 5px 12px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.8rem;
-            transition: all 0.3s;
-        }
-        .gallery-item .btn-download:hover {
-            background: var(--barca-blau);
-            color: white;
+        .gallery-item .caption .year {
+            font-size: 0.85rem;
+            color: var(--text-light);
         }
 
-        /* Upload Zone */
-        .upload-zone {
-            border: 2px dashed var(--border);
-            border-radius: 16px;
-            padding: 50px 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            background: rgba(22,27,34,0.5);
-            margin-top: 20px;
+        /* Galerie Sektion für einzelne Vereine */
+        .gallery-section {
+            margin-bottom: 50px;
         }
-        .upload-zone:hover, .upload-zone.drag-over {
-            border-color: var(--barca-gold);
-            background: rgba(237,187,0,0.05);
+        .gallery-section-title {
+            font-size: 1.3rem;
+            color: var(--text-white);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-        .upload-zone .upload-icon {
-            font-size: 3rem;
-            margin-bottom: 15px;
-            display: block;
-        }
-        .upload-zone .upload-text {
-            color: var(--text-light);
-            font-size: 1.1rem;
-        }
-        .upload-zone .upload-hint {
-            color: var(--text-light);
+        .gallery-section-title .year-badge {
+            background: rgba(0,77,152,0.2);
+            color: var(--barca-blau);
+            padding: 4px 12px;
+            border-radius: 12px;
             font-size: 0.85rem;
-            margin-top: 8px;
-            opacity: 0.7;
         }
 
         /* ============================================
@@ -602,74 +763,23 @@
             margin-bottom: 2px;
         }
 
-        /* ============================================
-           STECKBRIEF — FIFA-Style Card
-           ============================================ */
-        .profile-card {
-            max-width: 400px;
-            margin: 0 auto;
-            background: linear-gradient(135deg, var(--koeln-rot) 0%, var(--barca-granat) 50%, var(--barca-blau) 100%);
-            border-radius: 20px;
-            padding: 3px;
-        }
-        .profile-card-inner {
-            background: var(--bg-card);
-            border-radius: 18px;
-            padding: 35px;
-            text-align: center;
-        }
-        .profile-avatar {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--koeln-rot), var(--barca-blau));
-            margin: 0 auto 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.5rem;
-            color: white;
-            font-weight: 800;
-            overflow: hidden;
-            cursor: pointer;
-            position: relative;
-        }
-        .profile-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .profile-card-inner h3 {
-            font-size: 1.6rem;
-            color: var(--text-white);
-            margin-bottom: 5px;
-        }
-        .profile-card-inner .profile-age {
-            color: var(--barca-gold);
-            margin-bottom: 20px;
-            font-size: 0.95rem;
-        }
-        .profile-stats-grid {
+        /* Fan Galerie */
+        .fan-gallery {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            text-align: left;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
         }
-        .profile-stat {
-            background: rgba(48,54,61,0.3);
-            padding: 10px 14px;
-            border-radius: 10px;
+        .fan-gallery img {
+            width: 100%;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.3s;
         }
-        .profile-stat .stat-label {
-            font-size: 0.75rem;
-            color: var(--text-light);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .profile-stat .stat-value {
-            font-size: 1rem;
-            color: var(--text-white);
-            font-weight: 600;
+        .fan-gallery img:hover {
+            transform: scale(1.05);
         }
 
         /* ============================================
@@ -681,7 +791,7 @@
             top: 0; left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.92);
+            background: rgba(0,0,0,0.95);
             z-index: 9999;
             align-items: center;
             justify-content: center;
@@ -699,7 +809,7 @@
             top: 20px;
             right: 30px;
             color: white;
-            font-size: 2rem;
+            font-size: 2.5rem;
             cursor: pointer;
             background: none;
             border: none;
@@ -707,71 +817,32 @@
             transition: opacity 0.3s;
         }
         .lightbox-close:hover { opacity: 1; }
-        .lightbox-download {
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            font-size: 3rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+            padding: 20px;
+        }
+        .lightbox-nav:hover { opacity: 1; }
+        .lightbox-prev { left: 20px; }
+        .lightbox-next { right: 20px; }
+        .lightbox-caption {
             position: absolute;
             bottom: 30px;
-            right: 30px;
-            background: var(--barca-blau);
+            left: 50%;
+            transform: translateX(-50%);
             color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 0.95rem;
-            transition: background 0.3s;
-        }
-        .lightbox-download:hover { background: var(--barca-granat); }
-
-        /* ============================================
-           EDITIERBAR — Inline Bearbeitung
-           ============================================ */
-        [contenteditable="true"] {
-            outline: none;
-            transition: box-shadow 0.3s, background 0.3s;
-            border-radius: 4px;
-        }
-        [contenteditable="true"]:hover {
-            box-shadow: 0 0 0 2px rgba(237,187,0,0.25);
-        }
-        [contenteditable="true"]:focus {
-            box-shadow: 0 0 0 2px var(--barca-gold);
-            background: rgba(237,187,0,0.05);
-        }
-
-        /* Edit-Hinweis Badge */
-        .edit-hint {
-            display: inline-block;
-            font-size: 0.7rem;
-            color: var(--barca-gold);
-            background: rgba(237,187,0,0.1);
-            border: 1px solid rgba(237,187,0,0.3);
-            padding: 2px 8px;
-            border-radius: 10px;
-            margin-left: 8px;
-            vertical-align: middle;
-            opacity: 0.7;
-        }
-
-        /* Speicher-Toast */
-        .save-toast {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: var(--bg-card);
-            color: var(--barca-gold);
-            border: 1px solid var(--barca-gold);
-            padding: 12px 24px;
-            border-radius: 12px;
-            font-size: 0.9rem;
-            z-index: 10000;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.3s;
-            pointer-events: none;
-        }
-        .save-toast.show {
-            opacity: 1;
-            transform: translateY(0);
+            font-size: 1rem;
+            background: rgba(0,0,0,0.7);
+            padding: 10px 25px;
+            border-radius: 20px;
         }
 
         /* ============================================
@@ -822,10 +893,12 @@
             .hero-stats { gap: 20px; }
             .hero-badge { width: 60px; height: 60px; font-size: 1.5rem; }
             .story-section { padding: 30px 20px; }
+            .extra-section { padding: 30px 20px; }
             .gallery-grid { grid-template-columns: 1fr 1fr; }
         }
         @media (max-width: 480px) {
             .gallery-grid { grid-template-columns: 1fr; }
+            .hero-stat .number { font-size: 2rem; }
         }
     </style>
 </head>
@@ -841,7 +914,7 @@
         <nav>
             <a href="#steckbrief">Steckbrief</a>
             <a href="#karriere">Karriere</a>
-            <a href="#story">Highlights</a>
+            <a href="#extra">Extra-Momente</a>
             <a href="#galerie">Galerie</a>
             <a href="#vereine">Meine Vereine</a>
         </nav>
@@ -849,7 +922,7 @@
 </header>
 
 <!-- ============================================
-     HERO — Geteilter Köln / Barça Look
+     HERO
      ============================================ -->
 <section class="hero" id="top">
     <div class="hero-content">
@@ -857,33 +930,32 @@
             <div class="hero-badge koeln">FC</div>
             <div class="hero-badge barca">FCB</div>
         </div>
-        <h1 contenteditable="true" data-key="hero-name">Raphael Maaßen</h1>
-        <p class="subtitle" contenteditable="true" data-key="hero-subtitle">Spieler &bull; Spielertrainer &bull; Jugendtrainer</p>
-        <p class="tagline" contenteditable="true" data-key="hero-tagline">&bdquo;Fußball ist nicht nur ein Spiel — es ist mein Leben.&ldquo;</p>
+        <h1>Raphael Maaßen</h1>
+        <p class="subtitle">Spieler &bull; Spielertrainer &bull; Jugendtrainer</p>
+        <p class="tagline">&bdquo;Fußball ist nicht nur ein Spiel — es ist mein Leben.&ldquo;</p>
         <div class="hero-stats">
             <div class="hero-stat">
-                <div class="number" contenteditable="true" data-key="hero-stat-1">46+</div>
-                <div class="label" contenteditable="true" data-key="hero-label-1">Jahre Fußball</div>
+                <div class="number">50+</div>
+                <div class="label">Jahre Fußball</div>
             </div>
             <div class="hero-stat">
-                <div class="number" contenteditable="true" data-key="hero-stat-2">18</div>
-                <div class="label" contenteditable="true" data-key="hero-label-2">Vereine</div>
+                <div class="number">18</div>
+                <div class="label">Vereine</div>
             </div>
             <div class="hero-stat">
-                <div class="number" contenteditable="true" data-key="hero-stat-3">3</div>
-                <div class="label" contenteditable="true" data-key="hero-label-3">Aufstiege</div>
+                <div class="number">7</div>
+                <div class="label">Meisterschaften</div>
             </div>
             <div class="hero-stat">
-                <div class="number" contenteditable="true" data-key="hero-stat-4">1</div>
-                <div class="label" contenteditable="true" data-key="hero-label-4">Meisterschaft</div>
+                <div class="number">8</div>
+                <div class="label">Aufstiege</div>
             </div>
         </div>
-        <p style="margin-top: 20px;"><span class="edit-hint">Klicke auf Texte oder Zahlen um sie zu bearbeiten — wird automatisch gespeichert</span></p>
     </div>
 </section>
 
 <!-- ============================================
-     STECKBRIEF — FIFA-Style
+     STECKBRIEF
      ============================================ -->
 <section class="section" id="steckbrief">
     <h2 class="section-title">Steckbrief</h2>
@@ -892,22 +964,19 @@
 
     <div class="profile-card">
         <div class="profile-card-inner">
-            <!-- Klick auf Avatar um Profilbild zu ändern -->
-            <div class="profile-avatar" onclick="document.getElementById('avatarUpload').click()" title="Klicken um Profilbild hochzuladen">
+            <div class="profile-avatar">
                 RM
             </div>
-            <input type="file" id="avatarUpload" accept="image/*" style="display:none" onchange="handleAvatarUpload(event)">
             <h3>Raphael Maaßen</h3>
-            <p class="profile-age">57 Jahre Jung</p>
+            <p class="profile-age">Jahrgang 1968 — Immer noch aktiv!</p>
             <div class="profile-stats-grid">
-                <!-- Hier kannst du deine Daten anpassen -->
                 <div class="profile-stat">
                     <div class="stat-label">Position</div>
                     <div class="stat-value">Mittelfeld</div>
                 </div>
                 <div class="profile-stat">
                     <div class="stat-label">Aktiv seit</div>
-                    <div class="stat-value">1978</div>
+                    <div class="stat-value">1974</div>
                 </div>
                 <div class="profile-stat">
                     <div class="stat-label">Aktuell</div>
@@ -918,7 +987,7 @@
                     <div class="stat-value">Spieler & Trainer</div>
                 </div>
                 <div class="profile-stat">
-                    <div class="stat-label">Highlight</div>
+                    <div class="stat-label">Höchste Liga</div>
                     <div class="stat-value">Oberliga</div>
                 </div>
                 <div class="profile-stat">
@@ -931,7 +1000,7 @@
 </section>
 
 <!-- ============================================
-     KARRIERE TIMELINE — Alle 18 Stationen
+     KARRIERE TIMELINE
      ============================================ -->
 <section class="section" id="karriere">
     <h2 class="section-title">Meine Karriere</h2>
@@ -955,250 +1024,416 @@
 
     <div class="timeline">
 
-        <!-- Station 1: Blomberger SV -->
-        <div class="timeline-entry">
-            <div class="timeline-dot rolle-trainer"></div>
-            <div class="timeline-card">
-                <div class="timeline-year trainer">Seit 2018 — Heute</div>
-                <div class="timeline-club">Blomberger SV</div>
-                <span class="timeline-rolle trainer">Jugend-Trainer & Spieler</span>
-                <div class="timeline-img-slot" onclick="triggerTimelineUpload(this)">
-                    Bild hinzufügen +
-                    <input type="file" accept="image/*" style="display:none" onchange="handleTimelineImg(event, this.parentElement)">
-                </div>
-            </div>
-        </div>
-
-        <!-- Station 2: TSC Steinheim -->
+        <!-- 1. TUS Rot-Weiss Schieder (Jugend & Anfang) -->
         <div class="timeline-entry">
             <div class="timeline-dot rolle-spieler"></div>
             <div class="timeline-card highlight">
-                <div class="timeline-year spieler">2017 — 2018</div>
-                <div class="timeline-club">TSC Steinheim</div>
+                <div class="timeline-year spieler">1974 – 1990</div>
+                <div class="timeline-club">TUS Rot-Weiss Schieder</div>
+                <span class="timeline-rolle spieler">Heimatverein & Familien-Ära</span>
+                <div class="timeline-erfolg">&#9733; Torschützenkönig der Bezirksliga 1989/90</div>
+                <p class="timeline-beschreibung">
+                    „Meine Reise begann hier mit 5 Jahren. Das absolut Größte für mich war die Zeit mit meinen Brüdern auf dem Platz: Ich durfte mit Andreas spielen, der mich bis heute als treuer Begleiter durch viele Vereine begleitet hat, und wurde von Manuel als Trainer geführt. Von beiden konnte ich enorm viel lernen: Von Manu habe ich meinen starken linken Fuß geerbt und durch das unzählige ‚Eins-gegen-eins' in unserer Jugend gegen Andreas habe ich gelernt, mich auf dem Platz durchzusetzen. Gemeinsam mit erfahrenen Spielern wie Herbert, Avelino, Jörg O., Jörg W. und Mario R. haben sie mich geprägt. In meiner letzten Saison 1989/90 krönte ich meine Zeit in Schieder als Torschützenkönig der Bezirksliga, was mir den Weg zum nächsten großen Schritt ebnete."
+                </p>
+                <div class="timeline-gallery">
+                    <!-- Platzhalter für Bilder -->
+                    <img src="bilder/1978_1990_TUS_Rot-Weiss_Schieder_01.jpg" alt="Schieder 1" onerror="this.style.display='none'">
+                    <img src="bilder/1978_1990_TUS_Rot-Weiss_Schieder_02.jpg" alt="Schieder 2" onerror="this.style.display='none'">
+                    <img src="bilder/1978_1990_TUS_Rot-Weiss_Schieder_03.jpg" alt="Schieder 3" onerror="this.style.display='none'">
+                    <img src="bilder/1978_1990_TUS_Rot-Weiss_Schieder_04.jpg" alt="Schieder 4" onerror="this.style.display='none'">
+                    <img src="bilder/1978_1990_TUS_Rot-Weiss_Schieder_05.jpg" alt="Schieder 5" onerror="this.style.display='none'">
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. SC Paderborn 07 -->
+        <div class="timeline-entry">
+            <div class="timeline-dot rolle-spieler"></div>
+            <div class="timeline-card highlight">
+                <div class="timeline-year spieler">1990 – 1991</div>
+                <div class="timeline-club">SC Paderborn 07</div>
                 <span class="timeline-rolle spieler">Spieler</span>
-                <div class="timeline-erfolg">&#9733; Aufstieg in die Bezirksliga</div>
-                <div class="timeline-img-slot" onclick="triggerTimelineUpload(this)">
-                    Bild hinzufügen +
-                    <input type="file" accept="image/*" style="display:none" onchange="handleTimelineImg(event, this.parentElement)">
+                <div class="timeline-erfolg">&#9733; Oberliga (damals 3. Liga)</div>
+                <p class="timeline-beschreibung">
+                    „Nach der Torjäger-Krone in Schieder folgte der Wechsel zum SC Paderborn 07 in die Oberliga (damals dritthöchste Spielklasse). Es war eine intensive Zeit, in der ich mich auf sehr hohem Niveau beweisen konnte und wertvolle Erfahrungen im Spitzenfußball sammelte."
+                </p>
+                <div class="timeline-gallery">
+                    <img src="bilder/1990_1991_SC_Paderborn_07_01.jpg" alt="Paderborn 1" onerror="this.style.display='none'">
+                    <img src="bilder/1990_1991_SC_Paderborn_07_02.jpg" alt="Paderborn 2" onerror="this.style.display='none'">
+                    <img src="bilder/1990_1991_SC_Paderborn_07_03.jpg" alt="Paderborn 3" onerror="this.style.display='none'">
                 </div>
             </div>
         </div>
 
-        <!-- Station 3: TuS Wöbbel -->
+        <!-- 3. SpVg Brakel -->
+        <div class="timeline-entry">
+            <div class="timeline-dot rolle-spieler"></div>
+            <div class="timeline-card highlight">
+                <div class="timeline-year spieler">1991 – 1992</div>
+                <div class="timeline-club">SpVg Brakel</div>
+                <span class="timeline-rolle spieler">Spieler</span>
+                <div class="timeline-erfolg">&#9733; Verbandsliga-Meister & Aufstieg in die Oberliga</div>
+                <p class="timeline-beschreibung">
+                    Trotz Verletzungspech ein sportlich herausragendes Jahr.
+                </p>
+                <div class="timeline-gallery">
+                    <img src="bilder/1991_1992_SpVg_Brakel_01.jpg" alt="Brakel 1" onerror="this.style.display='none'">
+                    <img src="bilder/1991_1992_SpVg_Brakel_02.jpg" alt="Brakel 2" onerror="this.style.display='none'">
+                    <img src="bilder/1991_1992_SpVg_Brakel_03.jpg" alt="Brakel 3" onerror="this.style.display='none'">
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. SV Steinheim -->
+        <div class="timeline-entry">
+            <div class="timeline-dot rolle-spieler"></div>
+            <div class="timeline-card highlight">
+                <div class="timeline-year spieler">1992 – 1997</div>
+                <div class="timeline-club">SV Steinheim</div>
+                <span class="timeline-rolle spieler">Spieler — Eine Ära der Dominanz</span>
+                <div class="timeline-erfolg">&#9733; Bezirksliga-Meister (Aufstieg Landesliga)<br>&#9733; Landesliga-Meister</div>
+                <p class="timeline-beschreibung">
+                    Den Durchmarsch in die Verbandsliga im Entscheidungsspiel nur hauchdünn verpasst.
+                </p>
+                <div class="timeline-gallery">
+                    <img src="bilder/1992_1997_SV_Steinheim_01.jpg" alt="Steinheim 1" onerror="this.style.display='none'">
+                    <img src="bilder/1992_1997_SV_Steinheim_02.jpg" alt="Steinheim 2" onerror="this.style.display='none'">
+                    <img src="bilder/1992_1997_SV_Steinheim_03.jpg" alt="Steinheim 3" onerror="this.style.display='none'">
+                    <img src="bilder/1992_1997_SV_Steinheim_04.jpg" alt="Steinheim 4" onerror="this.style.display='none'">
+                    <img src="bilder/1992_1997_SV_Steinheim_05.jpg" alt="Steinheim 5" onerror="this.style.display='none'">
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. TUS Rot-Weiss Schieder (Spielertrainer) -->
         <div class="timeline-entry">
             <div class="timeline-dot rolle-spielertrainer"></div>
-            <div class="timeline-card">
-                <div class="timeline-year spielertrainer">2015 — 2016</div>
-                <div class="timeline-club">TuS Wöbbel von 1907</div>
-                <span class="timeline-rolle spielertrainer">Spielertrainer</span>
-                <div class="timeline-img-slot" onclick="triggerTimelineUpload(this)">
-                    Bild hinzufügen +
-                    <input type="file" accept="image/*" style="display:none" onchange="handleTimelineImg(event, this.parentElement)">
+            <div class="timeline-card highlight">
+                <div class="timeline-year spielertrainer">1997 – 1999</div>
+                <div class="timeline-club">TUS Rot-Weiss Schieder</div>
+                <span class="timeline-rolle spielertrainer">Spielertrainer — Rückkehr in die Heimat</span>
+                <div class="timeline-erfolg">&#9733; Meister Kreisliga A (Detmold)<br>&#9733; Aufstieg Bezirksliga<br>&#9733; Süd-Ost-Pokal Sieger</div>
+                <div class="timeline-gallery">
+                    <img src="bilder/1997_1999_TUS_Rot-Weiss_Schieder_01.jpg" alt="Schieder 1" onerror="this.style.display='none'">
+                    <img src="bilder/1997_1999_TUS_Rot-Weiss_Schieder_02.jpg" alt="Schieder 2" onerror="this.style.display='none'">
+                    <img src="bilder/1997_1999_TUS_Rot-Weiss_Schieder_03.jpg" alt="Schieder 3" onerror="this.style.display='none'">
                 </div>
             </div>
         </div>
 
-        <!-- Station 4: SV Kollerbeck -->
-        <div class="timeline-entry">
-            <div class="timeline-dot rolle-spielertrainer"></div>
-            <div class="timeline-card">
-                <div class="timeline-year spielertrainer">2014</div>
-                <div class="timeline-club">SV Kollerbeck</div>
-                <span class="timeline-rolle spielertrainer">Spielertrainer</span>
-                <div class="timeline-img-slot" onclick="triggerTimelineUpload(this)">
-                    Bild hinzufügen +
-                    <input type="file" accept="image/*" style="display:none" onchange="handleTimelineImg(event, this.parentElement)">
-                </div>
-            </div>
-        </div>
-
-        <!-- Station 5: TSC Steinheim (Spielertrainer) -->
-        <div class="timeline-entry">
-            <div class="timeline-dot rolle-spielertrainer"></div>
-            <div class="timeline-card">
-                <div class="timeline-year spielertrainer">2013 — 2014</div>
-                <div class="timeline-club">TSC Steinheim</div>
-                <span class="timeline-rolle spielertrainer">Spielertrainer</span>
-                <div class="timeline-img-slot" onclick="triggerTimelineUpload(this)">
-                    Bild hinzufügen +
-                    <input type="file" accept="image/*" style="display:none" onchange="handleTimelineImg(event, this.parentElement)">
-                </div>
-            </div>
-        </div>
-
-        <!-- Station 6: TuS 08 Brakelsiek (lang) -->
-        <div class="timeline-entry">
-            <div class="timeline-dot rolle-spielertrainer"></div>
-            <div class="timeline-card">
-                <div class="timeline-year spielertrainer">2005 — 2012</div>
-                <div class="timeline-club">TuS 08 Brakelsiek</div>
-                <span class="timeline-rolle spielertrainer">Spielertrainer</span>
-                <p style="color: var(--text-light); font-size: 0.9rem; margin-top: 6px;">7 Jahre — Die längste Station</p>
-                <div class="timeline-img-slot" onclick="triggerTimelineUpload(this)">
-                    Bild hinzufügen +
-                    <input type="file" accept="image/*" style="display:none" onchange="handleTimelineImg(event, this.parentElement)">
-                </div>
-            </div>
-        </div>
-
-        <!-- Station 7: TSC Steinheim (Spielertrainer) -->
-        <div class="timeline-entry">
-            <div class="timeline-dot rolle-spielertrainer"></div>
-            <div class="timeline-card">
-                <div class="timeline-year spielertrainer">2004 — 2005</div>
-                <div class="timeline-club">TSC Steinheim</div>
-                <span class="timeline-rolle spielertrainer">Spielertrainer</span>
-                <div class="timeline-img-slot" onclick="triggerTimelineUpload(this)">
-                    Bild hinzufügen +
-                    <input type="file" accept="image/*" style="display:none" onchange="handleTimelineImg(event, this.parentElement)">
-                </div>
-            </div>
-        </div>
-
-        <!-- Station 8: SV Bredenborn -->
+        <!-- 6. TSV Schwalenberg-Lothe -->
         <div class="timeline-entry">
             <div class="timeline-dot rolle-spieler"></div>
             <div class="timeline-card">
-                <div class="timeline-year spieler">2003 — 2004</div>
-                <div class="timeline-club">SV Bredenborn</div>
+                <div class="timeline-year spieler">1999 – 2000</div>
+                <div class="timeline-club">TSV Schwalenberg-Lothe</div>
                 <span class="timeline-rolle spieler">Spieler</span>
-                <div class="timeline-img-slot" onclick="triggerTimelineUpload(this)">
-                    Bild hinzufügen +
-                    <input type="file" accept="image/*" style="display:none" onchange="handleTimelineImg(event, this.parentElement)">
+                <div class="timeline-liga">Bezirksliga</div>
+                <div class="timeline-gallery">
+                    <img src="bilder/1999_2000_TSV_Lothe-Schwalenberg_01.jpg" alt="Lothe 1" onerror="this.style.display='none'">
+                    <img src="bilder/1999_2000_TSV_Lothe-Schwalenberg_02.jpg" alt="Lothe 2" onerror="this.style.display='none'">
                 </div>
             </div>
         </div>
 
-        <!-- Station 9: TuS 08 Brakelsiek -->
+        <!-- 7. SV Bredenborn -->
+        <div class="timeline-entry">
+            <div class="timeline-dot rolle-spieler"></div>
+            <div class="timeline-card">
+                <div class="timeline-year spieler">2000 – 2001</div>
+                <div class="timeline-club">SV Bredenborn</div>
+                <span class="timeline-rolle spieler">Spieler</span>
+                <div class="timeline-liga">Kreisliga A Höxter</div>
+                <div class="timeline-gallery">
+                    <img src="bilder/2000_2001_SV_Bredenborn_01.jpg" alt="Bredenborn 1" onerror="this.style.display='none'">
+                    <img src="bilder/2000_2001_SV_Bredenborn_02.jpg" alt="Bredenborn 2" onerror="this.style.display='none'">
+                </div>
+            </div>
+        </div>
+
+        <!-- 8. Post-TSV Detmold -->
+        <div class="timeline-entry">
+            <div class="timeline-dot rolle-spielertrainer"></div>
+            <div class="timeline-card">
+                <div class="timeline-year spielertrainer">2001 – 2003</div>
+                <div class="timeline-club">Post-TSV Detmold</div>
+                <span class="timeline-rolle spielertrainer">Spielertrainer</span>
+                <div class="timeline-liga">Kreisliga A Detmold</div>
+                <div class="timeline-gallery">
+                    <img src="bilder/2001_2003_Post-TSV_Detmold_01.jpg" alt="Detmold 1" onerror="this.style.display='none'">
+                    <img src="bilder/2001_2003_Post-TSV_Detmold_02.jpg" alt="Detmold 2" onerror="this.style.display='none'">
+                </div>
+            </div>
+        </div>
+
+        <!-- 9. TuS 08 Brakelsiek (kurz) -->
         <div class="timeline-entry">
             <div class="timeline-dot rolle-spieler"></div>
             <div class="timeline-card">
                 <div class="timeline-year spieler">2003</div>
                 <div class="timeline-club">TuS 08 Brakelsiek</div>
                 <span class="timeline-rolle spieler">Spieler</span>
-                <div class="timeline-img-slot" onclick="triggerTimelineUpload(this)">
-                    Bild hinzufügen +
-                    <input type="file" accept="image/*" style="display:none" onchange="handleTimelineImg(event, this.parentElement)">
+                <div class="timeline-liga">Kreisliga A Detmold</div>
+                <div class="timeline-gallery">
+                    <img src="bilder/2003_2003_TuS_08_Brakelsiek_01.jpg" alt="Brakelsiek 1" onerror="this.style.display='none'">
                 </div>
             </div>
         </div>
 
-        <!-- Station 10: Post-TSV Detmold -->
-        <div class="timeline-entry">
-            <div class="timeline-dot rolle-spielertrainer"></div>
-            <div class="timeline-card">
-                <div class="timeline-year spielertrainer">2001 — 2003</div>
-                <div class="timeline-club">Post-TSV Detmold</div>
-                <span class="timeline-rolle spielertrainer">Spielertrainer</span>
-                <div class="timeline-img-slot" onclick="triggerTimelineUpload(this)">
-                    Bild hinzufügen +
-                    <input type="file" accept="image/*" style="display:none" onchange="handleTimelineImg(event, this.parentElement)">
-                </div>
-            </div>
-        </div>
-
-        <!-- Station 11: SV Bredenborn -->
+        <!-- 10. SV Bredenborn (2.) -->
         <div class="timeline-entry">
             <div class="timeline-dot rolle-spieler"></div>
             <div class="timeline-card">
-                <div class="timeline-year spieler">2000 — 2001</div>
+                <div class="timeline-year spieler">2003 – 2004</div>
                 <div class="timeline-club">SV Bredenborn</div>
                 <span class="timeline-rolle spieler">Spieler</span>
-                <div class="timeline-img-slot" onclick="triggerTimelineUpload(this)">
-                    Bild hinzufügen +
-                    <input type="file" accept="image/*" style="display:none" onchange="handleTimelineImg(event, this.parentElement)">
+                <div class="timeline-liga">Kreisliga A Höxter</div>
+                <div class="timeline-gallery">
+                    <img src="bilder/2003_2004_SV_Bredenborn_01.jpg" alt="Bredenborn 1" onerror="this.style.display='none'">
+                    <img src="bilder/2003_2004_SV_Bredenborn_02.jpg" alt="Bredenborn 2" onerror="this.style.display='none'">
                 </div>
             </div>
         </div>
 
-        <!-- Station 12: TSV Lothe -->
+        <!-- 11. TSC Steinheim -->
+        <div class="timeline-entry">
+            <div class="timeline-dot rolle-spielertrainer"></div>
+            <div class="timeline-card">
+                <div class="timeline-year spielertrainer">2004 – 2005</div>
+                <div class="timeline-club">TSC Steinheim</div>
+                <span class="timeline-rolle spielertrainer">Spielertrainer</span>
+                <div class="timeline-liga">Kreisliga A Höxter</div>
+                <div class="timeline-gallery">
+                    <img src="bilder/2004_2005_TSC_Steinheim_01.jpg" alt="TSC Steinheim 1" onerror="this.style.display='none'">
+                    <img src="bilder/2004_2005_TSC_Steinheim_02.jpg" alt="TSC Steinheim 2" onerror="this.style.display='none'">
+                </div>
+            </div>
+        </div>
+
+        <!-- 12. TuS 08 Brakelsiek (lang) -->
+        <div class="timeline-entry">
+            <div class="timeline-dot rolle-spielertrainer"></div>
+            <div class="timeline-card">
+                <div class="timeline-year spielertrainer">2005 – 2012</div>
+                <div class="timeline-club">TuS 08 Brakelsiek</div>
+                <span class="timeline-rolle spielertrainer">Spielertrainer</span>
+                <p class="timeline-beschreibung">
+                    Lange Jahre als erfahrener Spielertrainer in der Region.
+                </p>
+                <div class="timeline-liga">Kreisliga A Detmold — 7 Jahre, die längste Station</div>
+                <div class="timeline-gallery">
+                    <img src="bilder/2005_2012_TuS_08_Brakelsiek_01.jpg" alt="Brakelsiek 1" onerror="this.style.display='none'">
+                    <img src="bilder/2005_2012_TuS_08_Brakelsiek_02.jpg" alt="Brakelsiek 2" onerror="this.style.display='none'">
+                    <img src="bilder/2005_2012_TuS_08_Brakelsiek_03.jpg" alt="Brakelsiek 3" onerror="this.style.display='none'">
+                    <img src="bilder/2005_2012_TuS_08_Brakelsiek_04.jpg" alt="Brakelsiek 4" onerror="this.style.display='none'">
+                    <img src="bilder/2005_2012_TuS_08_Brakelsiek_05.jpg" alt="Brakelsiek 5" onerror="this.style.display='none'">
+                </div>
+            </div>
+        </div>
+
+        <!-- 13. TSC Steinheim (Spielertrainer) -->
+        <div class="timeline-entry">
+            <div class="timeline-dot rolle-spielertrainer"></div>
+            <div class="timeline-card">
+                <div class="timeline-year spielertrainer">2013 – 2014</div>
+                <div class="timeline-club">TSC Steinheim</div>
+                <span class="timeline-rolle spielertrainer">Spielertrainer</span>
+                <div class="timeline-liga">Kreisliga A Höxter</div>
+                <div class="timeline-gallery">
+                    <img src="bilder/2013_2014_TSC_Steinheim_01.jpg" alt="TSC Steinheim 1" onerror="this.style.display='none'">
+                    <img src="bilder/2013_2014_TSC_Steinheim_02.jpg" alt="TSC Steinheim 2" onerror="this.style.display='none'">
+                </div>
+            </div>
+        </div>
+
+        <!-- 14. SV Kollerbeck -->
+        <div class="timeline-entry">
+            <div class="timeline-dot rolle-spielertrainer"></div>
+            <div class="timeline-card">
+                <div class="timeline-year spielertrainer">2014</div>
+                <div class="timeline-club">SV Kollerbeck</div>
+                <span class="timeline-rolle spielertrainer">Spielertrainer</span>
+                <div class="timeline-liga">Kreisliga A Höxter</div>
+                <div class="timeline-gallery">
+                    <img src="bilder/2014_2014_SV_Kollerbeck_01.jpg" alt="Kollerbeck 1" onerror="this.style.display='none'">
+                    <img src="bilder/2014_2014_SV_Kollerbeck_02.jpg" alt="Kollerbeck 2" onerror="this.style.display='none'">
+                </div>
+            </div>
+        </div>
+
+        <!-- 15. SG Brakelsiek / Wöbbel -->
+        <div class="timeline-entry">
+            <div class="timeline-dot rolle-spielertrainer"></div>
+            <div class="timeline-card">
+                <div class="timeline-year spielertrainer">2015 – 2016</div>
+                <div class="timeline-club">SG Brakelsiek / Wöbbel</div>
+                <span class="timeline-rolle spielertrainer">Spielertrainer</span>
+                <div class="timeline-liga">Kreisliga B Detmold</div>
+                <div class="timeline-gallery">
+                    <img src="bilder/2015_2016_SG_Brakelsiek-Woebbel_01.jpg" alt="SG 1" onerror="this.style.display='none'">
+                    <img src="bilder/2015_2016_SG_Brakelsiek-Woebbel_02.jpg" alt="SG 2" onerror="this.style.display='none'">
+                </div>
+            </div>
+        </div>
+
+        <!-- 16. TSC Steinheim (Aufstieg) -->
+        <div class="timeline-entry">
+            <div class="timeline-dot rolle-spieler"></div>
+            <div class="timeline-card highlight">
+                <div class="timeline-year spieler">2017 – 2018</div>
+                <div class="timeline-club">TSC Steinheim</div>
+                <span class="timeline-rolle spieler">Spieler</span>
+                <div class="timeline-erfolg">&#9733; Erneuter Aufstieg in die Bezirksliga!</div>
+                <div class="timeline-gallery">
+                    <img src="bilder/2016_2018_TSC_Steinheim_01.jpg" alt="TSC Steinheim 1" onerror="this.style.display='none'">
+                    <img src="bilder/2016_2018_TSC_Steinheim_02.jpg" alt="TSC Steinheim 2" onerror="this.style.display='none'">
+                    <img src="bilder/2016_2018_TSC_Steinheim_03.jpg" alt="TSC Steinheim 3" onerror="this.style.display='none'">
+                </div>
+            </div>
+        </div>
+
+        <!-- 17. Blomberger SV 2018-2019 -->
+        <div class="timeline-entry">
+            <div class="timeline-dot rolle-trainer"></div>
+            <div class="timeline-card highlight">
+                <div class="timeline-year trainer">2018 – 2019</div>
+                <div class="timeline-club">Blomberger SV</div>
+                <span class="timeline-rolle trainer">D-Jugend-Trainer & Spieler</span>
+                <div class="timeline-erfolg">&#9733; Meisterschaft Kreisliga C<br>&#9733; Aufstieg in die Kreisliga B</div>
+                <p class="timeline-beschreibung">
+                    „Mein Start beim BSV als D-Jugend-Trainer und Spieler der Alt-Herren sowie der 2. Mannschaft. Es war ein überragendes Jahr: Ich konnte 18 Tore beisteuern und wir feierten die Meisterschaft in der Kreisliga C sowie den Aufstieg in die Kreisliga B (Detmold)."
+                </p>
+                <div class="timeline-gallery">
+                    <img src="bilder/2018_2019_Blomberger_SV_01.jpg" alt="BSV 1" onerror="this.style.display='none'">
+                    <img src="bilder/2018_2019_Blomberger_SV_02.jpg" alt="BSV 2" onerror="this.style.display='none'">
+                    <img src="bilder/2018_2019_Blomberger_SV_03.jpg" alt="BSV 3" onerror="this.style.display='none'">
+                </div>
+            </div>
+        </div>
+
+        <!-- 18. Blomberger SV 2019-2020 -->
         <div class="timeline-entry">
             <div class="timeline-dot rolle-spieler"></div>
             <div class="timeline-card">
-                <div class="timeline-year spieler">1999 — 2000</div>
-                <div class="timeline-club">TSV Lothe</div>
+                <div class="timeline-year spieler">2019 – 2020</div>
+                <div class="timeline-club">Blomberger SV</div>
                 <span class="timeline-rolle spieler">Spieler</span>
-                <div class="timeline-img-slot" onclick="triggerTimelineUpload(this)">
-                    Bild hinzufügen +
-                    <input type="file" accept="image/*" style="display:none" onchange="handleTimelineImg(event, this.parentElement)">
+                <p class="timeline-beschreibung">
+                    Spieler der Alt-Herren sowie der 2. Mannschaft.
+                </p>
+                <div class="timeline-gallery">
+                    <img src="bilder/2019_2020_Blomberger_SV_01.jpg" alt="BSV 1" onerror="this.style.display='none'">
+                    <img src="bilder/2019_2020_Blomberger_SV_02.jpg" alt="BSV 2" onerror="this.style.display='none'">
                 </div>
             </div>
         </div>
 
-        <!-- Station 13: TUS Rot-Weiss Schieder (Spielertrainer) -->
+        <!-- 19. Blomberger SV 2020-2021 -->
         <div class="timeline-entry">
-            <div class="timeline-dot rolle-spielertrainer"></div>
-            <div class="timeline-card highlight">
-                <div class="timeline-year spielertrainer">1997 — 1999</div>
-                <div class="timeline-club">TUS Rot-Weiss Schieder</div>
-                <span class="timeline-rolle spielertrainer">Spielertrainer</span>
-                <div class="timeline-erfolg">&#9733; Aufstieg in die Bezirksklasse</div>
-                <p style="color: var(--text-light); font-size: 0.9rem; margin-top: 6px;">Beginn der Spielertrainer-Karriere</p>
-                <div class="timeline-img-slot" onclick="triggerTimelineUpload(this)">
-                    Bild hinzufügen +
-                    <input type="file" accept="image/*" style="display:none" onchange="handleTimelineImg(event, this.parentElement)">
+            <div class="timeline-dot rolle-trainer"></div>
+            <div class="timeline-card">
+                <div class="timeline-year trainer">2020 – 2021</div>
+                <div class="timeline-club">Blomberger SV</div>
+                <span class="timeline-rolle trainer">B-Jugend Trainer & Spieler</span>
+                <p class="timeline-beschreibung">
+                    B-Jugend Trainer & Spieler der Alt-Herren sowie der 2. Mannschaft.
+                </p>
+                <div class="timeline-gallery">
+                    <img src="bilder/2020_2021_Blomberger_SV_01.jpg" alt="BSV 1" onerror="this.style.display='none'">
+                    <img src="bilder/2020_2021_Blomberger_SV_02.jpg" alt="BSV 2" onerror="this.style.display='none'">
                 </div>
             </div>
         </div>
 
-        <!-- Station 14: SV Steinheim — HIGHLIGHT -->
+        <!-- 20. Blomberger SV 2021-2022 -->
         <div class="timeline-entry">
-            <div class="timeline-dot rolle-spieler"></div>
+            <div class="timeline-dot rolle-trainer"></div>
             <div class="timeline-card highlight">
-                <div class="timeline-year spieler">1992 — 1997</div>
-                <div class="timeline-club">SV Steinheim</div>
-                <span class="timeline-rolle spieler">Spieler</span>
-                <div class="timeline-erfolg">&#9733; Aufstieg in die Landesliga &amp; Landesliga-Meister!</div>
-                <div class="timeline-img-slot" onclick="triggerTimelineUpload(this)">
-                    Bild hinzufügen +
-                    <input type="file" accept="image/*" style="display:none" onchange="handleTimelineImg(event, this.parentElement)">
+                <div class="timeline-year trainer">2021 – 2022</div>
+                <div class="timeline-club">Blomberger SV</div>
+                <span class="timeline-rolle trainer">B-Jugend Trainer</span>
+                <div class="timeline-erfolg">&#9733; B-Jugend Meister!</div>
+                <p class="timeline-beschreibung">
+                    Ein tolles Jahr, auch wenn wir im Pokalfinale dramatisch im Elfmeterschießen unterlagen.
+                </p>
+                <div class="timeline-gallery">
+                    <img src="bilder/2021_2022_Blomberger_SV_01.jpg" alt="BSV 1" onerror="this.style.display='none'">
+                    <img src="bilder/2021_2022_Blomberger_SV_02.jpg" alt="BSV 2" onerror="this.style.display='none'">
+                    <img src="bilder/2021_2022_Blomberger_SV_03.jpg" alt="BSV 3" onerror="this.style.display='none'">
                 </div>
             </div>
         </div>
 
-        <!-- Station 15: SpVg Brakel — HIGHLIGHT -->
+        <!-- 21. Blomberger SV 2022-2023 -->
         <div class="timeline-entry">
-            <div class="timeline-dot rolle-spieler"></div>
-            <div class="timeline-card highlight">
-                <div class="timeline-year spieler">1991 — 1992</div>
-                <div class="timeline-club">SpVg Brakel</div>
-                <span class="timeline-rolle spieler">Spieler</span>
-                <div class="timeline-erfolg">&#9733; Aufstieg in die Oberliga</div>
-                <div class="timeline-img-slot" onclick="triggerTimelineUpload(this)">
-                    Bild hinzufügen +
-                    <input type="file" accept="image/*" style="display:none" onchange="handleTimelineImg(event, this.parentElement)">
+            <div class="timeline-dot rolle-trainer"></div>
+            <div class="timeline-card">
+                <div class="timeline-year trainer">2022 – 2023</div>
+                <div class="timeline-club">Blomberger SV</div>
+                <span class="timeline-rolle trainer">A-Jugend Trainer & Spieler</span>
+                <p class="timeline-beschreibung">
+                    A-Jugend Trainer & Spieler der 2. Mannschaft.
+                </p>
+                <div class="timeline-gallery">
+                    <img src="bilder/2022_2023_Blomberger_SV_01.jpg" alt="BSV 1" onerror="this.style.display='none'">
+                    <img src="bilder/2022_2023_Blomberger_SV_02.jpg" alt="BSV 2" onerror="this.style.display='none'">
                 </div>
             </div>
         </div>
 
-        <!-- Station 16: SC Paderborn 07 — HIGHLIGHT -->
+        <!-- 22. Blomberger SV 2023-2024 -->
         <div class="timeline-entry">
-            <div class="timeline-dot rolle-spieler"></div>
+            <div class="timeline-dot rolle-trainer"></div>
             <div class="timeline-card highlight">
-                <div class="timeline-year spieler">1990 — 1991</div>
-                <div class="timeline-club">SC Paderborn 07</div>
-                <span class="timeline-rolle spieler">Spieler</span>
-                <div class="timeline-erfolg">&#9733; Oberliga</div>
-                <p style="color: var(--text-light); font-size: 0.9rem; margin-top: 6px;">Wechsel aus der Bezirksliga in die Oberliga</p>
-                <div class="timeline-img-slot" onclick="triggerTimelineUpload(this)">
-                    Bild hinzufügen +
-                    <input type="file" accept="image/*" style="display:none" onchange="handleTimelineImg(event, this.parentElement)">
+                <div class="timeline-year trainer">2023 – 2024</div>
+                <div class="timeline-club">Blomberger SV</div>
+                <span class="timeline-rolle trainer">A-Jugend Trainer & Co-Trainer 1. Mannschaft</span>
+                <div class="timeline-erfolg">&#9733; Emotionales Karriere-Highlight!</div>
+                <p class="timeline-beschreibung">
+                    „A-Jugend Trainer (Hinrunde). Ein emotionales Karriere-Highlight: In der Rückrunde Co-Trainer der 1. Mannschaft in der Bezirksliga. Das Größte für mich: Ich konnte noch einmal selbst auflaufen und gemeinsam mit meinem Sohn in einem Team spielen. Ein Moment, der mir mehr bedeutet als jeder Titel."
+                </p>
+                <div class="timeline-gallery">
+                    <img src="bilder/2023_2024_Blomberger_SV_01.jpg" alt="BSV 1" onerror="this.style.display='none'">
+                    <img src="bilder/2023_2024_Blomberger_SV_02.jpg" alt="BSV 2" onerror="this.style.display='none'">
+                    <img src="bilder/2023_2024_Blomberger_SV_03.jpg" alt="BSV 3" onerror="this.style.display='none'">
+                    <img src="bilder/2023_2024_Blomberger_SV_04.jpg" alt="BSV 4" onerror="this.style.display='none'">
+                    <img src="bilder/2023_2024_Blomberger_SV_05.jpg" alt="BSV 5" onerror="this.style.display='none'">
                 </div>
             </div>
         </div>
 
-        <!-- Station 17: TUS Rot-Weiss Schieder (Jugend & Anfang) -->
+        <!-- 23. Blomberger SV 2024-2025 -->
         <div class="timeline-entry">
-            <div class="timeline-dot rolle-spieler"></div>
-            <div class="timeline-card highlight">
-                <div class="timeline-year spieler">1978 — 1990</div>
-                <div class="timeline-club">TUS Rot-Weiss Schieder</div>
-                <span class="timeline-rolle spieler">Spieler</span>
-                <div class="timeline-erfolg">&#9733; Aufstieg in die Bezirksliga (1988)</div>
-                <p style="color: var(--text-light); font-size: 0.9rem; margin-top: 6px;">Heimatverein — Mit 17 Jahren erste Erfahrungen in der Kreisliga A unter Friedhelm Brenker</p>
-                <div class="timeline-img-slot" onclick="triggerTimelineUpload(this)">
-                    Bild hinzufügen +
-                    <input type="file" accept="image/*" style="display:none" onchange="handleTimelineImg(event, this.parentElement)">
+            <div class="timeline-dot rolle-trainer"></div>
+            <div class="timeline-card">
+                <div class="timeline-year trainer">2024 – 2025</div>
+                <div class="timeline-club">Blomberger SV</div>
+                <span class="timeline-rolle trainer">B-Jugend Trainer & Alt-Herren</span>
+                <p class="timeline-beschreibung">
+                    „Trotz Abstieg aus der Bezirksliga eines meiner schönsten Trainerjahre wegen des unglaublichen Zusammenhalts der Mannschaft."
+                </p>
+                <div class="timeline-gallery">
+                    <img src="bilder/2024_2025_Blomberger_SV_01.jpg" alt="BSV 1" onerror="this.style.display='none'">
+                    <img src="bilder/2024_2025_Blomberger_SV_02.jpg" alt="BSV 2" onerror="this.style.display='none'">
+                    <img src="bilder/2024_2025_Blomberger_SV_03.jpg" alt="BSV 3" onerror="this.style.display='none'">
+                </div>
+            </div>
+        </div>
+
+        <!-- 24. Blomberger SV 2025-2026 (Aktuell) -->
+        <div class="timeline-entry">
+            <div class="timeline-dot rolle-trainer"></div>
+            <div class="timeline-card" style="border-color: var(--koeln-rot); box-shadow: 0 0 20px rgba(237,28,36,0.2);">
+                <div class="timeline-year trainer">2025 – 2026</div>
+                <div class="timeline-club">Blomberger SV</div>
+                <span class="timeline-rolle trainer">A-Jugend-Trainer & Alt-Herren</span>
+                <p class="timeline-beschreibung" style="color: var(--koeln-rot); font-weight: 600;">
+                    Aktuell A-Jugend-Trainer und weiterhin aktiv bei den Alt-Herren des Blomberger SV.
+                </p>
+                <div class="timeline-gallery">
+                    <img src="bilder/2025_2026_Blomberger_SV_01.jpg" alt="BSV 1" onerror="this.style.display='none'">
+                    <img src="bilder/2025_2026_Blomberger_SV_02.jpg" alt="BSV 2" onerror="this.style.display='none'">
+                    <img src="bilder/2025_2026_Blomberger_SV_03.jpg" alt="BSV 3" onerror="this.style.display='none'">
                 </div>
             </div>
         </div>
@@ -1207,26 +1442,105 @@
 </section>
 
 <!-- ============================================
-     HIGHLIGHT — Sportpresse Ball 2009
+     EXTRA-MOMENTE
      ============================================ -->
-<section class="section" id="story">
-    <h2 class="section-title">Highlight</h2>
+<section class="section" id="extra">
+    <h2 class="section-title">Extra-Momente</h2>
     <div class="divider"></div>
-    <p class="section-subtitle">Die besonderen Momente abseits des Platzes</p>
+    <p class="section-subtitle">Besondere Erlebnisse abseits des regulären Spielbetriebs</p>
 
-    <div class="story-section">
-        <h3>Deutscher Sportpresse Ball 2009</h3>
+    <div class="extra-section">
+        <div class="extra-grid">
+
+            <!-- Probetraining BVB -->
+            <div class="extra-card">
+                <h4>Probetraining Borussia Dortmund</h4>
+                <div class="extra-year">1990</div>
+                <p>
+                    Profiluft geschnuppert beim BVB. Nach der erfolgreichen Saison als Torschützenkönig in Schieder erhielt ich die Chance, mich beim Bundesligisten zu präsentieren.
+                </p>
+                <div class="extra-gallery">
+                    <img src="bilder/Extra_1990_Probetraining_Dortmund_01.jpg" alt="BVB 1" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+                    <img src="bilder/Extra_1990_Probetraining_Dortmund_02.jpg" alt="BVB 2" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+                    <img src="bilder/Extra_1990_Probetraining_Dortmund_03.jpg" alt="BVB 3" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+                </div>
+            </div>
+
+            <!-- Probetraining Hannover 96 -->
+            <div class="extra-card">
+                <h4>Probetraining Hannover 96</h4>
+                <div class="extra-year">1990</div>
+                <p>
+                    Profiluft geschnuppert bei Hannover 96. Eine weitere große Chance, sich auf höchstem Niveau zu beweisen.
+                </p>
+                <div class="extra-gallery">
+                    <img src="bilder/Extra_1990_Probetraining_Hannover_01.jpg" alt="H96 1" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+                    <img src="bilder/Extra_1990_Probetraining_Hannover_02.jpg" alt="H96 2" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+                    <img src="bilder/Extra_1990_Probetraining_Hannover_03.jpg" alt="H96 3" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+                </div>
+            </div>
+
+            <!-- Sportpresseball 2009 -->
+            <div class="extra-card">
+                <h4>Deutscher Sportpresseball 2009</h4>
+                <div class="extra-year">Frankfurt — Copa Business Cup</div>
+                <p>
+                    Ein Highlight meiner Karriere war der Copa Business Cup in Frankfurt. Anreise freitags Mittag, eingecheckt im Hilton Hotel und abends im Club war dann die Auslosung der 12 Mannschaften, vertreten mit diversen ehemaligen Bundesliga-Spielern.
+                </p>
+                <p style="margin-top: 10px;">
+                    Das Highlight: Treffen mit meinem Idol <strong style="color: var(--koeln-rot);">Tony Woodcock</strong> — ich als Köln-Fan habe mich sehr gefreut, mich mit ihm über Fußball zu unterhalten.
+                </p>
+                <div class="extra-gallery">
+                    <img src="bilder/Extra_2009_Sportpresse_Ball_01.jpg" alt="Ball 1" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+                    <img src="bilder/Extra_2009_Sportpresse_Ball_02.jpg" alt="Ball 2" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+                    <img src="bilder/Extra_2009_Sportpresse_Ball_03.jpg" alt="Ball 3" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+                    <img src="bilder/Extra_2009_Sportpresse_Ball_04.jpg" alt="Ball 4" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+                    <img src="bilder/Extra_2009_Sportpresse_Ball_05.jpg" alt="Ball 5" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+                </div>
+            </div>
+
+            <!-- Lippische Auswahl -->
+            <div class="extra-card">
+                <h4>Lippische Auswahl</h4>
+                <div class="extra-year">Regionale Ehre</div>
+                <p>
+                    Die Ehre, für die Lippische Auswahl aufzulaufen — ein besonderer Moment, die Region zu vertreten.
+                </p>
+                <div class="extra-gallery">
+                    <img src="bilder/Extra_Lippische_Auswahl_01.jpg" alt="Lippe 1" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+                    <img src="bilder/Extra_Lippische_Auswahl_02.jpg" alt="Lippe 2" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+                    <img src="bilder/Extra_Lippische_Auswahl_03.jpg" alt="Lippe 3" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+                </div>
+            </div>
+
+            <!-- Sonstige Extra-Momente -->
+            <div class="extra-card">
+                <h4>Weitere besondere Momente</h4>
+                <div class="extra-year">Über die Jahre</div>
+                <p>
+                    Stadionbesuche, Fantreffen, Traditionsspiele und andere unvergessliche Fußball-Erlebnisse.
+                </p>
+                <div class="extra-gallery">
+                    <img src="bilder/Extra_sonstiges_01.jpg" alt="Extra 1" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+                    <img src="bilder/Extra_sonstiges_02.jpg" alt="Extra 2" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+                    <img src="bilder/Extra_sonstiges_03.jpg" alt="Extra 3" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+                    <img src="bilder/Extra_sonstiges_04.jpg" alt="Extra 4" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+                    <img src="bilder/Extra_sonstiges_05.jpg" alt="Extra 5" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Sportpresseball Details -->
+    <div class="story-section" style="margin-top: 40px;">
+        <h3>Die Legenden vom Sportpresseball</h3>
         <p class="story-subtitle">Copa Business Cup in Frankfurt — Ein unvergessliches Wochenende</p>
 
         <p>
-            Ein Highlight meiner Karriere war der Copa Business Cup in Frankfurt.
-            Anreise freitags Mittag, eingecheckt im Hilton Hotel und abends im Club war dann die Auslosung
-            der 12 Mannschaften, vertreten mit diversen ehemaligen Bundesliga-Spielern.
-        </p>
-
-        <p>
             Eingeladen hat uns Jürgen Hooetzek, den wir aus den Traditionsspielen kennen.
-            Er hat Andreas oder mich immer wieder mal eingeladen.
+            Er hat Andreas oder mich immer wieder mal eingeladen. Diese ehemaligen Bundesliga-Spieler
+            waren vor Ort:
         </p>
 
         <div class="player-tags">
@@ -1254,36 +1568,59 @@
             Das war ein gelungenes Wochenende — wir haben viel Spaß gehabt und das Highlight war
             der Ball am Samstagabend. Man hat einige Geschichten aus dem Profibereich erfahren.
         </p>
-
-        <p>
-            Natürlich war das Treffen mit einem meiner Idole ein besonderes Highlight:
-            <strong style="color: var(--koeln-rot);">Tony Woodcock</strong> — ich als Köln-Fan habe mich
-            sehr gefreut, mich mit ihm über Fußball zu unterhalten.
-        </p>
     </div>
 </section>
 
 <!-- ============================================
-     GALERIE — Upload & Download
+     GALERIE
      ============================================ -->
 <section class="section" id="galerie">
     <h2 class="section-title">Fotogalerie</h2>
     <div class="divider"></div>
-    <p class="section-subtitle">Erinnerungen in Bildern — lade deine Fotos hoch oder lade sie herunter</p>
+    <p class="section-subtitle">Erinnerungen in Bildern — über 50 Jahre Fußball-Geschichte</p>
 
-    <div class="gallery-grid" id="galleryGrid">
-        <!-- Bilder werden per JavaScript hier eingefügt -->
+    <!-- Galerie wird nach Vereinen/Jahren gruppiert -->
+
+    <!-- Sonstige Fußball-Bilder -->
+    <div class="gallery-section">
+        <h3 class="gallery-section-title">
+            Sonstige Fußball-Bilder
+            <span class="year-badge">Stadien, Training, Fantreffen</span>
+        </h3>
+        <div class="gallery-grid" id="gallery-sonstige">
+            <div class="gallery-item">
+                <img src="bilder/Sonstige_01.jpg" alt="Fußball" onclick="openLightbox(this.src)" onerror="this.parentElement.style.display='none'">
+                <div class="caption">
+                    <span class="title">Fußball-Erinnerung</span>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="bilder/Sonstige_02.jpg" alt="Fußball" onclick="openLightbox(this.src)" onerror="this.parentElement.style.display='none'">
+                <div class="caption">
+                    <span class="title">Fußball-Erinnerung</span>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="bilder/Sonstige_03.jpg" alt="Fußball" onclick="openLightbox(this.src)" onerror="this.parentElement.style.display='none'">
+                <div class="caption">
+                    <span class="title">Fußball-Erinnerung</span>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="bilder/Sonstige_04.jpg" alt="Fußball" onclick="openLightbox(this.src)" onerror="this.parentElement.style.display='none'">
+                <div class="caption">
+                    <span class="title">Fußball-Erinnerung</span>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="bilder/Sonstige_05.jpg" alt="Fußball" onclick="openLightbox(this.src)" onerror="this.parentElement.style.display='none'">
+                <div class="caption">
+                    <span class="title">Fußball-Erinnerung</span>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- Upload Zone -->
-    <div class="upload-zone" id="uploadZone"
-         onclick="document.getElementById('galleryUpload').click()">
-        <span class="upload-icon">&#128247;</span>
-        <span class="upload-text">Bilder hierher ziehen oder klicken zum Hochladen</span>
-        <span class="upload-hint">JPG, PNG, WEBP — Mehrere Dateien gleichzeitig möglich</span>
-        <input type="file" id="galleryUpload" accept="image/*" multiple style="display:none"
-               onchange="handleGalleryUpload(event)">
-    </div>
 </section>
 
 <!-- ============================================
@@ -1294,81 +1631,85 @@
     <div class="divider"></div>
     <p class="section-subtitle">Zwei Vereine, eine Leidenschaft</p>
 
-    <p style="text-align:center; margin-bottom: 30px;"><span class="edit-hint">Klicke auf jeden Text um ihn zu bearbeiten — wird automatisch gespeichert</span></p>
-
     <div class="fan-cards">
         <!-- 1. FC Köln -->
         <div class="fan-card koeln">
             <span class="card-badge">&#9917;</span>
             <h3>1. FC Köln</h3>
-            <p class="motto" contenteditable="true" data-key="koeln-motto">&bdquo;Mer stonn zo dir, FC Kölle&ldquo;</p>
+            <p class="motto">&bdquo;Mer stonn zo dir, FC Kölle&ldquo;</p>
             <ul>
                 <li>
                     <strong>Gegründet</strong>
-                    <span contenteditable="true" data-key="koeln-gegruendet">1948</span>
+                    <span>1948</span>
                 </li>
                 <li>
                     <strong>Stadion</strong>
-                    <span contenteditable="true" data-key="koeln-stadion">RheinEnergieSTADION</span>
+                    <span>RheinEnergieSTADION</span>
                 </li>
                 <li>
                     <strong>Farben</strong>
-                    <span contenteditable="true" data-key="koeln-farben">Rot &amp; Weiß</span>
+                    <span>Rot & Weiß</span>
                 </li>
                 <li>
                     <strong>Mein Idol</strong>
-                    <span contenteditable="true" data-key="koeln-idol">Tony Woodcock</span>
-                </li>
-                <li>
-                    <strong>Lieblingsspieler</strong>
-                    <span contenteditable="true" data-key="koeln-lieblingsspieler">— Hier eintragen —</span>
+                    <span>Tony Woodcock</span>
                 </li>
                 <li>
                     <strong>Persönliches Highlight</strong>
-                    <span contenteditable="true" data-key="koeln-highlight">Treffen mit Tony Woodcock beim Sportpresse Ball 2009</span>
-                </li>
-                <li>
-                    <strong>Warum dieser Verein?</strong>
-                    <span contenteditable="true" data-key="koeln-warum">— Hier eintragen —</span>
+                    <span>Treffen mit Tony Woodcock beim Sportpresse Ball 2009</span>
                 </li>
             </ul>
+            <!-- Köln Fan-Galerie -->
+            <div class="fan-gallery">
+                <img src="bilder/Koeln_bilder/Koeln_01.jpg" alt="Köln" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+                <img src="bilder/Koeln_bilder/Koeln_02.jpg" alt="Köln" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+                <img src="bilder/Koeln_bilder/Koeln_03.jpg" alt="Köln" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+                <img src="bilder/Koeln_bilder/Koeln_04.jpg" alt="Köln" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+                <img src="bilder/Koeln_bilder/Koeln_05.jpg" alt="Köln" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+                <img src="bilder/Koeln_bilder/Koeln_06.jpg" alt="Köln" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+                <img src="bilder/Koeln_bilder/Koeln_07.jpg" alt="Köln" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+                <img src="bilder/Koeln_bilder/Koeln_08.jpg" alt="Köln" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+                <img src="bilder/Koeln_bilder/Koeln_09.jpg" alt="Köln" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+                <img src="bilder/Koeln_bilder/Koeln_10.jpg" alt="Köln" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+            </div>
         </div>
 
         <!-- FC Barcelona -->
         <div class="fan-card barca">
             <span class="card-badge">&#9917;</span>
             <h3>FC Barcelona</h3>
-            <p class="motto" contenteditable="true" data-key="barca-motto">&bdquo;Més que un club&ldquo;</p>
+            <p class="motto">&bdquo;Més que un club&ldquo;</p>
             <ul>
                 <li>
                     <strong>Gegründet</strong>
-                    <span contenteditable="true" data-key="barca-gegruendet">1899</span>
+                    <span>1899</span>
                 </li>
                 <li>
                     <strong>Stadion</strong>
-                    <span contenteditable="true" data-key="barca-stadion">Spotify Camp Nou</span>
+                    <span>Spotify Camp Nou</span>
                 </li>
                 <li>
                     <strong>Farben</strong>
-                    <span contenteditable="true" data-key="barca-farben">Blaugrana (Blau &amp; Granat)</span>
+                    <span>Blaugrana (Blau & Granat)</span>
                 </li>
                 <li>
-                    <strong>Legende</strong>
-                    <span contenteditable="true" data-key="barca-legende">— Hier deinen Lieblingsspieler eintragen —</span>
-                </li>
-                <li>
-                    <strong>Lieblingsspieler</strong>
-                    <span contenteditable="true" data-key="barca-lieblingsspieler">— Hier eintragen —</span>
-                </li>
-                <li>
-                    <strong>Persönliches Highlight</strong>
-                    <span contenteditable="true" data-key="barca-highlight">— Dein besonderes Barça-Erlebnis —</span>
-                </li>
-                <li>
-                    <strong>Warum dieser Verein?</strong>
-                    <span contenteditable="true" data-key="barca-warum">— Hier eintragen —</span>
+                    <strong>Philosophie</strong>
+                    <span>La Masia — Die beste Jugendakademie der Welt</span>
                 </li>
             </ul>
+            <!-- Barcelona Fan-Galerie -->
+            <div class="fan-gallery">
+                <img src="bilder/Barcelona_bilder/Barcelona_01.jpg" alt="Barça" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+                <img src="bilder/Barcelona_bilder/Barcelona_02.jpg" alt="Barça" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+                <img src="bilder/Barcelona_bilder/Barcelona_03.jpg" alt="Barça" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+                <img src="bilder/Barcelona_bilder/Barcelona_04.jpg" alt="Barça" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+                <img src="bilder/Barcelona_bilder/Barcelona_05.jpg" alt="Barça" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+                <img src="bilder/Barcelona_bilder/Barcelona_06.jpg" alt="Barça" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+                <img src="bilder/Barcelona_bilder/Barcelona_07.jpg" alt="Barça" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+                <img src="bilder/Barcelona_bilder/Barcelona_08.jpg" alt="Barça" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+                <img src="bilder/Barcelona_bilder/Barcelona_09.jpg" alt="Barça" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+                <img src="bilder/Barcelona_bilder/Barcelona_10.jpg" alt="Barça" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+            </div>
         </div>
     </div>
 </section>
@@ -1378,7 +1719,7 @@
      ============================================ -->
 <footer class="footer">
     <p>&copy; 2025 Raphael Maaßen — Alle Rechte vorbehalten</p>
-    <p style="margin-top: 5px; font-size: 0.8rem; opacity: 0.6;">Fußball-Portfolio</p>
+    <p style="margin-top: 5px; font-size: 0.8rem; opacity: 0.6;">Fußball-Portfolio — 50+ Jahre Leidenschaft</p>
 </footer>
 
 <!-- ============================================
@@ -1387,110 +1728,16 @@
 <div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
     <button class="lightbox-close" onclick="closeLightbox(event)">&times;</button>
     <img id="lightboxImg" src="" alt="Vollbild">
-    <button class="lightbox-download" onclick="downloadLightboxImg()">&#11015; Herunterladen</button>
 </div>
 
 <!-- ============================================
-     JAVASCRIPT — Upload, Download, Galerie, Lightbox
+     JAVASCRIPT — Lightbox & Navigation
      ============================================ -->
 <script>
     // ========================================
-    // GALERIE — Upload & Anzeige
+    // LIGHTBOX
     // ========================================
-    const galleryGrid = document.getElementById('galleryGrid');
-    const uploadZone = document.getElementById('uploadZone');
-    let galleryImages = []; // Speichert alle Bilder als {name, dataUrl}
-
-    // Drag & Drop Support
-    uploadZone.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        uploadZone.classList.add('drag-over');
-    });
-    uploadZone.addEventListener('dragleave', () => {
-        uploadZone.classList.remove('drag-over');
-    });
-    uploadZone.addEventListener('drop', (e) => {
-        e.preventDefault();
-        uploadZone.classList.remove('drag-over');
-        handleFiles(e.dataTransfer.files);
-    });
-
-    function handleGalleryUpload(event) {
-        handleFiles(event.target.files);
-        event.target.value = ''; // Reset damit man gleiche Datei nochmal laden kann
-    }
-
-    function handleFiles(files) {
-        Array.from(files).forEach(file => {
-            if (!file.type.startsWith('image/')) return;
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const imgData = { name: file.name, dataUrl: e.target.result };
-                galleryImages.push(imgData);
-                addGalleryItem(imgData);
-                saveGalleryToStorage();
-            };
-            reader.readAsDataURL(file);
-        });
-    }
-
-    function addGalleryItem(imgData) {
-        const div = document.createElement('div');
-        div.className = 'gallery-item';
-        div.innerHTML = `
-            <img src="${imgData.dataUrl}" alt="${imgData.name}" onclick="openLightbox('${imgData.dataUrl.replace(/'/g, "\\'")}', '${imgData.name.replace(/'/g, "\\'")}')">
-            <div class="caption">
-                <span>${imgData.name}</span>
-                <button class="btn-download" onclick="downloadImage('${imgData.dataUrl.replace(/'/g, "\\'")}', '${imgData.name.replace(/'/g, "\\'")}')">&#11015; Download</button>
-            </div>
-        `;
-        galleryGrid.appendChild(div);
-    }
-
-    // ========================================
-    // TIMELINE — Bild Upload pro Station
-    // ========================================
-    function triggerTimelineUpload(slot) {
-        const input = slot.querySelector('input[type="file"]');
-        if (input) input.click();
-    }
-
-    function handleTimelineImg(event, slot) {
-        const file = event.target.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            slot.innerHTML = `<img src="${e.target.result}" alt="${file.name}">`;
-            slot.style.cursor = 'pointer';
-            slot.onclick = () => openLightbox(e.target.result, file.name);
-        };
-        reader.readAsDataURL(file);
-    }
-
-    // ========================================
-    // PROFILBILD — Avatar Upload
-    // ========================================
-    function handleAvatarUpload(event) {
-        const file = event.target.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            const avatar = document.querySelector('.profile-avatar');
-            avatar.innerHTML = `<img src="${e.target.result}" alt="Profilbild">`;
-            localStorage.setItem('rm_avatar', e.target.result);
-        };
-        reader.readAsDataURL(file);
-    }
-
-    // ========================================
-    // LIGHTBOX — Vollbild Ansicht
-    // ========================================
-    let currentLightboxSrc = '';
-    let currentLightboxName = '';
-
-    function openLightbox(src, name) {
-        currentLightboxSrc = src;
-        currentLightboxName = name || 'bild.jpg';
+    function openLightbox(src) {
         document.getElementById('lightboxImg').src = src;
         document.getElementById('lightbox').classList.add('active');
         document.body.style.overflow = 'hidden';
@@ -1504,7 +1751,7 @@
         }
     }
 
-    // ESC-Taste zum Schließen
+    // ESC zum Schließen
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
             document.getElementById('lightbox').classList.remove('active');
@@ -1513,104 +1760,28 @@
     });
 
     // ========================================
-    // DOWNLOAD — Bilder herunterladen
+    // Smooth Scroll für Navigation
     // ========================================
-    function downloadImage(dataUrl, filename) {
-        const a = document.createElement('a');
-        a.href = dataUrl;
-        a.download = filename;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-    }
-
-    function downloadLightboxImg() {
-        downloadImage(currentLightboxSrc, currentLightboxName);
-    }
-
-    // ========================================
-    // LOCAL STORAGE — Galerie-Bilder speichern
-    // ========================================
-    function saveGalleryToStorage() {
-        try {
-            // Nur Namen speichern, DataURLs sind zu groß für localStorage
-            const names = galleryImages.map(i => i.name);
-            localStorage.setItem('rm_gallery_names', JSON.stringify(names));
-        } catch(e) {
-            // Storage voll — kein Problem
-        }
-    }
-
-    // Avatar aus Storage laden
-    (function loadAvatar() {
-        const saved = localStorage.getItem('rm_avatar');
-        if (saved) {
-            document.querySelector('.profile-avatar').innerHTML = `<img src="${saved}" alt="Profilbild">`;
-        }
-    })();
-
-    // ========================================
-    // EDITIERBAR — Inline-Bearbeitung mit Auto-Save
-    // ========================================
-    const STORAGE_PREFIX = 'rm_edit_';
-
-    // Alle editierbaren Felder laden
-    function loadEditableFields() {
-        document.querySelectorAll('[contenteditable="true"][data-key]').forEach(el => {
-            const saved = localStorage.getItem(STORAGE_PREFIX + el.dataset.key);
-            if (saved !== null) {
-                el.innerHTML = saved;
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                // Mobile Menu schließen
+                document.querySelector('.navbar nav').classList.remove('open');
             }
         });
-    }
+    });
 
-    // Speichern wenn Feld verlassen wird (blur)
-    function setupEditableFields() {
-        document.querySelectorAll('[contenteditable="true"][data-key]').forEach(el => {
-            el.addEventListener('blur', () => {
-                try {
-                    localStorage.setItem(STORAGE_PREFIX + el.dataset.key, el.innerHTML);
-                    showSaveToast();
-                } catch(e) {
-                    // Storage voll
-                }
-            });
-
-            // Enter bei einzeiligen Feldern = fertig (blur)
-            el.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                    // Bei Stats und kurzen Feldern: Enter = speichern
-                    const tag = el.tagName.toLowerCase();
-                    const isShortField = el.classList.contains('number') ||
-                                         el.classList.contains('label') ||
-                                         tag === 'span';
-                    if (isShortField) {
-                        e.preventDefault();
-                        el.blur();
-                    }
-                }
-            });
+    // ========================================
+    // Timeline Bilder Klick für Lightbox
+    // ========================================
+    document.querySelectorAll('.timeline-gallery img').forEach(img => {
+        img.addEventListener('click', function() {
+            openLightbox(this.src);
         });
-    }
-
-    // Toast-Benachrichtigung "Gespeichert"
-    function showSaveToast() {
-        let toast = document.getElementById('saveToast');
-        if (!toast) {
-            toast = document.createElement('div');
-            toast.id = 'saveToast';
-            toast.className = 'save-toast';
-            toast.textContent = '\u2713 Gespeichert';
-            document.body.appendChild(toast);
-        }
-        toast.classList.add('show');
-        clearTimeout(toast._timeout);
-        toast._timeout = setTimeout(() => toast.classList.remove('show'), 1500);
-    }
-
-    // Beim Laden: gespeicherte Werte einsetzen
-    loadEditableFields();
-    setupEditableFields();
+    });
 </script>
 
 </body>
