@@ -962,49 +962,43 @@
     const SHEET_EXTRA = 'Extra';
     const SHEET_STATS = 'Stats';
 
-    // Google Sheets URL (öffentlich als CSV)
+    // Google Sheets URL (JSON format für CORS)
     function getSheetURL(sheetName) {
-        return `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}`;
+        return `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(sheetName)}`;
     }
 
     // =============================================
-    // CSV Parser
+    // JSON Response Parser (Google Visualization API)
     // =============================================
-    function parseCSV(csv) {
-        const lines = csv.split('\n');
-        const headers = parseCSVLine(lines[0]);
+    function parseGoogleJSON(responseText) {
+        // Google gibt "google.visualization.Query.setResponse({...})" zurück
+        // Wir müssen das JSON extrahieren
+        const jsonStart = responseText.indexOf('{');
+        const jsonEnd = responseText.lastIndexOf('}');
+        if (jsonStart === -1 || jsonEnd === -1) return null;
+
+        const jsonStr = responseText.substring(jsonStart, jsonEnd + 1);
+        const json = JSON.parse(jsonStr);
+
+        if (!json.table || !json.table.rows) return [];
+
+        // Headers aus cols extrahieren
+        const headers = json.table.cols.map(col => (col.label || '').toLowerCase().trim());
+
+        // Rows in Objekte umwandeln
         const data = [];
-
-        for (let i = 1; i < lines.length; i++) {
-            if (lines[i].trim() === '') continue;
-            const values = parseCSVLine(lines[i]);
-            const row = {};
-            headers.forEach((header, index) => {
-                row[header.trim().toLowerCase()] = values[index] ? values[index].trim() : '';
+        json.table.rows.forEach(row => {
+            const obj = {};
+            row.c.forEach((cell, index) => {
+                const header = headers[index];
+                if (header) {
+                    obj[header] = cell ? (cell.v !== null ? String(cell.v) : '') : '';
+                }
             });
-            data.push(row);
-        }
+            data.push(obj);
+        });
+
         return data;
-    }
-
-    function parseCSVLine(line) {
-        const result = [];
-        let current = '';
-        let inQuotes = false;
-
-        for (let i = 0; i < line.length; i++) {
-            const char = line[i];
-            if (char === '"') {
-                inQuotes = !inQuotes;
-            } else if (char === ',' && !inQuotes) {
-                result.push(current.replace(/^"|"$/g, ''));
-                current = '';
-            } else {
-                current += char;
-            }
-        }
-        result.push(current.replace(/^"|"$/g, ''));
-        return result;
     }
 
     // =============================================
@@ -1014,8 +1008,8 @@
         try {
             const response = await fetch(getSheetURL(sheetName));
             if (!response.ok) throw new Error('Fehler beim Laden');
-            const csv = await response.text();
-            return parseCSV(csv);
+            const text = await response.text();
+            return parseGoogleJSON(text);
         } catch (error) {
             console.error(`Fehler beim Laden von ${sheetName}:`, error);
             return null;
