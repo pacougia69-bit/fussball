@@ -973,12 +973,25 @@
         const json = JSON.parse(text.substring(jsonStart, jsonEnd + 1));
         if (!json.table || !json.table.rows) return [];
 
-        // Headers aus cols extrahieren
-        const headers = json.table.cols.map(col => (col.label || '').toLowerCase().trim());
+        // Headers aus cols extrahieren (oder aus erster Zeile, falls leer)
+        let headers = json.table.cols.map(col => (col.label || '').toLowerCase().trim());
+
+        // Wenn alle Headers leer sind, erste Zeile als Header verwenden
+        const allHeadersEmpty = headers.every(h => h === '');
+        let startRow = 0;
+
+        if (allHeadersEmpty && json.table.rows.length > 0) {
+            const firstRow = json.table.rows[0];
+            if (firstRow.c) {
+                headers = firstRow.c.map(cell => cell && cell.v ? String(cell.v).toLowerCase().trim() : '');
+            }
+            startRow = 1; // Daten beginnen ab Zeile 2
+        }
 
         // Rows in Objekte umwandeln
         const data = [];
-        json.table.rows.forEach(row => {
+        for (let i = startRow; i < json.table.rows.length; i++) {
+            const row = json.table.rows[i];
             const obj = {};
             if (row.c) {
                 row.c.forEach((cell, index) => {
@@ -989,6 +1002,35 @@
                 });
             }
             data.push(obj);
+        }
+
+        return data;
+    }
+
+    // =============================================
+    // Stats laden (Key-Value Format: Spalte A = Name, Spalte B = Wert)
+    // =============================================
+    async function fetchStatsData() {
+        const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=Stats`;
+        const response = await fetch(url);
+        const text = await response.text();
+
+        const jsonStart = text.indexOf('{');
+        const jsonEnd = text.lastIndexOf('}');
+        if (jsonStart === -1 || jsonEnd === -1) return [];
+
+        const json = JSON.parse(text.substring(jsonStart, jsonEnd + 1));
+        if (!json.table || !json.table.rows) return [];
+
+        // Stats-Format: Spalte A = name, Spalte B = wert
+        const data = [];
+        json.table.rows.forEach(row => {
+            if (row.c && row.c[0] && row.c[0].v) {
+                data.push({
+                    name: String(row.c[0].v).toLowerCase().trim(),
+                    wert: row.c[1] && row.c[1].v !== null ? String(row.c[1].v) : ''
+                });
+            }
         });
 
         return data;
@@ -1165,7 +1207,7 @@
             const [karriereData, extraData, statsData] = await Promise.all([
                 fetchData('Karriere'),
                 fetchData('Extra'),
-                fetchData('Stats')
+                fetchStatsData()
             ]);
 
             console.log('Karriere geladen:', karriereData);
