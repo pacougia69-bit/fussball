@@ -953,67 +953,41 @@
      ============================================ -->
 <script>
     // =============================================
-    // KONFIGURATION — Hier deine Google Sheet ID eintragen!
+    // KONFIGURATION
     // =============================================
-    const GOOGLE_SHEET_ID = '1loHJkZpizQKyQlAu1uUOcKPrpYCimHH6lIDxp1La2tA';
-
-    // Tabellenblatt-Namen (müssen exakt so heißen in deiner Tabelle)
-    const SHEET_KARRIERE = 'Karriere';
-    const SHEET_EXTRA = 'Extra';
-    const SHEET_STATS = 'Stats';
-
-    // Google Sheets URL (JSON format für CORS)
-    function getSheetURL(sheetName) {
-        return `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(sheetName)}`;
-    }
+    const SHEET_ID = '1loHJkZpizQKyQlAu1uUOcKPrpYCimHH6lIDxp1La2tA';
 
     // =============================================
-    // JSON Response Parser (Google Visualization API)
+    // CSV Daten laden (einfacher und zuverlässiger)
     // =============================================
-    function parseGoogleJSON(responseText) {
-        // Google gibt "google.visualization.Query.setResponse({...})" zurück
-        // Wir müssen das JSON extrahieren
-        const jsonStart = responseText.indexOf('{');
-        const jsonEnd = responseText.lastIndexOf('}');
-        if (jsonStart === -1 || jsonEnd === -1) return null;
+    async function fetchData(sheetName) {
+        const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${sheetName}`;
+        const response = await fetch(url);
+        const text = await response.text();
 
-        const jsonStr = responseText.substring(jsonStart, jsonEnd + 1);
-        const json = JSON.parse(jsonStr);
+        // CSV parsen
+        const lines = text.split('\n');
+        if (lines.length < 2) return [];
 
-        if (!json.table || !json.table.rows) return [];
+        // Header aus erster Zeile
+        const headers = lines[0].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(h =>
+            h.replace(/^"|"$/g, '').trim().toLowerCase()
+        );
 
-        // Headers aus cols extrahieren
-        const headers = json.table.cols.map(col => (col.label || '').toLowerCase().trim());
-
-        // Rows in Objekte umwandeln
+        // Daten ab Zeile 2
         const data = [];
-        json.table.rows.forEach(row => {
+        for (let i = 1; i < lines.length; i++) {
+            if (!lines[i].trim()) continue;
+            const parts = lines[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
             const obj = {};
-            row.c.forEach((cell, index) => {
-                const header = headers[index];
-                if (header) {
-                    obj[header] = cell ? (cell.v !== null ? String(cell.v) : '') : '';
+            parts.forEach((p, idx) => {
+                if (headers[idx]) {
+                    obj[headers[idx]] = p.replace(/^"|"$/g, '').trim();
                 }
             });
             data.push(obj);
-        });
-
-        return data;
-    }
-
-    // =============================================
-    // Daten laden
-    // =============================================
-    async function loadSheetData(sheetName) {
-        try {
-            const response = await fetch(getSheetURL(sheetName));
-            if (!response.ok) throw new Error('Fehler beim Laden');
-            const text = await response.text();
-            return parseGoogleJSON(text);
-        } catch (error) {
-            console.error(`Fehler beim Laden von ${sheetName}:`, error);
-            return null;
         }
+        return data;
     }
 
     // =============================================
@@ -1173,35 +1147,30 @@
     // INITIALISIERUNG
     // =============================================
     async function init() {
-        // Prüfen ob Sheet ID konfiguriert ist
-        if (GOOGLE_SHEET_ID === 'DEINE_SHEET_ID_HIER') {
-            document.getElementById('timeline').innerHTML = `
-                <div style="text-align: center; padding: 40px; background: var(--bg-card); border-radius: 12px; border: 1px solid var(--barca-gold);">
-                    <h3 style="color: var(--barca-gold); margin-bottom: 15px;">Google Sheet noch nicht konfiguriert</h3>
-                    <p style="color: var(--text);">Bitte öffne die index.html und trage deine Google Sheet ID ein:</p>
-                    <code style="display: block; margin: 15px 0; padding: 10px; background: var(--bg-dark); border-radius: 8px; color: var(--koeln-rot);">
-                        const GOOGLE_SHEET_ID = 'DEINE_SHEET_ID_HIER';
-                    </code>
-                    <p style="color: var(--text-light); font-size: 0.9rem;">Die Sheet ID findest du in der URL deiner Google Tabelle zwischen /d/ und /edit</p>
-                </div>
-            `;
-            document.getElementById('extra-grid').innerHTML = '';
+        try {
+            // Daten parallel laden
+            const [karriereData, extraData, statsData] = await Promise.all([
+                fetchData('Karriere'),
+                fetchData('Extra'),
+                fetchData('Stats')
+            ]);
+
+            console.log('Karriere geladen:', karriereData);
+            console.log('Extra geladen:', extraData);
+            console.log('Stats geladen:', statsData);
+
+            // Rendern
+            renderTimeline(karriereData);
+            renderExtra(extraData);
+            renderStats(statsData);
             loadFanGalleries();
-            return;
+        } catch (error) {
+            console.error('Fehler beim Laden:', error);
+            document.getElementById('timeline').innerHTML = `
+                <p style="text-align:center; color: var(--koeln-rot);">
+                    Fehler beim Laden der Daten. Bitte prüfe ob die Google Tabelle öffentlich freigegeben ist.
+                </p>`;
         }
-
-        // Daten parallel laden
-        const [karriereData, extraData, statsData] = await Promise.all([
-            loadSheetData(SHEET_KARRIERE),
-            loadSheetData(SHEET_EXTRA),
-            loadSheetData(SHEET_STATS)
-        ]);
-
-        // Rendern
-        renderTimeline(karriereData);
-        renderExtra(extraData);
-        renderStats(statsData);
-        loadFanGalleries();
     }
 
     // Start
