@@ -1015,18 +1015,12 @@
         const response = await fetch(url);
         const text = await response.text();
 
-        // DEBUG: Zeige rohe Google-Antwort
-        alert('RAW Google Response (erste 500 Zeichen):\n\n' + text.substring(0, 500));
-
         const jsonStart = text.indexOf('{');
         const jsonEnd = text.lastIndexOf('}');
         if (jsonStart === -1 || jsonEnd === -1) return [];
 
         const json = JSON.parse(text.substring(jsonStart, jsonEnd + 1));
         if (!json.table || !json.table.rows) return [];
-
-        // DEBUG: Zeige Anzahl Zeilen
-        alert('Google JSON: ' + json.table.rows.length + ' Zeilen gefunden');
 
         // Stats-Format: Spalte A = name, Spalte B = wert
         const data = [];
@@ -1219,16 +1213,6 @@
             console.log('Karriere geladen:', karriereData);
             console.log('Extra geladen:', extraData);
             console.log('Stats geladen:', statsData);
-
-            // DEBUG: Stats auf Seite anzeigen
-            if (statsData && statsData.length > 0) {
-                console.log('Stats Zeile 1:', JSON.stringify(statsData[0]));
-                // Temporärer Debug-Alert (entfernen wenn es funktioniert)
-                alert('Stats geladen: ' + statsData.length + ' Zeilen.\n\nErste Zeile:\n' + JSON.stringify(statsData[0], null, 2));
-            } else {
-                console.log('WARNUNG: Keine Stats-Daten!');
-                alert('WARNUNG: Keine Stats-Daten geladen!');
-            }
 
             // Rendern
             renderTimeline(karriereData);
