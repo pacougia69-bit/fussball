@@ -965,8 +965,8 @@
         const response = await fetch(url);
         const text = await response.text();
 
-        // CSV parsen
-        const lines = text.split('\n');
+        // CSV parsen - verschiedene Zeilenumbruch-Formate unterstützen
+        const lines = text.split(/\r\n|\r|\n/);
         if (lines.length < 2) return [];
 
         // Header aus erster Zeile
