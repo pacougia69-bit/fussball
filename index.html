@@ -1076,34 +1076,39 @@
     }
 
     // =============================================
-    // Stats rendern
+    // Stats rendern (horizontales Format)
+    // Spalten: name, wert, spruch, jahre, vereine, meistertitel, aufstiege
     // =============================================
     function renderStats(data) {
         if (!data || data.length === 0) return;
 
-        data.forEach(row => {
-            const name = (row.name || '').toLowerCase();
-            const wert = row.wert || '';
+        // Erste Zeile enthält alle Daten
+        const row = data[0];
 
-            // Header-Bereich
-            if (name === 'name') {
-                document.getElementById('hero-name').textContent = wert;
-            } else if (name === 'rollen') {
-                document.getElementById('hero-rollen').textContent = wert;
-            } else if (name === 'spruch') {
-                document.getElementById('hero-spruch').textContent = '„' + wert + '"';
-            }
-            // Statistiken
-            else if (name.includes('jahr')) {
-                document.getElementById('stat-jahre').textContent = wert;
-            } else if (name.includes('verein')) {
-                document.getElementById('stat-vereine').textContent = wert;
-            } else if (name.includes('meister')) {
-                document.getElementById('stat-meisterschaften').textContent = wert;
-            } else if (name.includes('aufstieg')) {
-                document.getElementById('stat-aufstiege').textContent = wert;
-            }
-        });
+        // Header-Bereich
+        if (row.name) {
+            document.getElementById('hero-name').textContent = row.name;
+        }
+        if (row.wert) {
+            document.getElementById('hero-rollen').textContent = row.wert;
+        }
+        if (row.spruch) {
+            document.getElementById('hero-spruch').textContent = '„' + row.spruch + '"';
+        }
+
+        // Statistiken
+        if (row.jahre) {
+            document.getElementById('stat-jahre').textContent = row.jahre;
+        }
+        if (row.vereine) {
+            document.getElementById('stat-vereine').textContent = row.vereine;
+        }
+        if (row.meistertitel) {
+            document.getElementById('stat-meisterschaften').textContent = row.meistertitel;
+        }
+        if (row.aufstiege) {
+            document.getElementById('stat-aufstiege').textContent = row.aufstiege;
+        }
     }
 
     // =============================================
