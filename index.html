@@ -643,6 +643,34 @@
             transition: opacity 0.3s;
         }
         .lightbox-close:hover { opacity: 1; }
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            font-size: 3rem;
+            cursor: pointer;
+            background: rgba(0,0,0,0.5);
+            border: none;
+            padding: 20px 15px;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+            border-radius: 8px;
+        }
+        .lightbox-nav:hover { opacity: 1; background: rgba(0,0,0,0.8); }
+        .lightbox-prev { left: 20px; }
+        .lightbox-next { right: 20px; }
+        .lightbox-counter {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 1rem;
+            background: rgba(0,0,0,0.6);
+            padding: 8px 16px;
+            border-radius: 20px;
+        }
 
         /* ============================================
            LOADING
@@ -945,7 +973,10 @@
      ============================================ -->
 <div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
     <button class="lightbox-close" onclick="closeLightbox(event)">&times;</button>
+    <button class="lightbox-nav lightbox-prev" onclick="navigateLightbox(-1, event)">&#10094;</button>
     <img id="lightboxImg" src="" alt="Vollbild">
+    <button class="lightbox-nav lightbox-next" onclick="navigateLightbox(1, event)">&#10095;</button>
+    <div class="lightbox-counter" id="lightboxCounter"></div>
 </div>
 
 <!-- ============================================
@@ -1026,6 +1057,19 @@
             const isHighlight = row.highlight && row.highlight.toLowerCase() === 'ja';
             const bilder = parseInt(row.bilder) || 0;
             const bildPrefix = row.bildprefix || row.jahr.replace(/\s/g, '').replace('–', '_') + '_' + row.verein.replace(/\s/g, '_').replace(/[^a-zA-Z0-9_]/g, '');
+            const ordner = row.ordner || null; // Neues Feld für Ordner-basierte Bilder
+
+            // Galerie-HTML generieren
+            let galerieHtml = '';
+            if (bilder > 0) {
+                if (ordner) {
+                    // Ordner-Format: bilder/ordner/ordner (1).jpg
+                    galerieHtml = renderFolderGallery(ordner, bilder);
+                } else {
+                    // Standard-Format: bilder/prefix_01.jpg
+                    galerieHtml = renderGallery(bildPrefix, bilder);
+                }
+            }
 
             html += `
                 <div class="timeline-entry" style="animation-delay: ${0.1 + index * 0.05}s">
@@ -1037,7 +1081,7 @@
                         ${row.erfolge ? `<div class="timeline-erfolg">&#9733; ${row.erfolge}</div>` : ''}
                         ${row.beschreibung ? `<p class="timeline-beschreibung">${row.beschreibung}</p>` : ''}
                         ${row.liga ? `<div class="timeline-liga">${row.liga}</div>` : ''}
-                        ${bilder > 0 ? renderGallery(bildPrefix, bilder) : ''}
+                        ${galerieHtml}
                     </div>
                 </div>
             `;
@@ -1114,15 +1158,37 @@
     // =============================================
     // Galerie Helper
     // =============================================
-    function renderGallery(prefix, count) {
-        return `<div class="timeline-gallery">${renderGalleryImages(prefix, count)}</div>`;
+    function renderGallery(prefix, count, folder = null) {
+        return `<div class="timeline-gallery">${renderGalleryImages(prefix, count, folder)}</div>`;
     }
 
-    function renderGalleryImages(prefix, count) {
+    function renderGalleryImages(prefix, count, folder = null) {
         let html = '';
         for (let i = 1; i <= count; i++) {
-            const num = i.toString().padStart(2, '0');
-            html += `<img src="bilder/${prefix}_${num}.jpg" alt="Bild ${i}" onclick="openLightbox(this.src)" onerror="this.style.display='none'">`;
+            let src;
+            if (folder) {
+                // Neues Format: bilder/ordner/ordner (n).jpg
+                src = `bilder/${folder}/${folder} (${i}).jpg`;
+            } else {
+                // Altes Format: bilder/prefix_01.jpg
+                const num = i.toString().padStart(2, '0');
+                src = `bilder/${prefix}_${num}.jpg`;
+            }
+            html += `<img src="${src}" alt="Bild ${i}" onclick="openLightbox(this.src, this)" onerror="this.style.display='none'">`;
+        }
+        return html;
+    }
+
+    // Ordner-Galerie für spezielle Ordner
+    function renderFolderGallery(folder, count) {
+        return `<div class="timeline-gallery">${renderFolderGalleryImages(folder, count)}</div>`;
+    }
+
+    function renderFolderGalleryImages(folder, count) {
+        let html = '';
+        for (let i = 1; i <= count; i++) {
+            const src = `bilder/${folder}/${folder} (${i}).jpg`;
+            html += `<img src="${src}" alt="Bild ${i}" onclick="openLightbox(this.src, this)" onerror="this.style.display='none'">`;
         }
         return html;
     }
@@ -1136,7 +1202,7 @@
         let koelnHtml = '';
         for (let i = 1; i <= 10; i++) {
             const num = i.toString().padStart(2, '0');
-            koelnHtml += `<img src="bilder/Koeln_bilder/Koeln_${num}.jpg" alt="Köln" onclick="openLightbox(this.src)" onerror="this.style.display='none'">`;
+            koelnHtml += `<img src="bilder/Koeln_bilder/Koeln_${num}.jpg" alt="Köln" onclick="openLightbox(this.src, this)" onerror="this.style.display='none'">`;
         }
         koelnGallery.innerHTML = koelnHtml;
 
@@ -1145,18 +1211,72 @@
         let barcaHtml = '';
         for (let i = 1; i <= 10; i++) {
             const num = i.toString().padStart(2, '0');
-            barcaHtml += `<img src="bilder/Barcelona_bilder/Barcelona_${num}.jpg" alt="Barça" onclick="openLightbox(this.src)" onerror="this.style.display='none'">`;
+            barcaHtml += `<img src="bilder/Barcelona_bilder/Barcelona_${num}.jpg" alt="Barça" onclick="openLightbox(this.src, this)" onerror="this.style.display='none'">`;
         }
         barcaGallery.innerHTML = barcaHtml;
     }
 
     // =============================================
-    // LIGHTBOX
+    // LIGHTBOX mit Navigation
     // =============================================
-    function openLightbox(src) {
+    let currentGalleryImages = [];
+    let currentImageIndex = 0;
+
+    function openLightbox(src, imgElement) {
+        // Sammle alle Bilder aus der gleichen Galerie
+        if (imgElement) {
+            const gallery = imgElement.closest('.timeline-gallery, .extra-gallery, .fan-gallery');
+            if (gallery) {
+                currentGalleryImages = Array.from(gallery.querySelectorAll('img'))
+                    .filter(img => img.style.display !== 'none')
+                    .map(img => img.src);
+                currentImageIndex = currentGalleryImages.indexOf(src);
+            } else {
+                currentGalleryImages = [src];
+                currentImageIndex = 0;
+            }
+        } else {
+            currentGalleryImages = [src];
+            currentImageIndex = 0;
+        }
+
         document.getElementById('lightboxImg').src = src;
+        updateLightboxCounter();
         document.getElementById('lightbox').classList.add('active');
         document.body.style.overflow = 'hidden';
+
+        // Navigation-Buttons anzeigen/verstecken
+        const prevBtn = document.querySelector('.lightbox-prev');
+        const nextBtn = document.querySelector('.lightbox-next');
+        const counter = document.getElementById('lightboxCounter');
+        if (currentGalleryImages.length > 1) {
+            prevBtn.style.display = 'block';
+            nextBtn.style.display = 'block';
+            counter.style.display = 'block';
+        } else {
+            prevBtn.style.display = 'none';
+            nextBtn.style.display = 'none';
+            counter.style.display = 'none';
+        }
+    }
+
+    function navigateLightbox(direction, event) {
+        if (event) event.stopPropagation();
+        if (currentGalleryImages.length <= 1) return;
+
+        currentImageIndex += direction;
+        if (currentImageIndex < 0) currentImageIndex = currentGalleryImages.length - 1;
+        if (currentImageIndex >= currentGalleryImages.length) currentImageIndex = 0;
+
+        document.getElementById('lightboxImg').src = currentGalleryImages[currentImageIndex];
+        updateLightboxCounter();
+    }
+
+    function updateLightboxCounter() {
+        const counter = document.getElementById('lightboxCounter');
+        if (currentGalleryImages.length > 1) {
+            counter.textContent = `${currentImageIndex + 1} / ${currentGalleryImages.length}`;
+        }
     }
 
     function closeLightbox(event) {
@@ -1168,9 +1288,16 @@
     }
 
     document.addEventListener('keydown', (e) => {
+        const lightbox = document.getElementById('lightbox');
+        if (!lightbox.classList.contains('active')) return;
+
         if (e.key === 'Escape') {
-            document.getElementById('lightbox').classList.remove('active');
+            lightbox.classList.remove('active');
             document.body.style.overflow = '';
+        } else if (e.key === 'ArrowLeft') {
+            navigateLightbox(-1);
+        } else if (e.key === 'ArrowRight') {
+            navigateLightbox(1);
         }
     });
 
