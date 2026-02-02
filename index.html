@@ -422,7 +422,7 @@
         /* Timeline Bilder-Galerie */
         .timeline-gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            grid-template-columns: repeat(4, 1fr);
             gap: 8px;
             margin-top: 15px;
         }
@@ -438,6 +438,52 @@
         .timeline-gallery img:hover {
             transform: scale(1.05);
             border-color: var(--barca-gold);
+        }
+        /* Galerie Vorschau mit +X Overlay */
+        .gallery-preview {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-top: 15px;
+        }
+        .gallery-preview-item {
+            position: relative;
+            width: 100%;
+            height: 60px;
+            border-radius: 6px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        .gallery-preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+            border: 2px solid transparent;
+            border-radius: 6px;
+        }
+        .gallery-preview-item:hover img {
+            transform: scale(1.05);
+            border-color: var(--barca-gold);
+        }
+        .gallery-more-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 6px;
+            transition: background 0.3s;
+        }
+        .gallery-more-overlay:hover {
+            background: rgba(237, 187, 0, 0.8);
         }
 
         /* Legende */
@@ -1179,9 +1225,51 @@
         return html;
     }
 
-    // Ordner-Galerie für spezielle Ordner
+    // Ordner-Galerie für spezielle Ordner (mit Vorschau und +X Overlay)
+    const PREVIEW_COUNT = 4; // Anzahl der Vorschau-Bilder
+
     function renderFolderGallery(folder, count) {
-        return `<div class="timeline-gallery">${renderFolderGalleryImages(folder, count)}</div>`;
+        // Alle Bild-URLs für die Lightbox sammeln
+        const allImages = [];
+        for (let i = 1; i <= count; i++) {
+            allImages.push(`bilder/${folder}/${folder} (${i}).jpg`);
+        }
+        const allImagesJson = JSON.stringify(allImages).replace(/"/g, '&quot;');
+
+        // Wenn weniger oder gleich PREVIEW_COUNT Bilder, alle anzeigen
+        if (count <= PREVIEW_COUNT) {
+            let html = '<div class="gallery-preview">';
+            for (let i = 1; i <= count; i++) {
+                const src = `bilder/${folder}/${folder} (${i}).jpg`;
+                html += `<div class="gallery-preview-item">
+                    <img src="${src}" alt="Bild ${i}" onclick="openLightboxWithAll(${i - 1}, ${allImagesJson})" onerror="this.parentElement.style.display='none'">
+                </div>`;
+            }
+            html += '</div>';
+            return html;
+        }
+
+        // Mehr als PREVIEW_COUNT Bilder: Zeige Vorschau mit +X Overlay
+        let html = '<div class="gallery-preview">';
+
+        // Erste 3 Bilder normal anzeigen
+        for (let i = 1; i <= PREVIEW_COUNT - 1; i++) {
+            const src = `bilder/${folder}/${folder} (${i}).jpg`;
+            html += `<div class="gallery-preview-item">
+                <img src="${src}" alt="Bild ${i}" onclick="openLightboxWithAll(${i - 1}, ${allImagesJson})" onerror="this.parentElement.style.display='none'">
+            </div>`;
+        }
+
+        // 4. Bild mit Overlay
+        const remaining = count - (PREVIEW_COUNT - 1);
+        const fourthSrc = `bilder/${folder}/${folder} (${PREVIEW_COUNT}).jpg`;
+        html += `<div class="gallery-preview-item" onclick="openLightboxWithAll(${PREVIEW_COUNT - 1}, ${allImagesJson})">
+            <img src="${fourthSrc}" alt="Bild ${PREVIEW_COUNT}" onerror="this.style.visibility='hidden'">
+            <div class="gallery-more-overlay">+${remaining}</div>
+        </div>`;
+
+        html += '</div>';
+        return html;
     }
 
     function renderFolderGalleryImages(folder, count) {
@@ -1221,6 +1309,31 @@
     // =============================================
     let currentGalleryImages = [];
     let currentImageIndex = 0;
+
+    // Lightbox mit allen Bildern öffnen (für Vorschau-Galerie)
+    function openLightboxWithAll(startIndex, allImages) {
+        currentGalleryImages = allImages;
+        currentImageIndex = startIndex;
+
+        document.getElementById('lightboxImg').src = currentGalleryImages[currentImageIndex];
+        updateLightboxCounter();
+        document.getElementById('lightbox').classList.add('active');
+        document.body.style.overflow = 'hidden';
+
+        // Navigation-Buttons anzeigen
+        const prevBtn = document.querySelector('.lightbox-prev');
+        const nextBtn = document.querySelector('.lightbox-next');
+        const counter = document.getElementById('lightboxCounter');
+        if (currentGalleryImages.length > 1) {
+            prevBtn.style.display = 'block';
+            nextBtn.style.display = 'block';
+            counter.style.display = 'block';
+        } else {
+            prevBtn.style.display = 'none';
+            nextBtn.style.display = 'none';
+            counter.style.display = 'none';
+        }
+    }
 
     function openLightbox(src, imgElement) {
         // Sammle alle Bilder aus der gleichen Galerie
