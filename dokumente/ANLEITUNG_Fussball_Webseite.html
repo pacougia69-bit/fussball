@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Anleitung: Fußball-Webseite mit Google Drive & Sheets pflegen</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 40px auto; padding: 20px; line-height: 1.6; }
+        h1 { color: #1a1a2e; border-bottom: 3px solid #e94560; padding-bottom: 10px; }
+        h2 { color: #e94560; margin-top: 40px; border-bottom: 1px solid #ddd; padding-bottom: 5px; }
+        h3 { color: #1a1a2e; margin-top: 25px; }
+        table { border-collapse: collapse; width: 100%; margin: 15px 0; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background-color: #1a1a2e; color: white; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
+        code { background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-family: monospace; }
+        pre { background-color: #1a1a2e; color: #00ff00; padding: 15px; border-radius: 5px; overflow-x: auto; }
+        .highlight { background-color: #fff3cd; padding: 10px; border-left: 4px solid #ffc107; margin: 15px 0; }
+        .checklist { list-style-type: none; padding-left: 0; }
+        .checklist li { padding: 5px 0; }
+        .checklist li:before { content: "☐ "; }
+        hr { border: none; border-top: 2px solid #e94560; margin: 40px 0; }
+    </style>
+</head>
+<body>
+
+<h1>Anleitung: Fußball-Webseite mit Google Drive & Sheets pflegen</h1>
+
+<hr>
+
+<h2>1. Datei-ID in Google Drive finden</h2>
+
+<h3>Für eine Datei (MP3, Bild):</h3>
+<ol>
+    <li>Rechtsklick auf die Datei → <strong>"Link abrufen"</strong></li>
+    <li>Stelle sicher: <strong>"Jeder mit dem Link"</strong> ist ausgewählt</li>
+    <li>Klicke auf <strong>"Link kopieren"</strong></li>
+    <li>Der Link sieht so aus:</li>
+</ol>
+<pre>https://drive.google.com/file/d/1ABC123XYZ.../view
+                               └───────────┘
+                               Das ist die Datei-ID</pre>
+
+<h3>Für einen Ordner:</h3>
+<ol>
+    <li>Öffne den Ordner in Google Drive</li>
+    <li>Schau in die Adresszeile:</li>
+</ol>
+<pre>https://drive.google.com/drive/folders/1ABC123XYZ...
+                                       └───────────┘
+                                       Das ist die Ordner-ID</pre>
+
+<hr>
+
+<h2>2. Bilder für Vereinsstationen hinzufügen</h2>
+
+<h3>In Google Drive:</h3>
+<ol>
+    <li>Erstelle Ordner: <code>1974_1990_TUS_ROT_WEISS_SCHIEDER</code> (oder ähnlich)</li>
+    <li>Lade Bilder in den Ordner hoch</li>
+    <li>Rechtsklick auf Ordner → <strong>"Freigeben"</strong> → <strong>"Jeder mit dem Link"</strong></li>
+    <li>Kopiere die <strong>Ordner-ID</strong></li>
+</ol>
+
+<h3>In Google Sheets (Reiter "Karriere"):</h3>
+<table>
+    <tr><th>Jahr</th><th>Verein</th><th>...</th><th>driveordnerid</th></tr>
+    <tr><td>1974–1990</td><td>TuS Rot-Weiß Schieder</td><td>...</td><td><code>1ABC123XYZ...</code></td></tr>
+</table>
+
+<hr>
+
+<h2>3. Extra-Momente hinzufügen</h2>
+
+<h3>In Google Drive:</h3>
+<ol>
+    <li>Erstelle Ordner: <code>Extra_2006_WM_Tour_Deutschland</code></li>
+    <li>Lade Bilder hoch</li>
+    <li>Freigeben → <strong>"Jeder mit dem Link"</strong></li>
+    <li>Kopiere die <strong>Ordner-ID</strong></li>
+</ol>
+
+<h3>In Google Sheets (Reiter "Extra"):</h3>
+<table>
+    <tr><th>titel</th><th>jahr</th><th>beschreibung</th><th>driveordnerid</th></tr>
+    <tr><td>WM Tour 2006</td><td>2006</td><td>Meine WM-Erlebnisse</td><td><code>1ABC123XYZ...</code></td></tr>
+</table>
+
+<hr>
+
+<h2>4. Herzensvereine hinzufügen</h2>
+
+<h3>In Google Drive:</h3>
+<ol>
+    <li>Erstelle Ordner: <code>Koeln_bilder</code> und <code>Barca_bilder</code></li>
+    <li>Lade Bilder hoch</li>
+    <li>Freigeben → <strong>"Jeder mit dem Link"</strong></li>
+    <li>Kopiere die <strong>Ordner-IDs</strong></li>
+</ol>
+
+<h3>In Google Sheets (Reiter "Herzensvereine"):</h3>
+<table>
+    <tr><th>name</th><th>driveordnerid</th><th>galleryid</th></tr>
+    <tr><td>Köln</td><td><code>1ABC...</code></td><td>koeln-gallery</td></tr>
+    <tr><td>Barça</td><td><code>2XYZ...</code></td><td>barca-gallery</td></tr>
+</table>
+
+<div class="highlight">
+    <strong>Wichtig:</strong> <code>galleryid</code> muss genau <code>koeln-gallery</code> oder <code>barca-gallery</code> sein!
+</div>
+
+<hr>
+
+<h2>5. Musik hinzufügen</h2>
+
+<h3>In Google Drive:</h3>
+<ol>
+    <li>Lade MP3-Datei hoch → Freigeben → <strong>Datei-ID</strong> kopieren</li>
+    <li>Lade Cover-Bild hoch → Freigeben → <strong>Datei-ID</strong> kopieren</li>
+</ol>
+
+<h3>In Google Sheets (Reiter "Musik"):</h3>
+<table>
+    <tr><th>titel</th><th>kuenstler</th><th>beschreibung</th><th>audioid</th><th>coverid</th><th>liedtext</th></tr>
+    <tr><td>Vereinslied</td><td>Blomberger SV</td><td>Unser Lied</td><td><code>MP3-ID</code></td><td><code>Cover-ID</code></td><td>Hier den Text schreiben...</td></tr>
+</table>
+
+<div class="highlight">
+    <strong>Tipp für Liedtext:</strong> Für Zeilenumbrüche in Google Sheets: <strong>Strg + Enter</strong>
+</div>
+
+<hr>
+
+<h2>6. Videos hinzufügen</h2>
+
+<p>Videos einfach in den <strong>gleichen Ordner</strong> wie die Bilder legen. Sie werden automatisch erkannt und als Video-Player angezeigt.</p>
+
+<p><strong>Unterstützte Formate:</strong> MP4, MOV, AVI, etc.</p>
+
+<hr>
+
+<h2>7. Checkliste: Neue Inhalte hinzufügen</h2>
+
+<ul class="checklist">
+    <li>Dateien/Ordner in Google Drive hochladen</li>
+    <li>Freigabe: <strong>"Jeder mit dem Link"</strong> + <strong>"Betrachter"</strong></li>
+    <li>ID kopieren (aus URL)</li>
+    <li>ID in Google Sheets eintragen</li>
+    <li>Webseite neu laden (Strg + F5)</li>
+</ul>
+
+<hr>
+
+<h2>8. Fehlerbehebung</h2>
+
+<table>
+    <tr><th>Problem</th><th>Lösung</th></tr>
+    <tr><td>Bilder werden nicht angezeigt</td><td>Ordner/Datei freigeben ("Jeder mit dem Link")</td></tr>
+    <tr><td>Musik spielt nicht</td><td>MP3-Datei freigeben</td></tr>
+    <tr><td>Änderungen nicht sichtbar</td><td>Hard-Refresh: Strg + F5</td></tr>
+    <tr><td>Lightbox zeigt leere Bilder</td><td>Bilder einzeln freigeben</td></tr>
+</table>
+
+<hr>
+
+<h2>9. Übersicht: Google Sheets Reiter</h2>
+
+<table>
+    <tr><th>Reiter</th><th>Wichtige Spalten</th></tr>
+    <tr><td>Karriere</td><td>jahr, verein, rolle, erfolge, beschreibung, liga, <strong>driveordnerid</strong></td></tr>
+    <tr><td>Extra</td><td>titel, jahr, beschreibung, <strong>driveordnerid</strong></td></tr>
+    <tr><td>Herzensvereine</td><td>name, <strong>driveordnerid</strong>, galleryid</td></tr>
+    <tr><td>Musik</td><td>titel, kuenstler, beschreibung, <strong>audioid</strong>, <strong>coverid</strong>, liedtext</td></tr>
+    <tr><td>Stats</td><td>name, wert, spruch, jahre, vereine, meistertitel, aufstiege</td></tr>
+</table>
+
+<hr>
+
+<h2>10. Google Apps Script (Backup)</h2>
+
+<p>Falls du das Script jemals neu erstellen musst:</p>
+
+<p><strong>Deine Web-App-URL:</strong></p>
+<pre>https://script.google.com/macros/s/AKfycbwXu-T1pq5AoSv9-e3kbV6h0FbxG1x3xnzH-ME7yHCp-XwS0uaqGeBsxk8hWv8Yn1GEOA/exec</pre>
+
+<p><strong>Script-Code:</strong></p>
+<pre>
+function doGet(e) {
+  var folderId = e.parameter.folderId;
+
+  if (!folderId) {
+    return ContentService.createTextOutput(JSON.stringify({error: 'Keine Ordner-ID angegeben'}))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+
+  try {
+    var folder = DriveApp.getFolderById(folderId);
+    var files = folder.getFiles();
+    var result = [];
+
+    while (files.hasNext()) {
+      var file = files.next();
+      var mimeType = file.getMimeType();
+
+      if (mimeType.startsWith('image/') || mimeType.startsWith('video/')) {
+        result.push({
+          id: file.getId(),
+          name: file.getName(),
+          type: mimeType.startsWith('image/') ? 'image' : 'video',
+          url: 'https://drive.google.com/uc?export=view&id=' + file.getId()
+        });
+      }
+    }
+
+    result.sort(function(a, b) {
+      return a.name.localeCompare(b.name, undefined, {numeric: true});
+    });
+
+    return ContentService.createTextOutput(JSON.stringify(result))
+      .setMimeType(ContentService.MimeType.JSON);
+
+  } catch (error) {
+    return ContentService.createTextOutput(JSON.stringify({error: error.toString()}))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+</pre>
+
+<hr>
+
+<p style="text-align: center; color: #888; margin-top: 40px;">
+    <em>Erstellt: Februar 2025 | Fußball-Portfolio von Raphael Maaßen</em>
+</p>
+
+</body>
+</html>
