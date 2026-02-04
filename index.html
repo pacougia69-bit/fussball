@@ -485,6 +485,23 @@
         .gallery-more-overlay:hover {
             background: rgba(237, 187, 0, 0.8);
         }
+        /* Lade-Animation für Google Drive Bilder */
+        .gallery-loading {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        .gallery-loading::after {
+            content: '';
+            animation: dots 1.5s infinite;
+        }
+        @keyframes dots {
+            0%, 20% { content: ''; }
+            40% { content: '.'; }
+            60% { content: '..'; }
+            80%, 100% { content: '...'; }
+        }
 
         /* Legende */
         .timeline-legend {
@@ -1532,6 +1549,96 @@ Refrain:
     // KONFIGURATION
     // =============================================
     const SHEET_ID = '1loHJkZpizQKyQlAu1uUOcKPrpYCimHH6lIDxp1La2tA';
+    const GOOGLE_DRIVE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwXu-T1pq5AoSv9-e3kbV6h0FbxG1x3xnzH-ME7yHCp-XwS0uaqGeBsxk8hWv8Yn1GEOA/exec';
+
+    // =============================================
+    // Google Drive Bilder laden
+    // =============================================
+    async function fetchDriveImages(folderId) {
+        try {
+            const response = await fetch(`${GOOGLE_DRIVE_SCRIPT_URL}?folderId=${folderId}`);
+            const data = await response.json();
+            if (data.error) {
+                console.error('Google Drive Fehler:', data.error);
+                return [];
+            }
+            return data;
+        } catch (error) {
+            console.error('Fehler beim Laden der Bilder:', error);
+            return [];
+        }
+    }
+
+    // Google Drive Galerie rendern (async)
+    async function loadDriveGallery(containerId, folderId) {
+        const container = document.getElementById(containerId);
+        if (!container || !folderId) return;
+
+        // Lade-Animation anzeigen
+        container.innerHTML = '<div class="gallery-loading">Bilder werden geladen...</div>';
+
+        const images = await fetchDriveImages(folderId);
+        if (images.length === 0) {
+            container.innerHTML = '';
+            return;
+        }
+
+        // Alle Bild-URLs für Lightbox
+        const allImageUrls = images.map(img => img.url);
+        const allImagesJson = JSON.stringify(allImageUrls).replace(/"/g, '&quot;');
+
+        // Vorschau mit maximal 4 Bildern
+        const PREVIEW_COUNT = 4;
+        let html = '<div class="gallery-preview">';
+
+        if (images.length <= PREVIEW_COUNT) {
+            // Alle Bilder anzeigen
+            images.forEach((img, index) => {
+                html += `<div class="gallery-preview-item">
+                    <img src="${img.url}" alt="${img.name}" onclick="openLightboxWithAll(${index}, ${allImagesJson})" onerror="this.parentElement.style.display='none'">
+                </div>`;
+            });
+        } else {
+            // Erste 3 Bilder
+            for (let i = 0; i < PREVIEW_COUNT - 1; i++) {
+                html += `<div class="gallery-preview-item">
+                    <img src="${images[i].url}" alt="${images[i].name}" onclick="openLightboxWithAll(${i}, ${allImagesJson})" onerror="this.parentElement.style.display='none'">
+                </div>`;
+            }
+            // 4. Bild mit +X Overlay
+            const remaining = images.length - (PREVIEW_COUNT - 1);
+            html += `<div class="gallery-preview-item" onclick="openLightboxWithAll(${PREVIEW_COUNT - 1}, ${allImagesJson})">
+                <img src="${images[PREVIEW_COUNT - 1].url}" alt="${images[PREVIEW_COUNT - 1].name}" onerror="this.style.visibility='hidden'">
+                <div class="gallery-more-overlay">+${remaining}</div>
+            </div>`;
+        }
+
+        html += '</div>';
+        container.innerHTML = html;
+    }
+
+    // Herzensvereine Galerie laden (mit Unterordnern)
+    async function loadDriveHerzensvereinGallery(containerId, folderId, vereinName) {
+        const container = document.getElementById(containerId);
+        if (!container || !folderId) return;
+
+        container.innerHTML = '<div class="gallery-loading">Bilder werden geladen...</div>';
+
+        const images = await fetchDriveImages(folderId);
+        if (images.length === 0) {
+            container.innerHTML = '<p style="color: var(--text-light); text-align: center;">Noch keine Bilder vorhanden</p>';
+            return;
+        }
+
+        let html = '';
+        images.forEach((img, index) => {
+            const allImageUrls = images.map(i => i.url);
+            const allImagesJson = JSON.stringify(allImageUrls).replace(/"/g, '&quot;');
+            html += `<img src="${img.url}" alt="${vereinName}" onclick="openLightboxWithAll(${index}, ${allImagesJson})" onerror="this.style.display='none'">`;
+        });
+
+        container.innerHTML = html;
+    }
 
     // =============================================
     // Daten laden (JSON API - robuster als CSV)
@@ -1595,25 +1702,21 @@ Refrain:
         }
 
         let html = '';
+        const driveGalleriesToLoad = []; // Sammle alle Google Drive Galerien zum späteren Laden
+
         data.forEach((row, index) => {
             const rolle = row.rolle ? row.rolle.toLowerCase() : 'spieler';
             const rolleClass = rolle.includes('trainer') && !rolle.includes('spieler') ? 'trainer' :
                               rolle.includes('spielertrainer') ? 'spielertrainer' : 'spieler';
             const isHighlight = row.highlight && row.highlight.toLowerCase() === 'ja';
-            const bilder = parseInt(row.bilder) || 0;
-            const bildPrefix = row.bildprefix || row.jahr.replace(/\s/g, '').replace('–', '_') + '_' + row.verein.replace(/\s/g, '_').replace(/[^a-zA-Z0-9_]/g, '');
-            const ordner = row.ordner || null; // Neues Feld für Ordner-basierte Bilder
+            const driveOrdnerId = row.driveordnerid || null; // Google Drive Ordner-ID
 
-            // Galerie-HTML generieren
+            // Galerie-Container für Google Drive
+            const galerieContainerId = driveOrdnerId ? `gallery-${index}` : null;
             let galerieHtml = '';
-            if (bilder > 0) {
-                if (ordner) {
-                    // Ordner-Format: bilder/ordner/ordner (1).jpg
-                    galerieHtml = renderFolderGallery(ordner, bilder);
-                } else {
-                    // Standard-Format: bilder/prefix_01.jpg
-                    galerieHtml = renderGallery(bildPrefix, bilder);
-                }
+            if (driveOrdnerId) {
+                galerieHtml = `<div id="${galerieContainerId}" class="timeline-gallery"></div>`;
+                driveGalleriesToLoad.push({ containerId: galerieContainerId, folderId: driveOrdnerId });
             }
 
             html += `
@@ -1633,6 +1736,11 @@ Refrain:
         });
 
         timeline.innerHTML = html;
+
+        // Google Drive Galerien async laden
+        driveGalleriesToLoad.forEach(gallery => {
+            loadDriveGallery(gallery.containerId, gallery.folderId);
+        });
     }
 
     // =============================================
@@ -1647,21 +1755,32 @@ Refrain:
         }
 
         let html = '';
-        data.forEach(row => {
-            const bilder = parseInt(row.bilder) || 0;
-            const bildPrefix = row.bildprefix || 'Extra_' + (row.titel || '').replace(/\s/g, '_').replace(/[^a-zA-Z0-9_]/g, '');
+        const driveGalleriesToLoad = [];
+
+        data.forEach((row, index) => {
+            const driveOrdnerId = row.driveordnerid || null;
+            const galerieContainerId = driveOrdnerId ? `extra-gallery-${index}` : null;
 
             html += `
                 <div class="extra-card">
                     <h4>${row.titel || ''}</h4>
                     <div class="extra-year">${row.jahr || ''}</div>
                     <p>${row.beschreibung || ''}</p>
-                    ${bilder > 0 ? `<div class="extra-gallery">${renderGalleryImages(bildPrefix, bilder)}</div>` : ''}
+                    ${driveOrdnerId ? `<div id="${galerieContainerId}" class="extra-gallery"></div>` : ''}
                 </div>
             `;
+
+            if (driveOrdnerId) {
+                driveGalleriesToLoad.push({ containerId: galerieContainerId, folderId: driveOrdnerId });
+            }
         });
 
         grid.innerHTML = html;
+
+        // Google Drive Galerien async laden
+        driveGalleriesToLoad.forEach(gallery => {
+            loadDriveGallery(gallery.containerId, gallery.folderId);
+        });
     }
 
     // =============================================
@@ -1781,26 +1900,20 @@ Refrain:
     }
 
     // =============================================
-    // Fan-Galerien laden
+    // Fan-Galerien laden (Google Drive)
     // =============================================
-    function loadFanGalleries() {
-        // Köln Bilder
-        const koelnGallery = document.getElementById('koeln-gallery');
-        let koelnHtml = '';
-        for (let i = 1; i <= 10; i++) {
-            const num = i.toString().padStart(2, '0');
-            koelnHtml += `<img src="Bilder/Herzensvereine/Koeln_bilder/Koeln_${num}.jpg" alt="Köln" onclick="openLightbox(this.src, this)" onerror="this.style.display='none'">`;
-        }
-        koelnGallery.innerHTML = koelnHtml;
+    // WICHTIG: Hier die Google Drive Ordner-IDs eintragen!
+    const HERZENSVEREINE_ORDNER = {
+        koeln: 'HIER_KOELN_ORDNER_ID_EINTRAGEN',      // Ordner-ID für Köln Bilder
+        barca: 'HIER_BARCA_ORDNER_ID_EINTRAGEN'       // Ordner-ID für Barça Bilder
+    };
 
-        // Barcelona Bilder
-        const barcaGallery = document.getElementById('barca-gallery');
-        let barcaHtml = '';
-        for (let i = 1; i <= 10; i++) {
-            const num = i.toString().padStart(2, '0');
-            barcaHtml += `<img src="Bilder/Herzensvereine/Barca_bilder/Barca_${num}.jpg" alt="Barça" onclick="openLightbox(this.src, this)" onerror="this.style.display='none'">`;
-        }
-        barcaGallery.innerHTML = barcaHtml;
+    function loadFanGalleries() {
+        // Köln Bilder von Google Drive laden
+        loadDriveHerzensvereinGallery('koeln-gallery', HERZENSVEREINE_ORDNER.koeln, 'Köln');
+
+        // Barcelona Bilder von Google Drive laden
+        loadDriveHerzensvereinGallery('barca-gallery', HERZENSVEREINE_ORDNER.barca, 'Barça');
     }
 
     // =============================================
