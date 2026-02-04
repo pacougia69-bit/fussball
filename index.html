@@ -791,6 +791,239 @@
         @media (max-width: 480px) {
             .hero-stat .number { font-size: 2rem; }
         }
+
+        /* ============================================
+           VEREINSLIEDER SECTION
+           ============================================ */
+        .musik-section {
+            background: linear-gradient(135deg, rgba(237,28,36,0.08) 0%, var(--bg-card) 50%, rgba(0,77,152,0.08) 100%);
+            border-radius: 16px;
+            padding: 50px 40px;
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+        .musik-section::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--koeln-rot), var(--barca-gold), var(--barca-blau));
+        }
+        .musik-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+        }
+        .song-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .song-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border-color: var(--barca-gold);
+        }
+        .song-card-header {
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+            align-items: flex-start;
+        }
+        .song-cover {
+            width: 120px;
+            height: 120px;
+            border-radius: 12px;
+            object-fit: cover;
+            flex-shrink: 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        .song-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .song-info h4 {
+            color: var(--text-white);
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+            line-height: 1.3;
+        }
+        .song-info .song-artist {
+            color: var(--barca-gold);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        .song-info .song-desc {
+            color: var(--text-light);
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+
+        /* Audio Player */
+        .audio-player {
+            padding: 0 20px 20px;
+        }
+        .audio-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: rgba(48,54,61,0.3);
+            padding: 12px 15px;
+            border-radius: 12px;
+        }
+        .play-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--koeln-rot), var(--barca-granat));
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+        .play-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(237,28,36,0.4);
+        }
+        .play-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
+        }
+        .play-btn .pause-icon { display: none; }
+        .play-btn.playing .play-icon { display: none; }
+        .play-btn.playing .pause-icon { display: block; }
+
+        .progress-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: var(--border);
+            border-radius: 3px;
+            cursor: pointer;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--koeln-rot), var(--barca-blau));
+            width: 0%;
+            border-radius: 3px;
+            transition: width 0.1s linear;
+        }
+        .time-display {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: var(--text-light);
+        }
+
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .volume-control svg {
+            width: 18px;
+            height: 18px;
+            fill: var(--text-light);
+        }
+        .volume-slider {
+            width: 70px;
+            height: 4px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: var(--border);
+            border-radius: 2px;
+            cursor: pointer;
+        }
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 12px;
+            height: 12px;
+            background: var(--barca-gold);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        /* Lyrics Toggle */
+        .lyrics-toggle {
+            width: 100%;
+            padding: 12px 20px;
+            background: transparent;
+            border: none;
+            border-top: 1px solid var(--border);
+            color: var(--text-light);
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+        .lyrics-toggle:hover {
+            background: rgba(237,187,0,0.1);
+            color: var(--barca-gold);
+        }
+        .lyrics-toggle svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+            transition: transform 0.3s;
+        }
+        .lyrics-toggle.open svg {
+            transform: rotate(180deg);
+        }
+
+        .lyrics-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+            background: rgba(48,54,61,0.2);
+        }
+        .lyrics-content.open {
+            max-height: 500px;
+        }
+        .lyrics-text {
+            padding: 20px;
+            color: var(--text);
+            font-size: 0.9rem;
+            line-height: 1.8;
+            white-space: pre-line;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .lyrics-text::-webkit-scrollbar {
+            width: 6px;
+        }
+        .lyrics-text::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+        .lyrics-text::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 3px;
+        }
+
+        /* Responsive Musik-Section */
+        @media (max-width: 768px) {
+            .musik-section { padding: 30px 20px; }
+            .musik-grid { grid-template-columns: 1fr; }
+            .song-card-header { flex-direction: column; align-items: center; text-align: center; }
+            .song-cover { width: 150px; height: 150px; }
+            .volume-control { display: none; }
+        }
     </style>
 </head>
 <body>
@@ -806,6 +1039,7 @@
             <a href="#steckbrief">Steckbrief</a>
             <a href="#karriere">Karriere</a>
             <a href="#extra">Extra-Momente</a>
+            <a href="#lieder">Vereinslieder</a>
             <a href="#vereine">Meine Vereine</a>
         </nav>
     </div>
@@ -934,6 +1168,271 @@
             <div class="loading">
                 <div class="loading-spinner"></div>
                 <p>Lade Extra-Momente...</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================
+     VEREINSLIEDER SECTION
+     ============================================ -->
+<section class="section" id="lieder">
+    <h2 class="section-title">Vereinslieder</h2>
+    <div class="divider"></div>
+    <p class="section-subtitle">Musik für den Blomberger SV — Zum Anhören und Mitsingen!</p>
+
+    <div class="musik-section">
+        <div class="musik-grid" id="musik-grid">
+            <!-- Lied 1 -->
+            <div class="song-card">
+                <div class="song-card-header">
+                    <img src="musik/cover_01.jpg" alt="Cover" class="song-cover" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 120 120%22><rect fill=%22%23161b22%22 width=%22120%22 height=%22120%22/><text x=%2260%22 y=%2265%22 text-anchor=%22middle%22 fill=%22%23barca-gold%22 font-size=%2240%22>🎵</text></svg>'">
+                    <div class="song-info">
+                        <h4>Lied 1</h4>
+                        <div class="song-artist">Blomberger SV</div>
+                        <div class="song-desc">Beschreibung kommt hier hin</div>
+                    </div>
+                </div>
+                <div class="audio-player">
+                    <audio id="audio-1" src="musik/lied_01.mp3" preload="metadata"></audio>
+                    <div class="audio-controls">
+                        <button class="play-btn" onclick="togglePlay('audio-1', this)">
+                            <svg class="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            <svg class="pause-icon" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                        </button>
+                        <div class="progress-container">
+                            <div class="progress-bar" onclick="seekAudio(event, 'audio-1')">
+                                <div class="progress-fill" id="progress-1"></div>
+                            </div>
+                            <div class="time-display">
+                                <span id="current-1">0:00</span>
+                                <span id="duration-1">0:00</span>
+                            </div>
+                        </div>
+                        <div class="volume-control">
+                            <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+                            <input type="range" class="volume-slider" min="0" max="1" step="0.1" value="1" onchange="setVolume('audio-1', this.value)">
+                        </div>
+                    </div>
+                </div>
+                <button class="lyrics-toggle" onclick="toggleLyrics(this)">
+                    <span>Liedtext anzeigen</span>
+                    <svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+                </button>
+                <div class="lyrics-content">
+                    <div class="lyrics-text">Hier kommt der Liedtext hin...
+
+Strophe 1:
+...
+
+Refrain:
+...</div>
+                </div>
+            </div>
+
+            <!-- Lied 2 -->
+            <div class="song-card">
+                <div class="song-card-header">
+                    <img src="musik/cover_02.jpg" alt="Cover" class="song-cover" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 120 120%22><rect fill=%22%23161b22%22 width=%22120%22 height=%22120%22/><text x=%2260%22 y=%2265%22 text-anchor=%22middle%22 fill=%22%23barca-gold%22 font-size=%2240%22>🎵</text></svg>'">
+                    <div class="song-info">
+                        <h4>Lied 2</h4>
+                        <div class="song-artist">Blomberger SV</div>
+                        <div class="song-desc">Beschreibung kommt hier hin</div>
+                    </div>
+                </div>
+                <div class="audio-player">
+                    <audio id="audio-2" src="musik/lied_02.mp3" preload="metadata"></audio>
+                    <div class="audio-controls">
+                        <button class="play-btn" onclick="togglePlay('audio-2', this)">
+                            <svg class="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            <svg class="pause-icon" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                        </button>
+                        <div class="progress-container">
+                            <div class="progress-bar" onclick="seekAudio(event, 'audio-2')">
+                                <div class="progress-fill" id="progress-2"></div>
+                            </div>
+                            <div class="time-display">
+                                <span id="current-2">0:00</span>
+                                <span id="duration-2">0:00</span>
+                            </div>
+                        </div>
+                        <div class="volume-control">
+                            <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+                            <input type="range" class="volume-slider" min="0" max="1" step="0.1" value="1" onchange="setVolume('audio-2', this.value)">
+                        </div>
+                    </div>
+                </div>
+                <button class="lyrics-toggle" onclick="toggleLyrics(this)">
+                    <span>Liedtext anzeigen</span>
+                    <svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+                </button>
+                <div class="lyrics-content">
+                    <div class="lyrics-text">Hier kommt der Liedtext hin...</div>
+                </div>
+            </div>
+
+            <!-- Lied 3 -->
+            <div class="song-card">
+                <div class="song-card-header">
+                    <img src="musik/cover_03.jpg" alt="Cover" class="song-cover" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 120 120%22><rect fill=%22%23161b22%22 width=%22120%22 height=%22120%22/><text x=%2260%22 y=%2265%22 text-anchor=%22middle%22 fill=%22%23barca-gold%22 font-size=%2240%22>🎵</text></svg>'">
+                    <div class="song-info">
+                        <h4>Lied 3</h4>
+                        <div class="song-artist">Blomberger SV</div>
+                        <div class="song-desc">Beschreibung kommt hier hin</div>
+                    </div>
+                </div>
+                <div class="audio-player">
+                    <audio id="audio-3" src="musik/lied_03.mp3" preload="metadata"></audio>
+                    <div class="audio-controls">
+                        <button class="play-btn" onclick="togglePlay('audio-3', this)">
+                            <svg class="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            <svg class="pause-icon" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                        </button>
+                        <div class="progress-container">
+                            <div class="progress-bar" onclick="seekAudio(event, 'audio-3')">
+                                <div class="progress-fill" id="progress-3"></div>
+                            </div>
+                            <div class="time-display">
+                                <span id="current-3">0:00</span>
+                                <span id="duration-3">0:00</span>
+                            </div>
+                        </div>
+                        <div class="volume-control">
+                            <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+                            <input type="range" class="volume-slider" min="0" max="1" step="0.1" value="1" onchange="setVolume('audio-3', this.value)">
+                        </div>
+                    </div>
+                </div>
+                <button class="lyrics-toggle" onclick="toggleLyrics(this)">
+                    <span>Liedtext anzeigen</span>
+                    <svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+                </button>
+                <div class="lyrics-content">
+                    <div class="lyrics-text">Hier kommt der Liedtext hin...</div>
+                </div>
+            </div>
+
+            <!-- Lied 4 -->
+            <div class="song-card">
+                <div class="song-card-header">
+                    <img src="musik/cover_04.jpg" alt="Cover" class="song-cover" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 120 120%22><rect fill=%22%23161b22%22 width=%22120%22 height=%22120%22/><text x=%2260%22 y=%2265%22 text-anchor=%22middle%22 fill=%22%23barca-gold%22 font-size=%2240%22>🎵</text></svg>'">
+                    <div class="song-info">
+                        <h4>Lied 4</h4>
+                        <div class="song-artist">Blomberger SV</div>
+                        <div class="song-desc">Beschreibung kommt hier hin</div>
+                    </div>
+                </div>
+                <div class="audio-player">
+                    <audio id="audio-4" src="musik/lied_04.mp3" preload="metadata"></audio>
+                    <div class="audio-controls">
+                        <button class="play-btn" onclick="togglePlay('audio-4', this)">
+                            <svg class="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            <svg class="pause-icon" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                        </button>
+                        <div class="progress-container">
+                            <div class="progress-bar" onclick="seekAudio(event, 'audio-4')">
+                                <div class="progress-fill" id="progress-4"></div>
+                            </div>
+                            <div class="time-display">
+                                <span id="current-4">0:00</span>
+                                <span id="duration-4">0:00</span>
+                            </div>
+                        </div>
+                        <div class="volume-control">
+                            <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+                            <input type="range" class="volume-slider" min="0" max="1" step="0.1" value="1" onchange="setVolume('audio-4', this.value)">
+                        </div>
+                    </div>
+                </div>
+                <button class="lyrics-toggle" onclick="toggleLyrics(this)">
+                    <span>Liedtext anzeigen</span>
+                    <svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+                </button>
+                <div class="lyrics-content">
+                    <div class="lyrics-text">Hier kommt der Liedtext hin...</div>
+                </div>
+            </div>
+
+            <!-- Lied 5 -->
+            <div class="song-card">
+                <div class="song-card-header">
+                    <img src="musik/cover_05.jpg" alt="Cover" class="song-cover" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 120 120%22><rect fill=%22%23161b22%22 width=%22120%22 height=%22120%22/><text x=%2260%22 y=%2265%22 text-anchor=%22middle%22 fill=%22%23barca-gold%22 font-size=%2240%22>🎵</text></svg>'">
+                    <div class="song-info">
+                        <h4>Lied 5</h4>
+                        <div class="song-artist">Blomberger SV</div>
+                        <div class="song-desc">Beschreibung kommt hier hin</div>
+                    </div>
+                </div>
+                <div class="audio-player">
+                    <audio id="audio-5" src="musik/lied_05.mp3" preload="metadata"></audio>
+                    <div class="audio-controls">
+                        <button class="play-btn" onclick="togglePlay('audio-5', this)">
+                            <svg class="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            <svg class="pause-icon" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                        </button>
+                        <div class="progress-container">
+                            <div class="progress-bar" onclick="seekAudio(event, 'audio-5')">
+                                <div class="progress-fill" id="progress-5"></div>
+                            </div>
+                            <div class="time-display">
+                                <span id="current-5">0:00</span>
+                                <span id="duration-5">0:00</span>
+                            </div>
+                        </div>
+                        <div class="volume-control">
+                            <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+                            <input type="range" class="volume-slider" min="0" max="1" step="0.1" value="1" onchange="setVolume('audio-5', this.value)">
+                        </div>
+                    </div>
+                </div>
+                <button class="lyrics-toggle" onclick="toggleLyrics(this)">
+                    <span>Liedtext anzeigen</span>
+                    <svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+                </button>
+                <div class="lyrics-content">
+                    <div class="lyrics-text">Hier kommt der Liedtext hin...</div>
+                </div>
+            </div>
+
+            <!-- Lied 6 -->
+            <div class="song-card">
+                <div class="song-card-header">
+                    <img src="musik/cover_06.jpg" alt="Cover" class="song-cover" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 120 120%22><rect fill=%22%23161b22%22 width=%22120%22 height=%22120%22/><text x=%2260%22 y=%2265%22 text-anchor=%22middle%22 fill=%22%23barca-gold%22 font-size=%2240%22>🎵</text></svg>'">
+                    <div class="song-info">
+                        <h4>Lied 6</h4>
+                        <div class="song-artist">Blomberger SV</div>
+                        <div class="song-desc">Beschreibung kommt hier hin</div>
+                    </div>
+                </div>
+                <div class="audio-player">
+                    <audio id="audio-6" src="musik/lied_06.mp3" preload="metadata"></audio>
+                    <div class="audio-controls">
+                        <button class="play-btn" onclick="togglePlay('audio-6', this)">
+                            <svg class="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            <svg class="pause-icon" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                        </button>
+                        <div class="progress-container">
+                            <div class="progress-bar" onclick="seekAudio(event, 'audio-6')">
+                                <div class="progress-fill" id="progress-6"></div>
+                            </div>
+                            <div class="time-display">
+                                <span id="current-6">0:00</span>
+                                <span id="duration-6">0:00</span>
+                            </div>
+                        </div>
+                        <div class="volume-control">
+                            <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+                            <input type="range" class="volume-slider" min="0" max="1" step="0.1" value="1" onchange="setVolume('audio-6', this.value)">
+                        </div>
+                    </div>
+                </div>
+                <button class="lyrics-toggle" onclick="toggleLyrics(this)">
+                    <span>Liedtext anzeigen</span>
+                    <svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+                </button>
+                <div class="lyrics-content">
+                    <div class="lyrics-text">Hier kommt der Liedtext hin...</div>
+                </div>
             </div>
         </div>
     </div>
@@ -1446,6 +1945,102 @@
 
     // Start
     init();
+
+    // =============================================
+    // AUDIO PLAYER FUNKTIONEN
+    // =============================================
+    let currentlyPlaying = null;
+
+    function togglePlay(audioId, button) {
+        const audio = document.getElementById(audioId);
+
+        // Wenn ein anderes Lied spielt, stoppe es
+        if (currentlyPlaying && currentlyPlaying !== audio) {
+            currentlyPlaying.pause();
+            const otherBtn = document.querySelector(`[onclick*="${currentlyPlaying.id}"].play-btn`);
+            if (otherBtn) otherBtn.classList.remove('playing');
+        }
+
+        if (audio.paused) {
+            audio.play();
+            button.classList.add('playing');
+            currentlyPlaying = audio;
+        } else {
+            audio.pause();
+            button.classList.remove('playing');
+            currentlyPlaying = null;
+        }
+    }
+
+    function seekAudio(event, audioId) {
+        const audio = document.getElementById(audioId);
+        const progressBar = event.currentTarget;
+        const rect = progressBar.getBoundingClientRect();
+        const percent = (event.clientX - rect.left) / rect.width;
+        audio.currentTime = percent * audio.duration;
+    }
+
+    function setVolume(audioId, value) {
+        const audio = document.getElementById(audioId);
+        audio.volume = value;
+    }
+
+    function formatTime(seconds) {
+        if (isNaN(seconds)) return '0:00';
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    function toggleLyrics(button) {
+        const content = button.nextElementSibling;
+        button.classList.toggle('open');
+        content.classList.toggle('open');
+
+        // Button-Text ändern
+        const span = button.querySelector('span');
+        if (content.classList.contains('open')) {
+            span.textContent = 'Liedtext verbergen';
+        } else {
+            span.textContent = 'Liedtext anzeigen';
+        }
+    }
+
+    // Audio Event Listeners initialisieren
+    function initAudioPlayers() {
+        for (let i = 1; i <= 6; i++) {
+            const audio = document.getElementById(`audio-${i}`);
+            if (!audio) continue;
+
+            const progressFill = document.getElementById(`progress-${i}`);
+            const currentTime = document.getElementById(`current-${i}`);
+            const duration = document.getElementById(`duration-${i}`);
+
+            // Dauer anzeigen wenn Metadaten geladen
+            audio.addEventListener('loadedmetadata', () => {
+                duration.textContent = formatTime(audio.duration);
+            });
+
+            // Fortschritt aktualisieren
+            audio.addEventListener('timeupdate', () => {
+                const percent = (audio.currentTime / audio.duration) * 100;
+                progressFill.style.width = `${percent}%`;
+                currentTime.textContent = formatTime(audio.currentTime);
+            });
+
+            // Wenn Lied zu Ende ist
+            audio.addEventListener('ended', () => {
+                const btn = document.querySelector(`[onclick*="audio-${i}"].play-btn`);
+                if (btn) btn.classList.remove('playing');
+                progressFill.style.width = '0%';
+                currentTime.textContent = '0:00';
+                currentlyPlaying = null;
+            });
+        }
+    }
+
+    // Audio Players nach DOM-Load initialisieren
+    document.addEventListener('DOMContentLoaded', initAudioPlayers);
 </script>
 
 </body>
