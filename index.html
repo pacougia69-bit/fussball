@@ -1712,12 +1712,12 @@ Refrain:
         for (let i = 1; i <= count; i++) {
             let src;
             if (folder) {
-                // Neues Format: bilder/ordner/ordner (n).jpg
-                src = `bilder/${folder}/${folder} (${i}).jpg`;
+                // Neues Format: Bilder/Vereinsstationen/ordner/ordner (n).jpg
+                src = `Bilder/Vereinsstationen/${folder}/${folder} (${i}).jpg`;
             } else {
-                // Altes Format: bilder/prefix_01.jpg
+                // Altes Format: Bilder/Vereinsstationen/prefix_01.jpg
                 const num = i.toString().padStart(2, '0');
-                src = `bilder/${prefix}_${num}.jpg`;
+                src = `Bilder/Vereinsstationen/${prefix}_${num}.jpg`;
             }
             html += `<img src="${src}" alt="Bild ${i}" onclick="openLightbox(this.src, this)" onerror="this.style.display='none'">`;
         }
@@ -1731,7 +1731,7 @@ Refrain:
         // Alle Bild-URLs für die Lightbox sammeln
         const allImages = [];
         for (let i = 1; i <= count; i++) {
-            allImages.push(`bilder/${folder}/${folder} (${i}).jpg`);
+            allImages.push(`Bilder/Vereinsstationen/${folder}/${folder} (${i}).jpg`);
         }
         const allImagesJson = JSON.stringify(allImages).replace(/"/g, '&quot;');
 
@@ -1739,7 +1739,7 @@ Refrain:
         if (count <= PREVIEW_COUNT) {
             let html = '<div class="gallery-preview">';
             for (let i = 1; i <= count; i++) {
-                const src = `bilder/${folder}/${folder} (${i}).jpg`;
+                const src = `Bilder/Vereinsstationen/${folder}/${folder} (${i}).jpg`;
                 html += `<div class="gallery-preview-item">
                     <img src="${src}" alt="Bild ${i}" onclick="openLightboxWithAll(${i - 1}, ${allImagesJson})" onerror="this.parentElement.style.display='none'">
                 </div>`;
@@ -1753,7 +1753,7 @@ Refrain:
 
         // Erste 3 Bilder normal anzeigen
         for (let i = 1; i <= PREVIEW_COUNT - 1; i++) {
-            const src = `bilder/${folder}/${folder} (${i}).jpg`;
+            const src = `Bilder/Vereinsstationen/${folder}/${folder} (${i}).jpg`;
             html += `<div class="gallery-preview-item">
                 <img src="${src}" alt="Bild ${i}" onclick="openLightboxWithAll(${i - 1}, ${allImagesJson})" onerror="this.parentElement.style.display='none'">
             </div>`;
@@ -1761,7 +1761,7 @@ Refrain:
 
         // 4. Bild mit Overlay
         const remaining = count - (PREVIEW_COUNT - 1);
-        const fourthSrc = `bilder/${folder}/${folder} (${PREVIEW_COUNT}).jpg`;
+        const fourthSrc = `Bilder/Vereinsstationen/${folder}/${folder} (${PREVIEW_COUNT}).jpg`;
         html += `<div class="gallery-preview-item" onclick="openLightboxWithAll(${PREVIEW_COUNT - 1}, ${allImagesJson})">
             <img src="${fourthSrc}" alt="Bild ${PREVIEW_COUNT}" onerror="this.style.visibility='hidden'">
             <div class="gallery-more-overlay">+${remaining}</div>
@@ -1774,7 +1774,7 @@ Refrain:
     function renderFolderGalleryImages(folder, count) {
         let html = '';
         for (let i = 1; i <= count; i++) {
-            const src = `bilder/${folder}/${folder} (${i}).jpg`;
+            const src = `Bilder/Vereinsstationen/${folder}/${folder} (${i}).jpg`;
             html += `<img src="${src}" alt="Bild ${i}" onclick="openLightbox(this.src, this)" onerror="this.style.display='none'">`;
         }
         return html;
@@ -1789,7 +1789,7 @@ Refrain:
         let koelnHtml = '';
         for (let i = 1; i <= 10; i++) {
             const num = i.toString().padStart(2, '0');
-            koelnHtml += `<img src="bilder/Koeln_bilder/Koeln_${num}.jpg" alt="Köln" onclick="openLightbox(this.src, this)" onerror="this.style.display='none'">`;
+            koelnHtml += `<img src="Bilder/Herzensvereine/Koeln_bilder/Koeln_${num}.jpg" alt="Köln" onclick="openLightbox(this.src, this)" onerror="this.style.display='none'">`;
         }
         koelnGallery.innerHTML = koelnHtml;
 
@@ -1798,7 +1798,7 @@ Refrain:
         let barcaHtml = '';
         for (let i = 1; i <= 10; i++) {
             const num = i.toString().padStart(2, '0');
-            barcaHtml += `<img src="bilder/Barcelona_bilder/Barcelona_${num}.jpg" alt="Barça" onclick="openLightbox(this.src, this)" onerror="this.style.display='none'">`;
+            barcaHtml += `<img src="Bilder/Herzensvereine/Barca_bilder/Barca_${num}.jpg" alt="Barça" onclick="openLightbox(this.src, this)" onerror="this.style.display='none'">`;
         }
         barcaGallery.innerHTML = barcaHtml;
     }
