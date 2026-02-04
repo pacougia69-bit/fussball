@@ -1335,6 +1335,11 @@
     // =============================================
     // Google Drive Bilder laden
     // =============================================
+    // URL-Konvertierung für bessere Bildanzeige
+    function convertDriveUrl(fileId) {
+        return `https://lh3.googleusercontent.com/d/${fileId}`;
+    }
+
     async function fetchDriveImages(folderId) {
         try {
             const response = await fetch(`${GOOGLE_DRIVE_SCRIPT_URL}?folderId=${folderId}`);
@@ -1343,7 +1348,11 @@
                 console.error('Google Drive Fehler:', data.error);
                 return [];
             }
-            return data;
+            // URLs konvertieren für bessere Kompatibilität
+            return data.map(item => ({
+                ...item,
+                url: convertDriveUrl(item.id)
+            }));
         } catch (error) {
             console.error('Fehler beim Laden der Bilder:', error);
             return [];
@@ -1743,7 +1752,7 @@
             const liedtext = row.liedtext || '';
 
             const audioUrl = audioId ? `https://drive.google.com/uc?export=download&id=${audioId}` : '';
-            const coverUrl = coverId ? `https://drive.google.com/uc?export=view&id=${coverId}` : '';
+            const coverUrl = coverId ? convertDriveUrl(coverId) : '';
             const audioElementId = `audio-${index + 1}`;
 
             html += `
