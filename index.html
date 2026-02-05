@@ -702,6 +702,81 @@
         }
 
         /* ============================================
+           STADIONBESUCHE KARTEN (Herzensvereine)
+           ============================================ */
+        .stadion-section {
+            margin-top: 20px;
+        }
+        .stadion-section h4 {
+            font-size: 1rem;
+            color: var(--text-white);
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border);
+        }
+        .stadion-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 12px;
+        }
+        .stadion-card {
+            background: var(--bg-dark);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .stadion-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--barca-gold);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        .stadion-card-image {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+            background: var(--bg-card);
+        }
+        .stadion-card-info {
+            padding: 10px;
+        }
+        .stadion-card-date {
+            font-size: 0.7rem;
+            color: var(--barca-gold);
+            margin-bottom: 3px;
+        }
+        .stadion-card-teams {
+            font-size: 0.8rem;
+            color: var(--text-white);
+            font-weight: 600;
+            line-height: 1.2;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .stadion-card-count {
+            font-size: 0.65rem;
+            color: var(--text-light);
+            margin-top: 4px;
+        }
+        .stadion-loading {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-light);
+            font-size: 0.85rem;
+        }
+        @media (max-width: 768px) {
+            .stadion-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            .stadion-card-image {
+                height: 80px;
+            }
+        }
+
+        /* ============================================
            LIGHTBOX
            ============================================ */
         .lightbox {
@@ -1072,9 +1147,6 @@
             background: var(--border);
             border-radius: 3px;
         }
-
-        /* Volume Control verstecken für kompakteres Design */
-        .volume-control { display: none; }
 
         /* Responsive Musik-Section */
         @media (max-width: 768px) {
@@ -1471,27 +1543,78 @@
         container.innerHTML = html;
     }
 
-    // Herzensvereine Galerie laden (mit Unterordnern)
-    async function loadDriveHerzensvereinGallery(containerId, folderId, vereinName) {
+    // =============================================
+    // Unterordner laden (für Stadionbesuche)
+    // =============================================
+    async function fetchDriveSubfolders(parentFolderId) {
+        try {
+            const response = await fetch(`${GOOGLE_DRIVE_SCRIPT_URL}?folderId=${parentFolderId}&listSubfolders=true`);
+            const data = await response.json();
+            if (data.error) {
+                console.error('Unterordner-Fehler:', data.error);
+                return [];
+            }
+            return data;
+        } catch (error) {
+            console.error('Fehler beim Laden der Unterordner:', error);
+            return [];
+        }
+    }
+
+    // Herzensvereine mit Stadionbesuchen laden
+    async function loadHerzensvereinStadionbesuche(containerId, parentFolderId, vereinName) {
         const container = document.getElementById(containerId);
-        if (!container || !folderId) return;
+        if (!container || !parentFolderId) return;
 
-        container.innerHTML = '<div class="gallery-loading">Bilder werden geladen...</div>';
+        container.innerHTML = '<div class="stadion-loading">Stadionbesuche werden geladen...</div>';
 
-        const images = await fetchDriveImages(folderId);
-        if (images.length === 0) {
-            container.innerHTML = '<p style="color: var(--text-light); text-align: center;">Noch keine Bilder vorhanden</p>';
+        const subfolders = await fetchDriveSubfolders(parentFolderId);
+
+        if (subfolders.length === 0) {
+            container.innerHTML = '<p style="color: var(--text-light); text-align: center; font-size: 0.9rem;">Noch keine Stadionbesuche vorhanden</p>';
             return;
         }
 
-        let html = '';
-        images.forEach((img, index) => {
-            const allImageUrls = images.map(i => i.url);
-            const allImagesJson = JSON.stringify(allImageUrls).replace(/"/g, '&quot;');
-            html += `<img src="${img.url}" alt="${vereinName}" onclick="openLightboxWithAll(${index}, ${allImagesJson})" onerror="this.style.display='none'">`;
+        let html = `<div class="stadion-section">
+            <h4>⚽ Live im Stadion (${subfolders.length} Spiele)</h4>
+            <div class="stadion-grid">`;
+
+        subfolders.forEach(folder => {
+            const previewUrl = folder.previewImageId ? convertDriveUrl(folder.previewImageId) : '';
+            const placeholderSvg = `data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 100'><rect fill='%23161b22' width='160' height='100'/><text x='80' y='55' text-anchor='middle' fill='%23edbb00' font-size='24'>⚽</text></svg>`;
+
+            html += `
+                <div class="stadion-card" onclick="openStadionGallery('${folder.id}', '${folder.displayName.replace(/'/g, "\\'")}')">
+                    <img class="stadion-card-image" src="${previewUrl || placeholderSvg}" alt="${folder.displayName}" onerror="this.src='${placeholderSvg}'">
+                    <div class="stadion-card-info">
+                        ${folder.dateFormatted ? `<div class="stadion-card-date">${folder.dateFormatted}</div>` : ''}
+                        <div class="stadion-card-teams">${folder.teams || folder.displayName}</div>
+                        <div class="stadion-card-count">${folder.fileCount} Fotos</div>
+                    </div>
+                </div>
+            `;
         });
 
+        html += '</div></div>';
         container.innerHTML = html;
+    }
+
+    // Galerie für ein Spiel öffnen
+    async function openStadionGallery(folderId, title) {
+        // Bilder laden
+        const images = await fetchDriveImages(folderId);
+
+        if (images.length === 0) {
+            alert('Keine Bilder in diesem Ordner gefunden.');
+            return;
+        }
+
+        // Nur Bilder (keine Videos) für Lightbox
+        const imageUrls = images.filter(m => m.type === 'image').map(img => img.url);
+
+        if (imageUrls.length > 0) {
+            openLightboxWithAll(0, imageUrls);
+        }
     }
 
     // =============================================
@@ -1757,7 +1880,7 @@
     // Fan-Galerien laden (Google Drive)
     // =============================================
     // Herzensvereine aus Sheets laden
-    // Sheets-Spalten: name, driveordnerid, galleryid
+    // Sheets-Spalten: name, driveordnerid, galleryid, stadionbesuche (ja/nein)
     // =============================================
     function renderHerzensvereine(data) {
         if (!data || data.length === 0) return;
@@ -1766,9 +1889,16 @@
             const galleryId = row.galleryid; // z.B. 'koeln-gallery' oder 'barca-gallery'
             const driveOrdnerId = row.driveordnerid;
             const name = row.name || '';
+            const hasStadionbesuche = row.stadionbesuche && row.stadionbesuche.toLowerCase() === 'ja';
 
             if (galleryId && driveOrdnerId) {
-                loadDriveHerzensvereinGallery(galleryId, driveOrdnerId, name);
+                if (hasStadionbesuche) {
+                    // Lade Stadionbesuche als Karten-Grid
+                    loadHerzensvereinStadionbesuche(galleryId, driveOrdnerId, name);
+                } else {
+                    // Lade normale Galerie (alle Bilder flach)
+                    loadDriveGallery(galleryId, driveOrdnerId);
+                }
             }
         });
     }
