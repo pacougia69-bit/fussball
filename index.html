@@ -947,6 +947,15 @@
         .play-btn .pause-icon { display: none; }
         .play-btn.playing .play-icon { display: none; }
         .play-btn.playing .pause-icon { display: block; }
+        .play-btn:disabled {
+            opacity: 0.5;
+            cursor: wait;
+            animation: pulse-loading 1.5s ease-in-out infinite;
+        }
+        @keyframes pulse-loading {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 0.8; }
+        }
 
         .progress-container {
             flex: 1;
@@ -1338,6 +1347,37 @@
     // URL-Konvertierung für bessere Bildanzeige
     function convertDriveUrl(fileId) {
         return `https://lh3.googleusercontent.com/d/${fileId}`;
+    }
+
+    // =============================================
+    // Audio von Google Drive laden (via Proxy)
+    // =============================================
+    async function loadAudioFromDrive(audioId) {
+        try {
+            console.log('Lade Audio:', audioId);
+            const response = await fetch(`${GOOGLE_DRIVE_SCRIPT_URL}?audioId=${audioId}`);
+            const data = await response.json();
+
+            if (!data.success || data.error) {
+                console.error('Audio-Ladefehler:', data.error);
+                return null;
+            }
+
+            // Base64 zu Blob URL konvertieren
+            const byteCharacters = atob(data.data);
+            const byteNumbers = new Array(byteCharacters.length);
+            for (let i = 0; i < byteCharacters.length; i++) {
+                byteNumbers[i] = byteCharacters.charCodeAt(i);
+            }
+            const byteArray = new Uint8Array(byteNumbers);
+            const blob = new Blob([byteArray], { type: data.mimeType || 'audio/mpeg' });
+
+            console.log('Audio geladen:', data.name, 'Größe:', Math.round(data.size / 1024), 'KB');
+            return URL.createObjectURL(blob);
+        } catch (error) {
+            console.error('Fehler beim Laden der Audio-Datei:', error);
+            return null;
+        }
     }
 
     async function fetchDriveImages(folderId) {
@@ -1734,7 +1774,7 @@
     // Musik aus Sheets laden
     // Sheets-Spalten: titel, kuenstler, beschreibung, audioid, coverid, liedtext
     // =============================================
-    function renderMusik(data) {
+    async function renderMusik(data) {
         const grid = document.getElementById('musik-grid');
 
         if (!data || data.length === 0) {
@@ -1743,6 +1783,8 @@
         }
 
         let html = '';
+        const audioToLoad = []; // Audio-IDs zum späteren Laden
+
         data.forEach((row, index) => {
             const titel = row.titel || `Lied ${index + 1}`;
             const kuenstler = row.kuenstler || 'Blomberger SV';
@@ -1751,9 +1793,13 @@
             const coverId = row.coverid || '';
             const liedtext = row.liedtext || '';
 
-            const audioUrl = audioId ? `https://docs.google.com/uc?export=download&id=${audioId}` : '';
             const coverUrl = coverId ? convertDriveUrl(coverId) : '';
             const audioElementId = `audio-${index + 1}`;
+
+            // Audio-ID speichern zum späteren Laden
+            if (audioId) {
+                audioToLoad.push({ id: audioId, elementId: audioElementId, index: index + 1 });
+            }
 
             html += `
                 <div class="song-card">
@@ -1765,11 +1811,11 @@
                             ${beschreibung ? `<div class="song-desc">${beschreibung}</div>` : ''}
                         </div>
                     </div>
-                    ${audioUrl ? `
+                    ${audioId ? `
                     <div class="audio-player">
-                        <audio id="${audioElementId}" src="${audioUrl}" preload="metadata"></audio>
+                        <audio id="${audioElementId}" preload="metadata"></audio>
                         <div class="audio-controls">
-                            <button class="play-btn" onclick="togglePlay('${audioElementId}', this)">
+                            <button class="play-btn" onclick="togglePlay('${audioElementId}', this)" disabled>
                                 <svg class="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                                 <svg class="pause-icon" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
                             </button>
@@ -1778,8 +1824,8 @@
                                     <div class="progress-fill" id="progress-${index + 1}"></div>
                                 </div>
                                 <div class="time-display">
-                                    <span id="current-${index + 1}">0:00</span>
-                                    <span id="duration-${index + 1}">0:00</span>
+                                    <span id="current-${index + 1}">Lädt...</span>
+                                    <span id="duration-${index + 1}"></span>
                                 </div>
                             </div>
                             <div class="volume-control">
@@ -1804,8 +1850,38 @@
 
         grid.innerHTML = html;
 
+        // Audio-Dateien async laden via Proxy
+        for (const audio of audioToLoad) {
+            loadAudioForPlayer(audio.id, audio.elementId, audio.index);
+        }
+
         // Audio-Player initialisieren
         setTimeout(initAudioPlayers, 100);
+    }
+
+    // Audio für einen Player laden
+    async function loadAudioForPlayer(audioId, elementId, index) {
+        const audioElement = document.getElementById(elementId);
+        const currentTimeSpan = document.getElementById(`current-${index}`);
+        const playBtn = audioElement?.parentElement?.querySelector('.play-btn');
+
+        if (!audioElement) return;
+
+        try {
+            const blobUrl = await loadAudioFromDrive(audioId);
+
+            if (blobUrl) {
+                audioElement.src = blobUrl;
+                if (currentTimeSpan) currentTimeSpan.textContent = '0:00';
+                if (playBtn) playBtn.disabled = false;
+                console.log(`Audio ${index} bereit zum Abspielen`);
+            } else {
+                if (currentTimeSpan) currentTimeSpan.textContent = 'Fehler';
+            }
+        } catch (error) {
+            console.error(`Fehler beim Laden von Audio ${index}:`, error);
+            if (currentTimeSpan) currentTimeSpan.textContent = 'Fehler';
+        }
     }
 
     // =============================================
