@@ -422,6 +422,7 @@
         }
         .text-collapsible.expanded {
             max-height: 500px;
+            overflow-y: auto;
         }
         .text-collapsible:not(.expanded)::after {
             content: '';
@@ -1726,13 +1727,27 @@
                 videos.forEach(video => {
                     const videoUrl = `https://drive.google.com/file/d/${video.id}/preview`;
                     html += `<div class="video-container">
-                        <iframe src="${videoUrl}" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>
+                        <iframe data-video-src="${videoUrl}" allow="autoplay; encrypted-media" allowfullscreen></iframe>
                         <div class="video-title">${video.name}</div>
                     </div>`;
                 });
                 html += '</div></details>';
             }
             container.innerHTML = html;
+
+            // Video erst laden wenn <details> geöffnet wird
+            const detailsEl = container.querySelector('.gallery-compact-videos');
+            if (detailsEl) {
+                detailsEl.addEventListener('toggle', function() {
+                    if (this.open) {
+                        this.querySelectorAll('iframe[data-video-src]').forEach(iframe => {
+                            if (!iframe.src || iframe.src === window.location.href) {
+                                iframe.src = iframe.getAttribute('data-video-src');
+                            }
+                        });
+                    }
+                });
+            }
             return;
         }
 
