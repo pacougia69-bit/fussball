@@ -827,32 +827,17 @@
             border-bottom: 1px solid var(--border);
         }
         .stadion-grid {
-            display: flex;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
             gap: 10px;
-            overflow-x: auto;
-            padding-bottom: 8px;
-            scroll-snap-type: x mandatory;
-        }
-        .stadion-grid::-webkit-scrollbar {
-            height: 6px;
-        }
-        .stadion-grid::-webkit-scrollbar-track {
-            background: var(--bg-dark);
-            border-radius: 3px;
-        }
-        .stadion-grid::-webkit-scrollbar-thumb {
-            background: var(--border);
-            border-radius: 3px;
         }
         .stadion-card {
-            flex: 0 0 140px;
             background: var(--bg-dark);
             border: 1px solid var(--border);
             border-radius: 8px;
             overflow: hidden;
             cursor: pointer;
             transition: all 0.3s ease;
-            scroll-snap-align: start;
         }
         .stadion-card.hidden {
             display: none;
@@ -885,9 +870,6 @@
             color: var(--text-white);
             font-weight: 600;
             line-height: 1.2;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
         .stadion-card-count {
             font-size: 0.65rem;
@@ -929,10 +911,7 @@
         @media (max-width: 768px) {
             .stadion-grid {
                 grid-template-columns: repeat(2, 1fr);
-                gap: 10px;
-            }
-            .stadion-card-image {
-                height: 80px;
+                gap: 8px;
             }
         }
 
