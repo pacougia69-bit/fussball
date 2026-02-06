@@ -652,45 +652,46 @@
         }
         .extra-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
         }
         .extra-card {
             background: rgba(237,187,0,0.05);
             border: 1px solid rgba(237,187,0,0.3);
-            border-radius: 12px;
-            padding: 25px;
+            border-radius: 10px;
+            padding: 15px;
             transition: all 0.3s;
         }
         .extra-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(237,187,0,0.1);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(237,187,0,0.1);
         }
         .extra-card h4 {
             color: var(--barca-gold);
-            font-size: 1.2rem;
-            margin-bottom: 5px;
+            font-size: 1rem;
+            margin-bottom: 4px;
         }
         .extra-card .extra-year {
             color: var(--text-light);
-            font-size: 0.9rem;
-            margin-bottom: 15px;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
         }
         .extra-card p {
             color: var(--text);
-            line-height: 1.7;
+            line-height: 1.6;
+            font-size: 0.85rem;
         }
         .extra-card .extra-gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-            gap: 10px;
-            margin-top: 15px;
+            grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+            gap: 6px;
+            margin-top: 10px;
         }
         .extra-card .extra-gallery img {
             width: 100%;
-            height: 80px;
+            height: 55px;
             object-fit: cover;
-            border-radius: 8px;
+            border-radius: 6px;
             cursor: pointer;
             transition: transform 0.3s;
         }
@@ -935,6 +936,79 @@
         }
 
         /* ============================================
+           BRAKELSIEK — Herzensverein
+           ============================================ */
+        .fan-card.brakelsiek {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, rgba(34,139,34,0.12) 0%, var(--bg-card) 60%);
+            border: 1px solid rgba(34,139,34,0.3);
+        }
+        .fan-card.brakelsiek h3 {
+            color: #4CAF50;
+        }
+        .fan-card.brakelsiek .motto {
+            color: var(--text-light);
+        }
+
+        /* Jahr-Ordner Grid (3-spaltig) */
+        .jahre-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 15px;
+        }
+        .jahr-card {
+            background: var(--bg-dark);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .jahr-card:hover {
+            transform: translateY(-3px);
+            border-color: #4CAF50;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+        }
+        .jahr-card-image {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+            background: var(--bg-card);
+        }
+        .jahr-card-info {
+            padding: 10px 12px;
+        }
+        .jahr-card-name {
+            color: var(--text-white);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        .jahr-card-count {
+            color: var(--text-light);
+            font-size: 0.75rem;
+            margin-top: 4px;
+        }
+        .jahre-root-images {
+            margin-top: 15px;
+        }
+        .jahre-root-images h4 {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-bottom: 8px;
+        }
+        @media (max-width: 768px) {
+            .jahre-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 480px) {
+            .jahre-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ============================================
            LIGHTBOX
            ============================================ */
         .lightbox {
@@ -1067,9 +1141,11 @@
             .hero-stats { gap: 20px; }
             .hero-badge { width: 60px; height: 60px; font-size: 1.5rem; }
             .extra-section { padding: 30px 20px; }
+            .extra-grid { grid-template-columns: repeat(2, 1fr); }
         }
         @media (max-width: 480px) {
             .hero-stat .number { font-size: 2rem; }
+            .extra-grid { grid-template-columns: 1fr; }
         }
 
         /* ============================================
@@ -1484,7 +1560,7 @@
 <section class="section" id="vereine">
     <h2 class="section-title">Meine Vereine im Herzen</h2>
     <div class="divider"></div>
-    <p class="section-subtitle">Zwei Vereine, eine Leidenschaft</p>
+    <p class="section-subtitle">Vereine, die mein Herz berühren</p>
 
     <div class="fan-cards">
         <!-- 1. FC Köln -->
@@ -1528,6 +1604,17 @@
                 </ul>
             </details>
             <div class="fan-gallery" id="barca-gallery"></div>
+        </div>
+
+        <!-- TUS 08 Brakelsiek -->
+        <div class="fan-card brakelsiek">
+            <div class="fan-card-header">
+                <div>
+                    <h3>TUS 08 Brakelsiek</h3>
+                    <p class="motto">2005 – 2012</p>
+                </div>
+            </div>
+            <div class="fan-gallery" id="brakelsiek-gallery"></div>
         </div>
     </div>
 </section>
@@ -1773,6 +1860,84 @@
         });
 
         html += '</div></div>';
+        container.innerHTML = html;
+    }
+
+    // =============================================
+    // Jahres-Ordner laden (für Brakelsiek etc.)
+    // Zeigt Unterordner als 3-spaltige Karten + lose Bilder
+    // =============================================
+    async function loadJahresOrdner(containerId, parentFolderId) {
+        const container = document.getElementById(containerId);
+        if (!container || !parentFolderId) return;
+
+        container.innerHTML = '<div class="stadion-loading">Bilder werden geladen...</div>';
+
+        // Unterordner und Root-Bilder parallel laden
+        const [subfolders, rootMedia] = await Promise.all([
+            fetchDriveSubfolders(parentFolderId),
+            fetchDriveImages(parentFolderId)
+        ]);
+
+        let html = '';
+
+        // Unterordner als Jahr-Karten anzeigen
+        if (subfolders.length > 0) {
+            html += '<div class="jahre-grid">';
+            subfolders.forEach(folder => {
+                const previewUrl = folder.previewImageId ? convertDriveUrl(folder.previewImageId) : '';
+                const placeholderSvg = `data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 90'><rect fill='%23161b22' width='160' height='90'/><text x='80' y='50' text-anchor='middle' fill='%234CAF50' font-size='16'>&#9917;</text></svg>`;
+
+                html += `
+                    <div class="jahr-card" onclick="openStadionGallery('${folder.id}', '${folder.displayName.replace(/'/g, "\\'")}')">
+                        <img class="jahr-card-image" src="${previewUrl || placeholderSvg}" alt="${folder.displayName}" onerror="this.src='${placeholderSvg}'">
+                        <div class="jahr-card-info">
+                            <div class="jahr-card-name">${folder.displayName}</div>
+                            <div class="jahr-card-count">${folder.fileCount} Fotos</div>
+                        </div>
+                    </div>
+                `;
+            });
+            html += '</div>';
+        }
+
+        // Root-Bilder als Galerie anzeigen (falls vorhanden)
+        const rootImages = rootMedia.filter(m => m.type === 'image');
+        if (rootImages.length > 0) {
+            const allImageUrls = rootImages.map(img => img.url);
+            const allImagesJson = JSON.stringify(allImageUrls).replace(/"/g, '&quot;');
+            const PREVIEW_COUNT = 6;
+
+            html += '<div class="jahre-root-images">';
+            html += '<h4>Weitere Bilder</h4>';
+            html += '<div class="gallery-preview">';
+
+            if (rootImages.length <= PREVIEW_COUNT) {
+                rootImages.forEach((img, i) => {
+                    html += `<div class="gallery-preview-item">
+                        <img src="${img.url}" alt="${img.name}" onclick="openLightboxWithAll(${i}, ${allImagesJson})" onerror="this.parentElement.style.display='none'">
+                    </div>`;
+                });
+            } else {
+                for (let i = 0; i < PREVIEW_COUNT - 1; i++) {
+                    html += `<div class="gallery-preview-item">
+                        <img src="${rootImages[i].url}" alt="${rootImages[i].name}" onclick="openLightboxWithAll(${i}, ${allImagesJson})" onerror="this.parentElement.style.display='none'">
+                    </div>`;
+                }
+                const remaining = rootImages.length - (PREVIEW_COUNT - 1);
+                html += `<div class="gallery-preview-item" onclick="openLightboxWithAll(${PREVIEW_COUNT - 1}, ${allImagesJson})">
+                    <img src="${rootImages[PREVIEW_COUNT - 1].url}" alt="" onerror="this.style.visibility='hidden'">
+                    <div class="gallery-more-overlay">+${remaining}</div>
+                </div>`;
+            }
+            html += '</div></div>';
+        }
+
+        if (!html) {
+            container.innerHTML = '<p style="color: var(--text-light); text-align: center; font-size: 0.9rem;">Noch keine Bilder vorhanden</p>';
+            return;
+        }
+
         container.innerHTML = html;
     }
 
@@ -2106,13 +2271,17 @@
         if (!data || data.length === 0) return;
 
         data.forEach(row => {
-            const galleryId = row.galleryid; // z.B. 'koeln-gallery' oder 'barca-gallery'
+            const galleryId = row.galleryid; // z.B. 'koeln-gallery', 'barca-gallery', 'brakelsiek-gallery'
             const driveOrdnerId = row.driveordnerid;
             const name = row.name || '';
             const hasStadionbesuche = row.stadionbesuche && row.stadionbesuche.toLowerCase() === 'ja';
+            const hasOrdnerstruktur = row.ordnerstruktur && row.ordnerstruktur.toLowerCase() === 'ja';
 
             if (galleryId && driveOrdnerId) {
-                if (hasStadionbesuche) {
+                if (hasOrdnerstruktur) {
+                    // Lade Ordnerstruktur als 3-spaltige Jahr-Karten
+                    loadJahresOrdner(galleryId, driveOrdnerId);
+                } else if (hasStadionbesuche) {
                     // Lade Stadionbesuche als Karten-Grid
                     loadHerzensvereinStadionbesuche(galleryId, driveOrdnerId, name);
                 } else {
