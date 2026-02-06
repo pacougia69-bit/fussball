@@ -815,32 +815,53 @@
            STADIONBESUCHE KARTEN (Herzensvereine)
            ============================================ */
         .stadion-section {
-            margin-top: 20px;
+            margin-top: 15px;
         }
         .stadion-section h4 {
-            font-size: 1rem;
+            font-size: 0.9rem;
             color: var(--text-white);
-            margin-bottom: 15px;
-            padding-bottom: 8px;
+            margin-bottom: 10px;
+            padding-bottom: 6px;
             border-bottom: 1px solid var(--border);
         }
         .stadion-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+            scroll-snap-type: x mandatory;
+        }
+        .stadion-grid::-webkit-scrollbar {
+            height: 6px;
+        }
+        .stadion-grid::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+            border-radius: 3px;
+        }
+        .stadion-grid::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 3px;
         }
         .stadion-card {
+            flex: 0 0 140px;
             background: var(--bg-dark);
             border: 1px solid var(--border);
-            border-radius: 10px;
+            border-radius: 8px;
             overflow: hidden;
             cursor: pointer;
             transition: all 0.3s ease;
+            scroll-snap-align: start;
+        }
+        .stadion-card.hidden {
+            display: none;
+        }
+        .stadion-grid.expanded .stadion-card.hidden {
+            display: block;
         }
         .stadion-card:hover {
-            transform: translateY(-3px);
+            transform: translateY(-2px);
             border-color: var(--barca-gold);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         }
         .stadion-card-image {
             width: 100%;
@@ -850,7 +871,7 @@
             background: var(--bg-card);
         }
         .stadion-card-info {
-            padding: 8px 10px;
+            padding: 6px 8px;
         }
         .stadion-card-date {
             font-size: 0.7rem;
@@ -1731,20 +1752,16 @@
             return;
         }
 
-        const gridId = `stadion-grid-${containerId}`;
-        const hasMoreCards = subfolders.length > VISIBLE_CARDS;
-
         let html = `<div class="stadion-section">
-            <h4>⚽ Live im Stadion (${subfolders.length} Spiele)</h4>
-            <div class="stadion-grid" id="${gridId}">`;
+            <h4>⚽ Live im Stadion (${subfolders.length})</h4>
+            <div class="stadion-grid">`;
 
-        subfolders.forEach((folder, index) => {
+        subfolders.forEach((folder) => {
             const previewUrl = folder.previewImageId ? convertDriveUrl(folder.previewImageId) : '';
-            const placeholderSvg = `data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 100'><rect fill='%23161b22' width='160' height='100'/><text x='80' y='55' text-anchor='middle' fill='%23edbb00' font-size='24'>⚽</text></svg>`;
-            const hiddenClass = index >= VISIBLE_CARDS ? ' hidden' : '';
+            const placeholderSvg = `data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 90'><rect fill='%23161b22' width='160' height='90'/><text x='80' y='50' text-anchor='middle' fill='%23edbb00' font-size='20'>⚽</text></svg>`;
 
             html += `
-                <div class="stadion-card${hiddenClass}" onclick="openStadionGallery('${folder.id}', '${folder.displayName.replace(/'/g, "\\'")}')">
+                <div class="stadion-card" onclick="openStadionGallery('${folder.id}', '${folder.displayName.replace(/'/g, "\\'")}')">
                     <img class="stadion-card-image" src="${previewUrl || placeholderSvg}" alt="${folder.displayName}" onerror="this.src='${placeholderSvg}'">
                     <div class="stadion-card-info">
                         ${folder.dateFormatted ? `<div class="stadion-card-date">${folder.dateFormatted}</div>` : ''}
@@ -1755,17 +1772,7 @@
             `;
         });
 
-        html += '</div>';
-
-        // "Alle anzeigen" Button nur wenn mehr als 4 Karten
-        if (hasMoreCards) {
-            const hiddenCount = subfolders.length - VISIBLE_CARDS;
-            html += `<button class="show-all-btn" onclick="toggleAllCards('${gridId}', this)">
-                + ${hiddenCount} weitere Spiele anzeigen
-            </button>`;
-        }
-
-        html += '</div>';
+        html += '</div></div>';
         container.innerHTML = html;
     }
 
