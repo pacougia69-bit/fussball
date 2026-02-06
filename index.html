@@ -936,20 +936,8 @@
         }
 
         /* ============================================
-           BRAKELSIEK — Herzensverein
+           JAHRES-ORDNER (Karriere-Timeline)
            ============================================ */
-        .fan-card.brakelsiek {
-            grid-column: 1 / -1;
-            background: linear-gradient(135deg, rgba(34,139,34,0.12) 0%, var(--bg-card) 60%);
-            border: 1px solid rgba(34,139,34,0.3);
-        }
-        .fan-card.brakelsiek h3 {
-            color: #4CAF50;
-        }
-        .fan-card.brakelsiek .motto {
-            color: var(--text-light);
-        }
-
         /* Jahr-Ordner Grid (3-spaltig) */
         .jahre-grid {
             display: grid;
@@ -1560,7 +1548,7 @@
 <section class="section" id="vereine">
     <h2 class="section-title">Meine Vereine im Herzen</h2>
     <div class="divider"></div>
-    <p class="section-subtitle">Vereine, die mein Herz berühren</p>
+    <p class="section-subtitle">Zwei Vereine, eine Leidenschaft</p>
 
     <div class="fan-cards">
         <!-- 1. FC Köln -->
@@ -1604,17 +1592,6 @@
                 </ul>
             </details>
             <div class="fan-gallery" id="barca-gallery"></div>
-        </div>
-
-        <!-- TUS 08 Brakelsiek -->
-        <div class="fan-card brakelsiek">
-            <div class="fan-card-header">
-                <div>
-                    <h3>TUS 08 Brakelsiek</h3>
-                    <p class="motto">2005 – 2012</p>
-                </div>
-            </div>
-            <div class="fan-gallery" id="brakelsiek-gallery"></div>
         </div>
     </div>
 </section>
@@ -2044,13 +2021,14 @@
                               rolle.includes('spielertrainer') ? 'spielertrainer' : 'spieler';
             const isHighlight = row.highlight && row.highlight.toLowerCase() === 'ja';
             const driveOrdnerId = row.driveordnerid || null; // Google Drive Ordner-ID
+            const hasOrdnerstruktur = row.ordnerstruktur && row.ordnerstruktur.toLowerCase() === 'ja';
 
-            // Galerie-Container für Google Drive (kompakt)
+            // Galerie-Container für Google Drive
             const galerieContainerId = driveOrdnerId ? `gallery-${index}` : null;
             let galerieHtml = '';
             if (driveOrdnerId) {
-                galerieHtml = `<div id="${galerieContainerId}" class="gallery-compact"></div>`;
-                driveGalleriesToLoad.push({ containerId: galerieContainerId, folderId: driveOrdnerId, compact: true });
+                galerieHtml = `<div id="${galerieContainerId}" class="${hasOrdnerstruktur ? '' : 'gallery-compact'}"></div>`;
+                driveGalleriesToLoad.push({ containerId: galerieContainerId, folderId: driveOrdnerId, compact: !hasOrdnerstruktur, ordnerstruktur: hasOrdnerstruktur });
             }
 
             // Aufklappbarer Text für lange Beschreibungen (>100 Zeichen)
@@ -2087,7 +2065,12 @@
 
         // Google Drive Galerien async laden
         driveGalleriesToLoad.forEach(gallery => {
-            loadDriveGallery(gallery.containerId, gallery.folderId, gallery.compact || false);
+            if (gallery.ordnerstruktur) {
+                // Jahres-Ordner als 3-spaltige Karten anzeigen
+                loadJahresOrdner(gallery.containerId, gallery.folderId);
+            } else {
+                loadDriveGallery(gallery.containerId, gallery.folderId, gallery.compact || false);
+            }
         });
     }
 
@@ -2271,7 +2254,7 @@
         if (!data || data.length === 0) return;
 
         data.forEach(row => {
-            const galleryId = row.galleryid; // z.B. 'koeln-gallery', 'barca-gallery', 'brakelsiek-gallery'
+            const galleryId = row.galleryid; // z.B. 'koeln-gallery' oder 'barca-gallery'
             const driveOrdnerId = row.driveordnerid;
             const name = row.name || '';
             const hasStadionbesuche = row.stadionbesuche && row.stadionbesuche.toLowerCase() === 'ja';
