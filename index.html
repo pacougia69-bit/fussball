@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Raphael Maaßen — Fußball-Karriere</title>
+    <meta name="description" content="Die Fußball-Karriere von Raphael Maaßen — Spieler, Trainer, Fan. 1. FC Köln & FC Barcelona.">
+    <meta property="og:title" content="Raphael Maaßen — Fußball-Karriere">
+    <meta property="og:description" content="Spieler · Trainer · Fan — Die komplette Fußball-Geschichte mit Karriere-Timeline, Stadionbesuchen und mehr.">
+    <meta property="og:image" content="bilder/logos/koeln.png">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary">
     <style>
         /* ============================================
            FARBEN — 1. FC Köln & FC Barcelona
@@ -19,7 +25,7 @@
             --bg-card: #161b22;
             --border: #30363d;
             --text: #c9d1d9;
-            --text-light: #8b949e;
+            --text-light: #a8b2bd;
             --text-white: #ffffff;
         }
 
@@ -1387,6 +1393,61 @@
 <body>
 
 <!-- ============================================
+     PASSWORT-SCHUTZ
+     ============================================ -->
+<div id="password-overlay" style="
+    position: fixed; inset: 0; z-index: 99999;
+    background: var(--bg-dark, #0d1117);
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column; gap: 20px;
+">
+    <div style="text-align: center; max-width: 360px; padding: 20px;">
+        <div style="font-size: 2.5rem; margin-bottom: 10px;">&#9917;</div>
+        <h2 style="color: #edbb00; margin-bottom: 8px; font-size: 1.4rem;">Privater Bereich</h2>
+        <p style="color: #a8b2bd; font-size: 0.9rem; margin-bottom: 20px;">Diese Seite ist passwortgeschützt.<br>Bitte Passwort eingeben:</p>
+        <input id="pw-input" type="password" placeholder="Passwort" autocomplete="off" style="
+            width: 100%; padding: 12px 16px; border-radius: 8px;
+            border: 1px solid rgba(237,187,0,0.3); background: rgba(255,255,255,0.05);
+            color: #fff; font-size: 1rem; text-align: center; outline: none;
+            box-sizing: border-box;
+        " onkeydown="if(event.key==='Enter')checkPw()">
+        <button onclick="checkPw()" style="
+            margin-top: 12px; padding: 10px 32px; border-radius: 8px; border: none;
+            background: linear-gradient(90deg, #ED1C24, #004D98); color: #fff;
+            font-weight: 700; font-size: 1rem; cursor: pointer; width: 100%;
+        ">Zugang</button>
+        <p id="pw-error" style="color: #ED1C24; font-size: 0.85rem; margin-top: 10px; display: none;">Falsches Passwort</p>
+    </div>
+</div>
+<script>
+    // Passwort-Hash (SHA-256 von "Fussball2024")
+    const PW_HASH = '352d07dc75330b7940a668d13cac293c6a4d9870b25adcd082ab4c08b5af7be9';
+    // Session-basiert: Nach Eingabe bleibt man eingeloggt bis Tab geschlossen
+    async function hashPw(pw) {
+        const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pw));
+        return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+    async function checkPw() {
+        const input = document.getElementById('pw-input').value;
+        const hash = await hashPw(input);
+        if (hash === PW_HASH) {
+            sessionStorage.setItem('rm-auth', 'true');
+            document.getElementById('password-overlay').style.display = 'none';
+        } else {
+            document.getElementById('pw-error').style.display = 'block';
+            document.getElementById('pw-input').value = '';
+            document.getElementById('pw-input').focus();
+        }
+    }
+    // Prüfe ob bereits authentifiziert (in dieser Tab-Session)
+    if (sessionStorage.getItem('rm-auth') === 'true') {
+        document.getElementById('password-overlay').style.display = 'none';
+    } else {
+        document.getElementById('pw-input').focus();
+    }
+</script>
+
+<!-- ============================================
      NAVIGATION
      ============================================ -->
 <header class="navbar">
@@ -1559,7 +1620,7 @@
         <!-- 1. FC Köln -->
         <div class="fan-card koeln">
             <div class="fan-card-header">
-                <img src="bilder/logos/koeln.png" alt="1. FC Köln" class="club-logo koeln-logo">
+                <img src="bilder/logos/koeln.png" alt="1. FC Köln" class="club-logo koeln-logo" loading="lazy">
                 <div>
                     <h3>1. FC Köln</h3>
                     <p class="motto">&bdquo;Mer stonn zo dir, FC Kölle&ldquo;</p>
@@ -1581,7 +1642,7 @@
         <!-- FC Barcelona -->
         <div class="fan-card barca">
             <div class="fan-card-header">
-                <img src="bilder/logos/barca.png" alt="FC Barcelona" class="club-logo barca-logo">
+                <img src="bilder/logos/barca.png" alt="FC Barcelona" class="club-logo barca-logo" loading="lazy">
                 <div>
                     <h3>FC Barcelona</h3>
                     <p class="motto">&bdquo;Més que un club&ldquo;</p>
@@ -1719,7 +1780,7 @@
             if (images.length > 0) {
                 const overlayText = images.length > 1 ? `${images.length} Bilder` : '1 Bild';
                 html += `<div class="gallery-compact-preview" onclick="openLightboxWithAll(0, ${allImagesJson})">
-                    <img src="${images[0].url}" alt="${images[0].name}" onerror="this.parentElement.style.display='none'">
+                    <img src="${images[0].url}" alt="${images[0].name}" loading="lazy" onerror="this.parentElement.style.display='none'">
                     <div class="gallery-compact-overlay">${overlayText}</div>
                 </div>`;
             }
@@ -1778,20 +1839,20 @@
                 // Alle Bilder anzeigen
                 images.forEach((img, index) => {
                     html += `<div class="gallery-preview-item">
-                        <img src="${img.url}" alt="${img.name}" onclick="openLightboxWithAll(${index}, ${allImagesJson})" onerror="this.parentElement.style.display='none'">
+                        <img src="${img.url}" alt="${img.name}" loading="lazy" onclick="openLightboxWithAll(${index}, ${allImagesJson})" onerror="this.parentElement.style.display='none'">
                     </div>`;
                 });
             } else {
                 // Erste 3 Bilder
                 for (let i = 0; i < PREVIEW_COUNT - 1; i++) {
                     html += `<div class="gallery-preview-item">
-                        <img src="${images[i].url}" alt="${images[i].name}" onclick="openLightboxWithAll(${i}, ${allImagesJson})" onerror="this.parentElement.style.display='none'">
+                        <img src="${images[i].url}" alt="${images[i].name}" loading="lazy" onclick="openLightboxWithAll(${i}, ${allImagesJson})" onerror="this.parentElement.style.display='none'">
                     </div>`;
                 }
                 // 4. Bild mit +X Overlay
                 const remaining = images.length - (PREVIEW_COUNT - 1);
                 html += `<div class="gallery-preview-item" onclick="openLightboxWithAll(${PREVIEW_COUNT - 1}, ${allImagesJson})">
-                    <img src="${images[PREVIEW_COUNT - 1].url}" alt="${images[PREVIEW_COUNT - 1].name}" onerror="this.style.visibility='hidden'">
+                    <img src="${images[PREVIEW_COUNT - 1].url}" alt="${images[PREVIEW_COUNT - 1].name}" loading="lazy" onerror="this.style.visibility='hidden'">
                     <div class="gallery-more-overlay">+${remaining}</div>
                 </div>`;
             }
@@ -1859,7 +1920,7 @@
 
             html += `
                 <div class="stadion-card" onclick="openStadionGallery('${folder.id}', '${folder.displayName.replace(/'/g, "\\'")}')">
-                    <img class="stadion-card-image" src="${previewUrl || placeholderSvg}" alt="${folder.displayName}" onerror="this.src='${placeholderSvg}'">
+                    <img class="stadion-card-image" src="${previewUrl || placeholderSvg}" alt="${folder.displayName}" loading="lazy" onerror="this.src='${placeholderSvg}'">
                     <div class="stadion-card-info">
                         ${folder.dateFormatted ? `<div class="stadion-card-date">${folder.dateFormatted}</div>` : ''}
                         <div class="stadion-card-teams">${folder.teams || folder.displayName}</div>
@@ -1903,7 +1964,7 @@
 
                 html += `
                     <div class="jahr-card" onclick="openStadionGallery('${folder.id}', '${folder.displayName.replace(/'/g, "\\'")}')">
-                        <img class="jahr-card-image" src="${previewUrl || placeholderSvg}" alt="${folder.displayName}" onerror="this.src='${placeholderSvg}'">
+                        <img class="jahr-card-image" src="${previewUrl || placeholderSvg}" alt="${folder.displayName}" loading="lazy" onerror="this.src='${placeholderSvg}'">
                         <div class="jahr-card-info">
                             <div class="jahr-card-name">${folder.displayName}</div>
                             <div class="jahr-card-count">${folder.fileCount} Fotos</div>
@@ -1934,12 +1995,12 @@
             } else {
                 for (let i = 0; i < PREVIEW_COUNT - 1; i++) {
                     html += `<div class="gallery-preview-item">
-                        <img src="${rootImages[i].url}" alt="${rootImages[i].name}" onclick="openLightboxWithAll(${i}, ${allImagesJson})" onerror="this.parentElement.style.display='none'">
+                        <img src="${rootImages[i].url}" alt="${rootImages[i].name}" loading="lazy" onclick="openLightboxWithAll(${i}, ${allImagesJson})" onerror="this.parentElement.style.display='none'">
                     </div>`;
                 }
                 const remaining = rootImages.length - (PREVIEW_COUNT - 1);
                 html += `<div class="gallery-preview-item" onclick="openLightboxWithAll(${PREVIEW_COUNT - 1}, ${allImagesJson})">
-                    <img src="${rootImages[PREVIEW_COUNT - 1].url}" alt="" onerror="this.style.visibility='hidden'">
+                    <img src="${rootImages[PREVIEW_COUNT - 1].url}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">
                     <div class="gallery-more-overlay">+${remaining}</div>
                 </div>`;
             }
@@ -2236,7 +2297,7 @@
                 const num = i.toString().padStart(2, '0');
                 src = `Bilder/Vereinsstationen/${prefix}_${num}.jpg`;
             }
-            html += `<img src="${src}" alt="Bild ${i}" onclick="openLightbox(this.src, this)" onerror="this.style.display='none'">`;
+            html += `<img src="${src}" alt="Bild ${i}" loading="lazy" onclick="openLightbox(this.src, this)" onerror="this.style.display='none'">`;
         }
         return html;
     }
@@ -2258,7 +2319,7 @@
             for (let i = 1; i <= count; i++) {
                 const src = `Bilder/Vereinsstationen/${folder}/${folder} (${i}).jpg`;
                 html += `<div class="gallery-preview-item">
-                    <img src="${src}" alt="Bild ${i}" onclick="openLightboxWithAll(${i - 1}, ${allImagesJson})" onerror="this.parentElement.style.display='none'">
+                    <img src="${src}" alt="Bild ${i}" loading="lazy" onclick="openLightboxWithAll(${i - 1}, ${allImagesJson})" onerror="this.parentElement.style.display='none'">
                 </div>`;
             }
             html += '</div>';
@@ -2272,7 +2333,7 @@
         for (let i = 1; i <= PREVIEW_COUNT - 1; i++) {
             const src = `Bilder/Vereinsstationen/${folder}/${folder} (${i}).jpg`;
             html += `<div class="gallery-preview-item">
-                <img src="${src}" alt="Bild ${i}" onclick="openLightboxWithAll(${i - 1}, ${allImagesJson})" onerror="this.parentElement.style.display='none'">
+                <img src="${src}" alt="Bild ${i}" loading="lazy" onclick="openLightboxWithAll(${i - 1}, ${allImagesJson})" onerror="this.parentElement.style.display='none'">
             </div>`;
         }
 
@@ -2280,7 +2341,7 @@
         const remaining = count - (PREVIEW_COUNT - 1);
         const fourthSrc = `Bilder/Vereinsstationen/${folder}/${folder} (${PREVIEW_COUNT}).jpg`;
         html += `<div class="gallery-preview-item" onclick="openLightboxWithAll(${PREVIEW_COUNT - 1}, ${allImagesJson})">
-            <img src="${fourthSrc}" alt="Bild ${PREVIEW_COUNT}" onerror="this.style.visibility='hidden'">
+            <img src="${fourthSrc}" alt="Bild ${PREVIEW_COUNT}" loading="lazy" onerror="this.style.visibility='hidden'">
             <div class="gallery-more-overlay">+${remaining}</div>
         </div>`;
 
@@ -2292,7 +2353,7 @@
         let html = '';
         for (let i = 1; i <= count; i++) {
             const src = `Bilder/Vereinsstationen/${folder}/${folder} (${i}).jpg`;
-            html += `<img src="${src}" alt="Bild ${i}" onclick="openLightbox(this.src, this)" onerror="this.style.display='none'">`;
+            html += `<img src="${src}" alt="Bild ${i}" loading="lazy" onclick="openLightbox(this.src, this)" onerror="this.style.display='none'">`;
         }
         return html;
     }
@@ -2362,7 +2423,7 @@
             html += `
                 <div class="song-card">
                     <div class="song-card-header">
-                        <img src="${coverUrl}" alt="Cover" class="song-cover" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 120 120%22><rect fill=%22%23161b22%22 width=%22120%22 height=%22120%22/><text x=%2260%22 y=%2265%22 text-anchor=%22middle%22 fill=%22%23edbb00%22 font-size=%2240%22>🎵</text></svg>'">
+                        <img src="${coverUrl}" alt="Cover" class="song-cover" loading="lazy" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 120 120%22><rect fill=%22%23161b22%22 width=%22120%22 height=%22120%22/><text x=%2260%22 y=%2265%22 text-anchor=%22middle%22 fill=%22%23edbb00%22 font-size=%2240%22>🎵</text></svg>'">
                         <div class="song-info">
                             <h4>${titel}</h4>
                             <div class="song-artist">${kuenstler}</div>
