@@ -1835,8 +1835,19 @@
             return;
         }
 
-        // Nach Datum/Name sortieren (aufsteigend: alt → neu)
-        subfolders.sort((a, b) => (a.displayName || '').localeCompare(b.displayName || '', 'de', { numeric: true }));
+        // Nach Datum sortieren (aufsteigend: alt → neu)
+        subfolders.sort((a, b) => {
+            // dateFormatted ist "DD.MM.YYYY" → zu YYYYMMDD für korrekte Sortierung
+            const parseDate = (d) => {
+                if (!d) return '0';
+                const parts = d.split('.');
+                if (parts.length === 3) return parts[2] + parts[1] + parts[0];
+                return d;
+            };
+            const da = parseDate(a.dateFormatted);
+            const db = parseDate(b.dateFormatted);
+            return da.localeCompare(db, 'de', { numeric: true });
+        });
 
         let html = `<div class="stadion-section">
             <h4>⚽ Live im Stadion (${subfolders.length})</h4>
