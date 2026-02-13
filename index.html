@@ -12,6 +12,7 @@
             --koeln-rot: #ED1C24;
             --koeln-weiss: #FFFFFF;
             --barca-blau: #004D98;
+            --barca-blau-text: #5B9BD5;
             --barca-granat: #A50044;
             --barca-gold: #EDBB00;
             --bg-dark: #0d1117;
@@ -371,15 +372,27 @@
             font-size: 0.95rem;
             margin-bottom: 5px;
         }
-        .timeline-year.spieler { color: var(--barca-blau); }
+        .timeline-year.spieler { color: var(--barca-blau-text); }
         .timeline-year.spielertrainer { color: var(--koeln-rot); }
         .timeline-year.trainer { color: var(--barca-gold); }
 
+        .timeline-club-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 4px;
+        }
+        .timeline-club-logo {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+            flex-shrink: 0;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+        }
         .timeline-club {
             font-size: 1.25rem;
             font-weight: 700;
             color: var(--text-white);
-            margin-bottom: 4px;
         }
         .timeline-rolle {
             font-size: 0.85rem;
@@ -390,7 +403,7 @@
         }
         .timeline-rolle.spieler {
             background: rgba(0,77,152,0.2);
-            color: var(--barca-blau);
+            color: var(--barca-blau-text);
         }
         .timeline-rolle.spielertrainer {
             background: rgba(237,28,36,0.2);
@@ -660,14 +673,14 @@
         }
         .extra-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
         }
         .extra-card {
             background: rgba(237,187,0,0.05);
             border: 1px solid rgba(237,187,0,0.3);
             border-radius: 10px;
-            padding: 15px;
+            padding: 20px;
             transition: all 0.3s;
         }
         .extra-card:hover {
@@ -763,7 +776,7 @@
             margin: 0;
         }
         .fan-card.koeln h3 { color: var(--koeln-rot); }
-        .fan-card.barca h3 { color: var(--barca-blau); }
+        .fan-card.barca h3 { color: var(--barca-blau-text); }
         .fan-card .motto {
             font-style: italic;
             color: var(--text-light);
@@ -1120,11 +1133,10 @@
             .hero-stats { gap: 20px; }
             .hero-badge { width: 60px; height: 60px; font-size: 1.5rem; }
             .extra-section { padding: 30px 20px; }
-            .extra-grid { grid-template-columns: repeat(2, 1fr); }
+            .extra-grid { grid-template-columns: 1fr; }
         }
         @media (max-width: 480px) {
             .hero-stat .number { font-size: 2rem; }
-            .extra-grid { grid-template-columns: 1fr; }
         }
 
         /* ============================================
@@ -1816,12 +1828,15 @@
 
         container.innerHTML = '<div class="stadion-loading">Stadionbesuche werden geladen...</div>';
 
-        const subfolders = await fetchDriveSubfolders(parentFolderId);
+        let subfolders = await fetchDriveSubfolders(parentFolderId);
 
         if (subfolders.length === 0) {
             container.innerHTML = '<p style="color: var(--text-light); text-align: center; font-size: 0.9rem;">Noch keine Stadionbesuche vorhanden</p>';
             return;
         }
+
+        // Nach Datum/Name sortieren (aufsteigend: alt → neu)
+        subfolders.sort((a, b) => (a.displayName || '').localeCompare(b.displayName || '', 'de', { numeric: true }));
 
         let html = `<div class="stadion-section">
             <h4>⚽ Live im Stadion (${subfolders.length})</h4>
@@ -1858,10 +1873,13 @@
         container.innerHTML = '<div class="stadion-loading">Bilder werden geladen...</div>';
 
         // Unterordner und Root-Bilder parallel laden
-        const [subfolders, rootMedia] = await Promise.all([
+        let [subfolders, rootMedia] = await Promise.all([
             fetchDriveSubfolders(parentFolderId),
             fetchDriveImages(parentFolderId)
         ]);
+
+        // Nach Name sortieren (aufsteigend: 2009 → 2025)
+        subfolders.sort((a, b) => (a.displayName || '').localeCompare(b.displayName || '', 'de', { numeric: true }));
 
         let html = '';
 
@@ -2042,6 +2060,7 @@
             const isHighlight = row.highlight && row.highlight.toLowerCase() === 'ja';
             const driveOrdnerId = row.driveordnerid || null; // Google Drive Ordner-ID
             const hasOrdnerstruktur = row.ordnerstruktur && row.ordnerstruktur.toLowerCase() === 'ja';
+            const logoId = row.logoid || null;
 
             // Galerie-Container für Google Drive
             const galerieContainerId = driveOrdnerId ? `gallery-${index}` : null;
@@ -2070,7 +2089,10 @@
                     <div class="timeline-dot rolle-${rolleClass}"></div>
                     <div class="timeline-card ${isHighlight ? 'highlight' : ''}">
                         <div class="timeline-year ${rolleClass}">${row.jahr || ''}</div>
-                        <div class="timeline-club">${row.verein || ''}</div>
+                        <div class="timeline-club-row">
+                            ${logoId ? `<img src="${convertDriveUrl(logoId)}" alt="" class="timeline-club-logo" onerror="this.style.display='none'">` : ''}
+                            <div class="timeline-club">${row.verein || ''}</div>
+                        </div>
                         <span class="timeline-rolle ${rolleClass}">${row.rolle || 'Spieler'}</span>
                         ${row.erfolge ? `<div class="timeline-erfolg">&#9733; <strong>${row.erfolge}</strong></div>` : ''}
                         ${beschreibungHtml}
