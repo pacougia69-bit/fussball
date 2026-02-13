@@ -410,12 +410,19 @@
             color: var(--text);
             font-size: 0.95rem;
             line-height: 1.7;
-            margin-top: 10px;
-            font-style: italic;
+            margin-top: 12px;
+        }
+        .timeline-beschreibung p,
+        .extra-card .beschreibung-text p {
+            margin: 0 0 10px 0;
+        }
+        .timeline-beschreibung p:last-child,
+        .extra-card .beschreibung-text p:last-child {
+            margin-bottom: 0;
         }
         /* Aufklappbarer Text */
         .text-collapsible {
-            max-height: 3.4em; /* ca. 2 Zeilen */
+            max-height: 6.8em; /* ca. 4 Zeilen */
             overflow: hidden;
             position: relative;
             transition: max-height 0.3s ease;
@@ -677,10 +684,11 @@
             font-size: 0.8rem;
             margin-bottom: 10px;
         }
-        .extra-card p {
+        .extra-card p,
+        .extra-card .beschreibung-text {
             color: var(--text);
-            line-height: 1.6;
-            font-size: 0.85rem;
+            line-height: 1.7;
+            font-size: 0.95rem;
         }
         .extra-card .extra-gallery {
             display: grid;
@@ -1188,7 +1196,10 @@
             margin-bottom: 0;
         }
         .song-info .song-desc {
-            display: none;
+            color: var(--text-light);
+            font-size: 0.75rem;
+            margin-top: 3px;
+            line-height: 1.4;
         }
 
         /* Audio Player */
@@ -1338,7 +1349,6 @@
             color: var(--text);
             font-size: 0.9rem;
             line-height: 1.8;
-            white-space: pre-line;
             max-height: 300px;
             overflow-y: auto;
         }
@@ -1999,6 +2009,19 @@
     }
 
     // =============================================
+    // Text-Formatierung: Absätze & **Fettdruck**
+    // =============================================
+    function formatText(text) {
+        if (!text) return '';
+        // **text** → <strong>text</strong>
+        let formatted = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+        // Zeilenumbrüche in Absätze umwandeln
+        const paragraphs = formatted.split(/\n+/).filter(p => p.trim() !== '');
+        if (paragraphs.length <= 1) return formatted;
+        return paragraphs.map(p => `<p>${p.trim()}</p>`).join('');
+    }
+
+    // =============================================
     // Timeline rendern
     // =============================================
     function renderTimeline(data) {
@@ -2036,7 +2059,7 @@
             if (beschreibung) {
                 beschreibungHtml = `
                     <div class="timeline-beschreibung ${isLongText ? 'text-collapsible' : ''}" id="${textId}">
-                        ${beschreibung}
+                        ${formatText(beschreibung)}
                     </div>
                     ${isLongText ? `<button class="mehr-lesen-btn" onclick="toggleText('${textId}', this)">Mehr lesen</button>` : ''}
                 `;
@@ -2049,7 +2072,7 @@
                         <div class="timeline-year ${rolleClass}">${row.jahr || ''}</div>
                         <div class="timeline-club">${row.verein || ''}</div>
                         <span class="timeline-rolle ${rolleClass}">${row.rolle || 'Spieler'}</span>
-                        ${row.erfolge ? `<div class="timeline-erfolg">&#9733; ${row.erfolge}</div>` : ''}
+                        ${row.erfolge ? `<div class="timeline-erfolg">&#9733; <strong>${row.erfolge}</strong></div>` : ''}
                         ${beschreibungHtml}
                         ${row.liga ? `<div class="timeline-liga">${row.liga}</div>` : ''}
                         ${galerieHtml}
@@ -2096,8 +2119,8 @@
             let beschreibungHtml = '';
             if (beschreibung) {
                 beschreibungHtml = `
-                    <div class="${isLongText ? 'text-collapsible' : ''}" id="${textId}" style="color: var(--text); line-height: 1.7;">
-                        ${beschreibung}
+                    <div class="beschreibung-text ${isLongText ? 'text-collapsible' : ''}" id="${textId}">
+                        ${formatText(beschreibung)}
                     </div>
                     ${isLongText ? `<button class="mehr-lesen-btn" onclick="toggleText('${textId}', this)">Mehr lesen</button>` : ''}
                 `;
@@ -2343,7 +2366,7 @@
                         <svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
                     </button>
                     <div class="lyrics-content">
-                        <div class="lyrics-text">${liedtext.replace(/\\n/g, '\n')}</div>
+                        <div class="lyrics-text">${liedtext.replace(/\\n/g, '<br>')}</div>
                     </div>
                     ` : ''}
                 </div>
