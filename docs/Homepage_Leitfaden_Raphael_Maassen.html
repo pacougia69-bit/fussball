@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>Homepage-Leitfaden — Raphael Maaßen</title>
+<style>
+  @page { size: A4; margin: 2cm; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    color: #1a1a2e;
+    line-height: 1.6;
+    padding: 40px;
+    max-width: 900px;
+    margin: 0 auto;
+    background: #fff;
+  }
+  .header {
+    text-align: center;
+    padding: 30px 20px;
+    background: linear-gradient(135deg, #0f3460, #16213e);
+    color: white;
+    border-radius: 12px;
+    margin-bottom: 30px;
+  }
+  .header h1 { font-size: 28px; margin-bottom: 8px; }
+  .header p { font-size: 14px; opacity: 0.8; }
+  h2 {
+    color: #0f3460;
+    font-size: 20px;
+    margin: 30px 0 15px 0;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #e94560;
+  }
+  h3 { color: #16213e; font-size: 16px; margin: 20px 0 10px 0; }
+  p, li { font-size: 14px; margin-bottom: 8px; }
+  ul, ol { padding-left: 25px; }
+  li { margin-bottom: 6px; }
+
+  .info-box {
+    background: #f0f4ff;
+    border-left: 4px solid #0f3460;
+    padding: 15px 20px;
+    border-radius: 0 8px 8px 0;
+    margin: 15px 0;
+  }
+  .warn-box {
+    background: #fff8e1;
+    border-left: 4px solid #e94560;
+    padding: 15px 20px;
+    border-radius: 0 8px 8px 0;
+    margin: 15px 0;
+  }
+  .tip-box {
+    background: #e8f5e9;
+    border-left: 4px solid #2e7d32;
+    padding: 15px 20px;
+    border-radius: 0 8px 8px 0;
+    margin: 15px 0;
+  }
+  .cost-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+  }
+  .cost-table th {
+    background: #0f3460;
+    color: white;
+    padding: 10px 15px;
+    text-align: left;
+    font-size: 14px;
+  }
+  .cost-table td {
+    padding: 10px 15px;
+    border-bottom: 1px solid #ddd;
+    font-size: 14px;
+  }
+  .cost-table tr:nth-child(even) { background: #f8f9fa; }
+  .cost-table .total td {
+    font-weight: bold;
+    background: #e8f5e9;
+    border-top: 2px solid #0f3460;
+  }
+
+  .comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+  }
+  .comparison-table th {
+    background: #16213e;
+    color: white;
+    padding: 10px 12px;
+    text-align: left;
+    font-size: 13px;
+  }
+  .comparison-table td {
+    padding: 8px 12px;
+    border-bottom: 1px solid #ddd;
+    font-size: 13px;
+  }
+  .comparison-table tr:nth-child(even) { background: #f8f9fa; }
+  .yes { color: #2e7d32; font-weight: bold; }
+  .no { color: #c62828; }
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+  }
+  .badge-free { background: #2e7d32; }
+  .badge-cheap { background: #f57f17; }
+  .badge-expensive { background: #c62828; }
+
+  .checklist { list-style: none; padding-left: 5px; }
+  .checklist li { padding: 5px 0; }
+  .checklist li::before { content: "☐ "; font-size: 16px; }
+
+  .step-number {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    background: #e94560;
+    color: white;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 28px;
+    font-weight: bold;
+    font-size: 14px;
+    margin-right: 8px;
+  }
+
+  .project-card {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 10px 0;
+  }
+  .project-card h4 {
+    color: #0f3460;
+    margin-bottom: 8px;
+  }
+
+  .footer {
+    text-align: center;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #dee2e6;
+    color: #6c757d;
+    font-size: 12px;
+  }
+
+  @media print {
+    body { padding: 0; }
+    .header { break-after: avoid; }
+    h2 { break-after: avoid; }
+    .info-box, .warn-box, .tip-box { break-inside: avoid; }
+    table { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Homepage-Leitfaden</h1>
+  <p>Alles was du brauchst — von der Planung bis zum Launch</p>
+  <p style="margin-top:5px;">Erstellt: Februar 2026 | Projekt: Raphael Maaßen Dashboards</p>
+</div>
+
+<!-- ============================================================ -->
+<h2>1. Was wir bauen — Begriffe kurz erklärt</h2>
+
+<div class="info-box">
+  <strong>Dashboard / Web-App:</strong> Das ist das, was wir hier aufbauen. Eine interaktive Webseite, die Daten anzeigt und mit der man arbeiten kann — im Gegensatz zu einer klassischen "statischen" Homepage, die nur Text und Bilder zeigt.
+</div>
+
+<p>Dein Gesamtprojekt besteht aus mehreren Dashboards:</p>
+
+<div class="project-card">
+  <h4>Fußball-Dashboard</h4>
+  <p>Spielpläne, Statistiken, Tabellen — Live-Daten aus Google Sheets</p>
+</div>
+<div class="project-card">
+  <h4>Portfolio-Dashboard</h4>
+  <p>Deine Arbeit, Projekte und Referenzen — professionelle Visitenkarte</p>
+</div>
+<div class="project-card">
+  <h4>Familien-Dashboard</h4>
+  <p>Fotos, Erinnerungen, Familienchronik — privater oder geschützter Bereich</p>
+</div>
+<div class="project-card">
+  <h4>DJ-Dashboard</h4>
+  <p>Mixe, Playlists, Events — deine DJ-Karriere in einem Überblick</p>
+</div>
+
+<p>Alle Dashboards werden unter einer Domain zusammengefasst, z.B.:</p>
+<ul>
+  <li><code>raphaelmaassen.de</code> → Startseite (Hub)</li>
+  <li><code>raphaelmaassen.de/fussball</code> → Fußball-Dashboard</li>
+  <li><code>raphaelmaassen.de/familie</code> → Familien-Dashboard</li>
+  <li><code>raphaelmaassen.de/dj</code> → DJ-Dashboard</li>
+</ul>
+
+<!-- ============================================================ -->
+<h2>2. Was wird benötigt?</h2>
+
+<h3>A) Domain (deine Adresse im Internet)</h3>
+<p>Die Domain ist wie deine Hausnummer im Internet. Ohne Domain findet dich niemand.</p>
+
+<table class="cost-table">
+  <tr><th>Domain-Endung</th><th>Beispiel</th><th>Kosten/Jahr</th></tr>
+  <tr><td>.de</td><td>raphaelmaassen.de</td><td>~5–10 €</td></tr>
+  <tr><td>.com</td><td>raphaelmaassen.com</td><td>~10–15 €</td></tr>
+  <tr><td>.app</td><td>raphaelmaassen.app</td><td>~15–20 €</td></tr>
+</table>
+
+<div class="tip-box">
+  <strong>Tipp:</strong> <code>.de</code> reicht völlig aus und ist am günstigsten. Kaufe die Domain am besten direkt bei <strong>Cloudflare</strong> — dort gibt es keinen Aufschlag (Einkaufspreis = Verkaufspreis).
+</div>
+
+<h3>B) Hosting (wo deine Seite gespeichert wird)</h3>
+
+<table class="comparison-table">
+  <tr>
+    <th>Anbieter</th>
+    <th>Kosten</th>
+    <th>Für dich geeignet?</th>
+    <th>Vorteile</th>
+  </tr>
+  <tr>
+    <td><strong>GitHub Pages</strong></td>
+    <td><span class="badge badge-free">KOSTENLOS</span></td>
+    <td><span class="yes">JA — Empfohlen</span></td>
+    <td>Direkt von deinem Repository, automatisch, schnell</td>
+  </tr>
+  <tr>
+    <td><strong>Cloudflare Pages</strong></td>
+    <td><span class="badge badge-free">KOSTENLOS</span></td>
+    <td><span class="yes">JA — Alternative</span></td>
+    <td>Sehr schnell, globales CDN, einfache Einrichtung</td>
+  </tr>
+  <tr>
+    <td><strong>Netlify</strong></td>
+    <td><span class="badge badge-free">KOSTENLOS</span></td>
+    <td><span class="yes">JA — Alternative</span></td>
+    <td>Einfach, guter Free-Tier</td>
+  </tr>
+  <tr>
+    <td><strong>Vercel</strong></td>
+    <td><span class="badge badge-free">KOSTENLOS</span></td>
+    <td><span class="yes">JA — für Fortgeschrittene</span></td>
+    <td>Optimal für React/Next.js Projekte</td>
+  </tr>
+  <tr>
+    <td>IONOS / Strato</td>
+    <td><span class="badge badge-cheap">3–8 €/Monat</span></td>
+    <td><span class="no">NEIN — unnötig</span></td>
+    <td>Nur wenn PHP/Datenbank nötig ist</td>
+  </tr>
+  <tr>
+    <td>Wix / Squarespace</td>
+    <td><span class="badge badge-expensive">12–40 €/Monat</span></td>
+    <td><span class="no">NEIN — Overkill</span></td>
+    <td>Für Leute ohne Coding-Kenntnisse gedacht</td>
+  </tr>
+</table>
+
+<h3>C) Backend / Datenquelle</h3>
+<div class="info-box">
+  <strong>Google Drive + Google Sheets API</strong> — <span class="badge badge-free">KOSTENLOS</span><br>
+  Du nutzt das schon! Google Drive ist dein "Backend". Alle Daten (Spielpläne, Statistiken, Fotos) werden über die Google API geladen. Limit: 10.000 Anfragen/Tag — mehr als genug.
+</div>
+
+<h3>D) SSL-Zertifikat (https://)</h3>
+<p>Wird bei allen empfohlenen Hostern <strong>automatisch und kostenlos</strong> bereitgestellt. Kein eigenes Zertifikat nötig.</p>
+
+<!-- ============================================================ -->
+<h2>3. Gesamtkosten-Übersicht</h2>
+
+<table class="cost-table">
+  <tr><th>Posten</th><th>Kosten</th><th>Häufigkeit</th></tr>
+  <tr><td>Domain (.de)</td><td>~8 €</td><td>pro Jahr</td></tr>
+  <tr><td>Hosting (GitHub Pages)</td><td>0 €</td><td>—</td></tr>
+  <tr><td>Google API</td><td>0 €</td><td>—</td></tr>
+  <tr><td>SSL-Zertifikat</td><td>0 €</td><td>—</td></tr>
+  <tr><td>E-Mail (optional)</td><td>0–12 €</td><td>pro Jahr</td></tr>
+  <tr class="total"><td><strong>GESAMT</strong></td><td><strong>~8–20 €</strong></td><td><strong>pro Jahr</strong></td></tr>
+</table>
+
+<div class="tip-box">
+  <strong>Das sind unter 2 € pro Monat</strong> für eine professionelle Homepage mit mehreren Dashboards!
+</div>
+
+<!-- ============================================================ -->
+<h2>4. Schritt-für-Schritt Ablauf zum Launch</h2>
+
+<p><span class="step-number">1</span> <strong>Dashboards fertig bauen</strong> — Weiter wie bisher, alles lokal + GitHub entwickeln</p>
+<p><span class="step-number">2</span> <strong>Domain kaufen</strong> — Bei Cloudflare oder Namecheap registrieren</p>
+<p><span class="step-number">3</span> <strong>GitHub Pages aktivieren</strong> — In den Repository-Settings unter "Pages"</p>
+<p><span class="step-number">4</span> <strong>Domain verbinden</strong> — DNS-Einträge bei deinem Domain-Anbieter setzen</p>
+<p><span class="step-number">5</span> <strong>Testen</strong> — Alles prüfen, Ladezeiten, mobile Ansicht, Links</p>
+<p><span class="step-number">6</span> <strong>Live gehen!</strong> — Fertig, deine Seite ist online</p>
+
+<div class="info-box">
+  <strong>Wichtig:</strong> Du kannst jederzeit umziehen! Die Struktur deiner Dashboards ändert sich nicht — nur wo sie gehostet werden. Also kein Stress, erstmal weitermachen wie bisher.
+</div>
+
+<!-- ============================================================ -->
+<h2>5. Tipps & Worauf du achten solltest</h2>
+
+<h3>Domain-Tipps</h3>
+<ul>
+  <li><strong>Domain-Privatsphäre aktivieren</strong> — Damit deine persönlichen Daten nicht öffentlich im WHOIS sichtbar sind (bei Cloudflare automatisch dabei)</li>
+  <li><strong>Auto-Renewal einschalten</strong> — Damit deine Domain nicht versehentlich ausläuft</li>
+  <li><strong>Kurz und einprägsam</strong> — raphaelmaassen.de ist perfekt, keine Sonderzeichen oder Zahlen</li>
+  <li><strong>Keine Bindestrich-Domains</strong> — raphaelmaassen.de ist besser als raphael-maassen.de</li>
+</ul>
+
+<h3>Hosting-Tipps</h3>
+<ul>
+  <li><strong>GitHub Pages reicht!</strong> — Für statische Seiten wie deine Dashboards ist kein Server nötig</li>
+  <li><strong>Kein WordPress</strong> — Wäre Overkill und würde Wartung, Updates und Sicherheit erfordern</li>
+  <li><strong>Backups hat Git automatisch</strong> — Dein gesamter Code ist in GitHub versioniert</li>
+</ul>
+
+<h3>Sicherheits-Tipps</h3>
+<ul>
+  <li><strong>API-Keys nie öffentlich</strong> — Nutze eingeschränkte Keys (wie wir es schon machen)</li>
+  <li><strong>Google API Key einschränken</strong> — Nur für deine Domain freigeben (Referrer-Restriction)</li>
+  <li><strong>Familien-Bereich schützen</strong> — Passwortschutz oder private Links für sensible Inhalte</li>
+  <li><strong>HTTPS immer aktiv</strong> — Wird automatisch eingerichtet, niemals deaktivieren</li>
+</ul>
+
+<h3>Performance-Tipps</h3>
+<ul>
+  <li><strong>Bilder komprimieren</strong> — Vor dem Hochladen Bilder verkleinern (z.B. mit TinyPNG)</li>
+  <li><strong>Lazy Loading</strong> — Bilder erst laden wenn sie sichtbar werden (spart Bandbreite)</li>
+  <li><strong>Mobile First</strong> — Immer zuerst die Handy-Ansicht testen</li>
+</ul>
+
+<h3>Allgemeine Tipps</h3>
+<ul>
+  <li><strong>Impressum & Datenschutz</strong> — In Deutschland Pflicht! Auch für private Seiten</li>
+  <li><strong>Cookie-Banner</strong> — Wenn du Google Analytics oder ähnliches nutzt (brauchst du erstmal nicht)</li>
+  <li><strong>Responsive Design</strong> — Deine Dashboards sollten auf allen Geräten gut aussehen</li>
+  <li><strong>Regelmäßig testen</strong> — Nach Updates immer kurz auf dem Handy checken</li>
+</ul>
+
+<!-- ============================================================ -->
+<h2>6. Was du NICHT brauchst</h2>
+
+<div class="warn-box">
+  <strong>Spar dir das Geld für:</strong>
+  <ul style="margin-top:10px;">
+    <li>WordPress oder andere CMS-Systeme</li>
+    <li>Baukästen wie Wix, Squarespace, Jimdo (12–40 €/Monat!)</li>
+    <li>Eigenen Server / VPS</li>
+    <li>PHP, MySQL oder andere Server-Technologien</li>
+    <li>Teure Premium-Templates</li>
+    <li>SEO-Tools (erstmal nicht nötig)</li>
+  </ul>
+</div>
+
+<!-- ============================================================ -->
+<h2>7. Familien-Dashboard: Fotos verwalten</h2>
+
+<p>Für das Familien-Dashboard gibt es Tools, die dir helfen deine Fotos zu organisieren:</p>
+
+<h3>Fotos automatisch sortieren & durchsuchen</h3>
+<table class="comparison-table">
+  <tr>
+    <th>Tool</th>
+    <th>Was es kann</th>
+    <th>Kosten</th>
+  </tr>
+  <tr>
+    <td><strong>Google Fotos</strong></td>
+    <td>Gesichtserkennung, Ortserkennung, automatische Alben, Suche nach "Strand", "Geburtstag" etc.</td>
+    <td><span class="badge badge-free">KOSTENLOS</span> (15 GB)</td>
+  </tr>
+  <tr>
+    <td><strong>digiKam</strong></td>
+    <td>Gesichtserkennung offline, Tags, Bewertungen, GPS-Daten — professionelle Fotoverwaltung</td>
+    <td><span class="badge badge-free">KOSTENLOS</span> (Open Source)</td>
+  </tr>
+  <tr>
+    <td><strong>Adobe Lightroom</strong></td>
+    <td>KI-gestützte Suche, Tags, professionelle Bearbeitung</td>
+    <td><span class="badge badge-cheap">~12 €/Monat</span></td>
+  </tr>
+  <tr>
+    <td><strong>Apple Fotos</strong></td>
+    <td>Gesichtserkennung, Erinnerungen, Smart-Alben</td>
+    <td><span class="badge badge-free">KOSTENLOS</span> (bei Apple-Geräten)</td>
+  </tr>
+</table>
+
+<div class="tip-box">
+  <strong>Empfehlung:</strong> Nutze <strong>Google Fotos</strong> — du bist schon im Google-Ökosystem. Google Fotos kann:
+  <ul style="margin-top:8px;">
+    <li>Automatisch Gesichter erkennen und Personen gruppieren</li>
+    <li>Nach Orten, Daten und sogar Objekten suchen ("Hund", "Meer", "Weihnachten")</li>
+    <li>Automatisch Alben und Collagen erstellen</li>
+    <li>Direkt per Google Photos API in dein Familien-Dashboard eingebunden werden</li>
+  </ul>
+</div>
+
+<h3>Workflow für das Familien-Dashboard</h3>
+<ol>
+  <li><strong>Fotos in Google Fotos hochladen</strong> — Dort automatisch sortieren lassen</li>
+  <li><strong>Alben erstellen</strong> — z.B. "Urlaub 2024", "Weihnachten", "Kinderfotos"</li>
+  <li><strong>Google Photos API nutzen</strong> — Alben direkt ins Dashboard laden</li>
+  <li><strong>Im Dashboard anzeigen</strong> — Schöne Galerie mit Filtern nach Jahr, Person, Event</li>
+</ol>
+
+<!-- ============================================================ -->
+<h2>8. Checkliste vor dem Launch</h2>
+
+<ul class="checklist">
+  <li>Alle Dashboards fertig und getestet</li>
+  <li>Mobile Ansicht geprüft (Handy + Tablet)</li>
+  <li>Domain gekauft und DNS konfiguriert</li>
+  <li>GitHub Pages / Cloudflare Pages aktiviert</li>
+  <li>SSL/HTTPS funktioniert</li>
+  <li>Google API Keys auf Domain eingeschränkt</li>
+  <li>Impressum erstellt</li>
+  <li>Datenschutzerklärung erstellt</li>
+  <li>Alle Links funktionieren</li>
+  <li>Ladezeit akzeptabel (unter 3 Sekunden)</li>
+  <li>Favicon und Meta-Tags gesetzt</li>
+  <li>404-Fehlerseite eingerichtet</li>
+</ul>
+
+<!-- ============================================================ -->
+<h2>9. Nützliche Links</h2>
+
+<ul>
+  <li><strong>Domain kaufen:</strong> cloudflare.com/products/registrar</li>
+  <li><strong>GitHub Pages Anleitung:</strong> pages.github.com</li>
+  <li><strong>Impressum Generator:</strong> e-recht24.de/impressum-generator</li>
+  <li><strong>Datenschutz Generator:</strong> e-recht24.de/muster-datenschutzerklaerung</li>
+  <li><strong>Bilder komprimieren:</strong> tinypng.com</li>
+  <li><strong>Mobile Test:</strong> Google Chrome DevTools (F12 → Toggle Device)</li>
+  <li><strong>Ladezeit testen:</strong> pagespeed.web.dev</li>
+</ul>
+
+<div class="footer">
+  <p>Homepage-Leitfaden — Raphael Maaßen | Erstellt Februar 2026</p>
+  <p>Dieses Dokument dient als Nachschlagewerk für den Aufbau deiner persönlichen Homepage.</p>
+</div>
+
+</body>
+</html>
