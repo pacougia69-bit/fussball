@@ -1420,8 +1420,8 @@
     </div>
 </div>
 <script>
-    // Passwort-Hash (SHA-256 von "Fussball2024")
-    const PW_HASH = '352d07dc75330b7940a668d13cac293c6a4d9870b25adcd082ab4c08b5af7be9';
+    // Passwort-Hash (SHA-256 von "2810")
+    const PW_HASH = '67be10d98e9ab6d770578f47763baa3bec8e6b3ce68f323cafe00a65ffa43f0d';
     // Session-basiert: Nach Eingabe bleibt man eingeloggt bis Tab geschlossen
     async function hashPw(pw) {
         const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pw));
