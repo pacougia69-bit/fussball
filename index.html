@@ -1393,61 +1393,6 @@
 <body>
 
 <!-- ============================================
-     PASSWORT-SCHUTZ
-     ============================================ -->
-<div id="password-overlay" style="
-    position: fixed; inset: 0; z-index: 99999;
-    background: var(--bg-dark, #0d1117);
-    display: flex; align-items: center; justify-content: center;
-    flex-direction: column; gap: 20px;
-">
-    <div style="text-align: center; max-width: 360px; padding: 20px;">
-        <div style="font-size: 2.5rem; margin-bottom: 10px;">&#9917;</div>
-        <h2 style="color: #edbb00; margin-bottom: 8px; font-size: 1.4rem;">Privater Bereich</h2>
-        <p style="color: #a8b2bd; font-size: 0.9rem; margin-bottom: 20px;">Diese Seite ist passwortgeschützt.<br>Bitte Passwort eingeben:</p>
-        <input id="pw-input" type="password" placeholder="Passwort" autocomplete="off" style="
-            width: 100%; padding: 12px 16px; border-radius: 8px;
-            border: 1px solid rgba(237,187,0,0.3); background: rgba(255,255,255,0.05);
-            color: #fff; font-size: 1rem; text-align: center; outline: none;
-            box-sizing: border-box;
-        " onkeydown="if(event.key==='Enter')checkPw()">
-        <button onclick="checkPw()" style="
-            margin-top: 12px; padding: 10px 32px; border-radius: 8px; border: none;
-            background: linear-gradient(90deg, #ED1C24, #004D98); color: #fff;
-            font-weight: 700; font-size: 1rem; cursor: pointer; width: 100%;
-        ">Zugang</button>
-        <p id="pw-error" style="color: #ED1C24; font-size: 0.85rem; margin-top: 10px; display: none;">Falsches Passwort</p>
-    </div>
-</div>
-<script>
-    // Passwort-Hash (SHA-256 von "2810")
-    const PW_HASH = '67be10d98e9ab6d770578f47763baa3bec8e6b3ce68f323cafe00a65ffa43f0d';
-    // Session-basiert: Nach Eingabe bleibt man eingeloggt bis Tab geschlossen
-    async function hashPw(pw) {
-        const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pw));
-        return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
-    }
-    async function checkPw() {
-        const input = document.getElementById('pw-input').value;
-        const hash = await hashPw(input);
-        if (hash === PW_HASH) {
-            sessionStorage.setItem('rm-auth', 'true');
-            document.getElementById('password-overlay').style.display = 'none';
-        } else {
-            document.getElementById('pw-error').style.display = 'block';
-            document.getElementById('pw-input').value = '';
-            document.getElementById('pw-input').focus();
-        }
-    }
-    // Prüfe ob bereits authentifiziert (in dieser Tab-Session)
-    if (sessionStorage.getItem('rm-auth') === 'true') {
-        document.getElementById('password-overlay').style.display = 'none';
-    } else {
-        document.getElementById('pw-input').focus();
-    }
-</script>
-
-<!-- ============================================
      NAVIGATION
      ============================================ -->
 <header class="navbar">
